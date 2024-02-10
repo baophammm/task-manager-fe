@@ -7,6 +7,10 @@ import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import RegisterPage from "../pages/RegisterPage";
 import AuthRequire from "./AuthRequire";
+import ProjectPage from "../pages/ProjectPage";
+import TaskPage from "../pages/TaskPage";
+import InvitationPage from "../pages/InvitationPage";
+import AccountSettingsPage from "../pages/AccountSettingsPage";
 
 function Router() {
   return (
@@ -20,6 +24,10 @@ function Router() {
         }
       >
         <Route index element={<HomePage />} />
+        <Route path="/projects" element={<ProjectPage />} />
+        <Route path="/tasks" element={<TaskPage />} />
+        <Route path="/invitations" element={<InvitationPage />} />
+        <Route path="/settings" element={<AccountSettingsPage />} />
       </Route>
 
       <Route element={<BlankLayout />}>
