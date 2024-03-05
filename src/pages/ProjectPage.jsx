@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects } from "../features/project/projectSlice";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
@@ -18,11 +18,47 @@ import {
 import ProjectCard from "../features/project/ProjectCard";
 import { ProjectsSearch } from "../features/project/ProjectsSearch";
 import ProjectFilter from "../features/project/ProjectFilter";
+import { Link, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { FormProvider } from "../components/form";
+import LoadingScreen from "../components/LoadingScreen";
+import ProjectsByRoleSingleLine from "../features/project/ProjectsByRoleSingleLine";
+import useAuth from "../hooks/useAuth";
+
+export const ProjectPageContext = createContext();
 
 function ProjectPage() {
+  const { user } = useAuth();
   const [page, setPage] = useState(1);
-  const { currentPageProjects, projectsById, totalProjects, totalPages } =
-    useSelector((state) => state.project);
+  const location = useLocation();
+  const { isLoading, currentPageProjects, projectsById } = useSelector(
+    (state) => state.project
+  );
+
+  const defaultValues = {
+    projectStatus: "",
+    currentUserRole: "",
+    startAfter: "",
+    startBefore: "",
+    dueAfter: "",
+    dueBefore: "",
+    search: "",
+  };
+
+  const [filters, setFilters] = useState(defaultValues);
+
+  const methods = useForm({
+    defaultValues,
+  });
+
+  const { reset } = methods;
+
+  const handleFilterSelection = (field, value) => {
+    setFilters({
+      ...filters,
+      [field]: value,
+    });
+  };
 
   const projects = currentPageProjects.map(
     (projectId) => projectsById[projectId]
@@ -31,89 +67,173 @@ function ProjectPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProjects({ page }));
-  }, [page, dispatch]);
-
-  const [search, setSearch] = useState("");
-  const handleSubmit = (searchQuery) => {
-    setSearch(searchQuery);
-  };
+    dispatch(getProjects({ page, limit: 1000, ...filters }));
+  }, [page, filters, dispatch]);
 
   return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8,
-      }}
+    <ProjectPageContext.Provider
+      value={{ filters, setFilters, handleFilterSelection }}
     >
-      <Container maxWidth="xl">
-        <Grid container>
-          <Grid item xs={6} sm={4} md={2} sx={{ border: "1px solid red" }}>
-            <ProjectFilter />
-          </Grid>
-          <Grid item xs={6} sm={8} md={10}>
-            <Stack spacing={3}>
-              <Stack direction="row" justifyContent="space-between" spacing={4}>
-                <Stack spacing={1}>
-                  <Typography variant="h4">Projects</Typography>
-                  <Stack alignItems="center" direction="row" spacing={1}>
-                    <Button
-                      color="inherit"
-                      startIcon={
-                        <SvgIcon fontSize="small">
-                          <ArrowUpOnSquareIcon />
-                        </SvgIcon>
-                      }
-                    >
-                      Import
-                    </Button>
-                    <Button
-                      color="inherit"
-                      startIcon={
-                        <SvgIcon fontSize="small">
-                          <ArrowDownOnSquareIcon />
-                        </SvgIcon>
-                      }
-                    >
-                      Export
-                    </Button>
-                  </Stack>
-                </Stack>
-                <div>
-                  <Button
-                    startIcon={
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    }
-                    variant="contained"
-                  >
-                    Add
-                  </Button>
-                </div>
-              </Stack>
-              <ProjectsSearch />
-              <Grid container spacing={3}>
-                {projects.map((project) => (
-                  <Grid key={project._id} item xs={12} md={6} lg={4}>
-                    <ProjectCard project={project} />
-                  </Grid>
-                ))}
-              </Grid>
-              <Box
+      <FormProvider methods={methods}>
+        <Box
+          component="main"
+          sx={{
+            // border: "1px solid green",
+            height: "calc(100vh - 110px)",
+          }}
+        >
+          <Container
+            maxWidth
+            sx={{
+              // border: "1px solid orange ",
+              pl: {
+                xs: 0,
+                sm: 0,
+              },
+
+              pt: {
+                xs: 0,
+                md: 2,
+              },
+              maxHeight: 1,
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <Grid
+              container
+              alignItems="flex-start"
+              spacing={2}
+              sx={{
+                // border: "1px solid blue",
+                height: "100%",
+                width: "100%",
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              <Grid
+                item
+                lg={1.5}
+                xl={2}
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
+                  // border: "1px solid green",
+                  height: {
+                    lg: "100%",
+                    xl: "calc(100vh - 120px)",
+                  },
                 }}
               >
-                <Pagination count={3} size="small" />
+                <ProjectFilter resetFilter={reset} />
+              </Grid>
+              <Grid item md={10.5} xl={10}>
+                <Stack spacing={1}>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    spacing={4}
+                  >
+                    <Typography variant="h5">Projects</Typography>
+                    <Box
+                      sx={{
+                        flexGrow: 1,
+                        height: "48px",
+                        display: "flex",
+                        alignItems: "center",
+                        pr: 2,
+                      }}
+                    >
+                      <ProjectsSearch />
+                    </Box>
+                    <div>
+                      <Link
+                        to={`/projects/new`}
+                        state={{ backgroundLocation: location }}
+                      >
+                        <Button
+                          startIcon={
+                            <SvgIcon fontSize="small">
+                              <PlusIcon />
+                            </SvgIcon>
+                          }
+                          variant="contained"
+                        >
+                          Add
+                        </Button>
+                      </Link>
+                    </div>
+                  </Stack>
+
+                  {isLoading ? (
+                    <LoadingScreen />
+                  ) : (
+                    <ProjectsByRoleSingleLine user={user} projects={projects} />
+                  )}
+                </Stack>
+              </Grid>
+            </Grid>
+            <Box
+              alignItems="center"
+              sx={{
+                // border: "1px solid red",
+                maxWidth: "100vw",
+                px: 1,
+                display: {
+                  xs: "flex",
+                  md: "none",
+                },
+                flexDirection: "column",
+              }}
+            >
+              <Box
+                sx={{
+                  // border: "1px solid blue",
+                  width: 1,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <ProjectFilter />
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    height: "48px",
+                    display: "flex",
+                    alignItems: "center",
+                    pr: 2,
+                  }}
+                >
+                  <ProjectsSearch />
+                </Box>
+                <div>
+                  <Link
+                    to={`/projects/new`}
+                    state={{ backgroundLocation: location }}
+                  >
+                    <Button
+                      startIcon={
+                        <SvgIcon fontSize="small">
+                          <PlusIcon />
+                        </SvgIcon>
+                      }
+                      variant="contained"
+                    >
+                      Add
+                    </Button>
+                  </Link>
+                </div>
               </Box>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+              {isLoading ? (
+                <LoadingScreen />
+              ) : (
+                <ProjectsByRoleSingleLine user={user} projects={projects} />
+              )}
+            </Box>
+          </Container>
+        </Box>
+      </FormProvider>
+    </ProjectPageContext.Provider>
   );
 }
 

@@ -4,11 +4,13 @@ import { toast } from "react-toastify";
 import { PROJECT_PER_PAGE } from "../../app/config";
 
 const initialState = {
-  initialState: false,
+  isLoading: false,
   error: null,
   currentPageProjects: [],
   projectsById: {},
+  totalProjects: 0,
   totalPages: 1,
+  selectedProject: null,
 };
 
 const slice = createSlice({
@@ -39,6 +41,71 @@ const slice = createSlice({
       state.currentPageProjects = projects.map((project) => project._id);
       state.totalProjects = count;
       state.totalPages = totalPages;
+    },
+    getSingleProjectSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+
+      state.selectedProject = action.payload;
+    },
+
+    deleteSingleProjectSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const projectId = action.payload;
+
+      delete state.projectsById.projectId;
+      const index = state.currentPageProjects.indexOf(projectId);
+      if (index > -1) {
+        state.currentPageProjects.splice(index, 1);
+      }
+    },
+    changeProjectRoleMemberToMangerSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const projectId = action.payload._id;
+
+      state.projectsById[projectId] = action.payload;
+    },
+    changeProjectRoleManagerToMemberSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const projectId = action.payload._id;
+
+      state.projectsById[projectId] = action.payload;
+    },
+    removeMemberFromProjectSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const { projectId, memberId } = action.payload;
+
+      const memberIndex =
+        state.projectsById[projectId].projectMembers.indexOf(memberId);
+
+      if (memberIndex > -1) {
+        state.projectsById[projectId].projectMembers.slice(memberIndex, 1);
+      }
+
+      if (state.projectsById[projectId].projectManagers.includes(memberId)) {
+        const managerIndex =
+          state.projectsById[projectId].projectManagers.indexOf(memberId);
+
+        if (managerIndex > -1) {
+          state.projectsById[projectId].projectManagers.slice(managerIndex, 1);
+        }
+      }
+    },
+
+    leaveProjectSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const { projectId, memberId } = action.payload;
+      console.log(state.projectsById[projectId].projectMembers);
+
+      const projectIndex = state.currentPageProjects.indexOf(projectId);
+      if (projectIndex > -1) {
+        state.currentPageProjects.splice(projectIndex, 1);
+      }
     },
   },
 });
@@ -76,7 +143,7 @@ export const getProjects =
   ({
     search,
     projectStatus,
-    projectOwner,
+    currentUserRole,
     startAfter,
     startBefore,
     dueAfter,
@@ -90,7 +157,7 @@ export const getProjects =
       const params = { page, limit };
       if (search) params.search = search;
       if (projectStatus) params.projectStatus = projectStatus;
-      if (projectOwner) params.projectOwner = projectOwner;
+      if (currentUserRole) params.currentUserRole = currentUserRole;
       if (startAfter) params.startAfter = startAfter;
       if (startBefore) params.startBefore = startBefore;
       if (dueAfter) params.dueAfter = dueAfter;
@@ -101,6 +168,100 @@ export const getProjects =
       dispatch(slice.actions.getProjectsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const getSingleProject = (projectId) => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await apiService.get(`/projects/${projectId}`);
+    dispatch(slice.actions.getSingleProjectSuccess(response.data));
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
+    toast.error(error.message);
+  }
+};
+
+export const deleteSingleProject = (projectId) => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    const response = await apiService.delete(`/projects/${projectId}`);
+    dispatch(slice.actions.deleteSingleProjectSuccess(projectId));
+    toast.success("Project deleted");
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
+    toast.error(error.message);
+  }
+};
+
+export const changeProjectRoleMemberToManger =
+  ({ projectId, memberId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.put(
+        `/projects/${projectId}/projectMembers/${memberId}`,
+        { isNewManager: true }
+      );
+      dispatch(
+        slice.actions.changeProjectRoleMemberToMangerSuccess(response.data)
+      );
+      toast.success("Change member role to Manager successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+export const changeProjectRoleManagerToMember =
+  ({ projectId, memberId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.put(
+        `/projects/${projectId}/projectMembers/${memberId}`,
+        { isNewManager: false }
+      );
+      dispatch(
+        slice.actions.changeProjectRoleManagerToMemberSuccess(response.data)
+      );
+      toast.success("Change Member role to Member successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const removeMemberFromProject =
+  ({ projectId, memberId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.delete(
+        `/projects/${projectId}/projectMembers/${memberId}`
+      );
+      dispatch(
+        slice.actions.removeMemberFromProjectSuccess({ projectId, memberId })
+      );
+      toast.success("Remove member from project successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const leaveProject =
+  ({ projectId, memberId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.delete(
+        `/projects/${projectId}/projectMembers/${memberId}`
+      );
+      dispatch(slice.actions.leaveProjectSuccess({ projectId, memberId }));
+      toast.success("Leave project successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.messag));
       toast.error(error.message);
     }
   };

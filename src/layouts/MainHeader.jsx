@@ -19,9 +19,12 @@ import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
-import SettingsIcon from "@mui/icons-material/Settings";
+
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
+import useAuth from "../hooks/useAuth";
+import UserProfilePicture from "../features/user/UserProfilePicture";
+import { Divider } from "@mui/material";
 
 const pages = [
   {
@@ -31,7 +34,7 @@ const pages = [
     link: "/",
   },
   {
-    value: "project",
+  value: "project",
     title: "Project",
     icon: <ListAltIcon />,
     link: "/projects",
@@ -48,20 +51,14 @@ const pages = [
     icon: <MoveToInboxIcon />,
     link: "/invitations",
   },
-  // {
-  //   value: "settings",
-  //   title: "Account Settings",
-  //   icon: <SettingsIcon />,
-  //   link: "/settings",
-  // },
 ];
-// const settings = ["Account", "Logout"];
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   backgroundColor: theme.palette.neutral[800],
 }));
 
 function MainHeader() {
+  const auth = useAuth();
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -82,17 +79,19 @@ function MainHeader() {
     setAnchorElUser(null);
   };
 
-  const handleLogout = () => {
-    console.log("Logging out");
+  const handleLogout = async () => {
+    try {
+      handleCloseUserMenu();
+      await auth.logout(() => {
+        navigate("/login");
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
-    <AppBar
-      position="static"
-      sx={{
-        mb: "12px",
-      }}
-    >
-      <StyledContainer maxWidth="xl">
+    <AppBar position="static">
+      <StyledContainer maxWidth>
         <Toolbar disableGutters>
           <Logo sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -189,7 +188,8 @@ function MainHeader() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+                <UserProfilePicture targetUser={auth.user} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -213,20 +213,29 @@ function MainHeader() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))} */}
+              <Box sx={{ my: 1.5, px: 2.5 }}>
+                <Typography variant="subtitle2" noWrap>
+                  {auth.user?.firstName} {auth.user?.lastName}
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  noWrap
+                  sx={{ color: "text.secondary" }}
+                >
+                  {auth.user?.email}
+                </Typography>
+              </Box>
+              <Divider sx={{ borderStyle: "dashed" }} />
               <MenuItem
                 onClick={() => {
                   navigate("/settings");
                   handleCloseUserMenu();
                 }}
+                sx={{ mx: 1 }}
               >
                 <Typography textAlign="center">Account</Typography>
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  handleLogout();
-                  handleCloseUserMenu();
-                }}
-              >
+              <MenuItem onClick={handleLogout} sx={{ mx: 1 }}>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>

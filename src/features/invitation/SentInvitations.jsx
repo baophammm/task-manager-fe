@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import SearchInput from "../../components/SearchInput";
-import InvitationCard from "./InvitationCard";
+import InvitationProjectCard from "./InvitationProjectCard";
 
 function SentInvitations() {
   const [search, setSearch] = useState("");
@@ -54,7 +54,7 @@ function SentInvitations() {
         <Grid container spacing={3} my={1}>
           {invitations.map((invitation) => (
             <Grid key={invitation._id} item xs={12} md={4}>
-              <InvitationCard invitation={invitation} />
+              <InvitationProjectCard invitation={invitation} />
             </Grid>
           ))}
         </Grid>

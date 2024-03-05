@@ -7,15 +7,29 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchInput from "../../components/SearchInput";
-import InvitationCard from "./InvitationCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getIncomingInvitations } from "./invitationSlice";
+import ProjectCard from "../project/ProjectCard";
+import InvitationProjectCard from "./InvitationProjectCard";
 
 function IncomingInvitations() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  const invitations = [];
+  const { currentPageProjects, projectsById, totalProjects, totalPages } =
+    useSelector((state) => state.invitation);
+
+  const projects = currentPageProjects.map(
+    (projectId) => projectsById[projectId]
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIncomingInvitations({ search, page }));
+  }, [search, page, dispatch]);
 
   const handleSubmit = (searchQuery) => {
     setSearch(searchQuery);
@@ -36,25 +50,24 @@ function IncomingInvitations() {
               variant="subtitle"
               sx={{ color: "text.secondary", ml: 1 }}
             >
-              10 Invitations found
-              {/* {totalUsers > 1
-                ? `${totalUsers} requests founds`
-                : totalUsers === 1
-                ? `${totalUsers} request found`
-                : 'No request found'} */}
+              {totalProjects > 1
+                ? `${totalProjects} requests founds`
+                : totalProjects === 1
+                ? `${totalProjects} request found`
+                : "No project invitation found"}
             </Typography>
 
             <Pagination
-              count={3}
+              count={totalPages}
               page={page}
               onChange={(e, page) => setPage(page)}
             />
           </Stack>
         </Stack>
         <Grid container spacing={3} my={1}>
-          {invitations.map((invitation) => (
-            <Grid key={invitation._id} item xs={12} md={4}>
-              <InvitationCard invitation={invitation} />
+          {projects.map((project) => (
+            <Grid key={project._id} item xs={12} md={6} lg={4}>
+              <InvitationProjectCard project={project} />
             </Grid>
           ))}
         </Grid>

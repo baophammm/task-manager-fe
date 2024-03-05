@@ -30,7 +30,7 @@ const StyledContainerBox = styled(Box)(({ theme }) => ({
 
 const StyledNavButton = styled(Button)(({ theme }) => ({
   // border: "none",
-  border: "1px solid red",
+  // border: "1px solid red",
   transition: "all ease-in-out 0.1s",
   width: "100%",
   borderRadius: 1,
