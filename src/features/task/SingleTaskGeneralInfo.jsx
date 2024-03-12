@@ -24,16 +24,6 @@ const TASK_STATUS_DICTIONARY = [
     icon: <PlayCircleIcon />,
   },
   {
-    taskStatus: "WaitingForReview",
-    label: "Waiting For Review",
-    icon: <PreviewIcon />,
-  },
-  {
-    taskStatus: "Reviewed",
-    label: "Reviewed",
-    icon: <GradingIcon />,
-  },
-  {
     taskStatus: "Completed",
     label: "Completed",
     icon: <CheckCircleIcon />,
@@ -118,7 +108,7 @@ function SingleTaskGeneralInfo({ selectedTask }) {
         )}
       </Stack>
       <Stack spacing={2}>
-        <Typography variant="h4">Description</Typography>
+        <Typography variant="h5">Description</Typography>
         <Box
           sx={{
             display: "flex",

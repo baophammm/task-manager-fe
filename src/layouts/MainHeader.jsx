@@ -24,17 +24,17 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import useAuth from "../hooks/useAuth";
 import UserProfilePicture from "../features/user/UserProfilePicture";
-import { Divider } from "@mui/material";
+import { Divider, Grid } from "@mui/material";
 
 const pages = [
   {
-    value: "dashboard",
-    title: "Dashboard",
+    value: "home",
+    title: "Home",
     icon: <SpaceDashboardIcon />,
     link: "/",
   },
   {
-  value: "project",
+    value: "project",
     title: "Project",
     icon: <ListAltIcon />,
     link: "/projects",
@@ -54,7 +54,7 @@ const pages = [
 ];
 
 const StyledContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: theme.palette.neutral[800],
+  backgroundColor: theme.palette.background.secondary,
 }));
 
 function MainHeader() {
@@ -93,24 +93,115 @@ function MainHeader() {
     <AppBar position="static">
       <StyledContainer maxWidth>
         <Toolbar disableGutters>
-          <Logo sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+          <Grid
+            container
             sx={{
-              mr: 2,
+              height: 1,
+              width: "100vw",
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
             }}
           >
-            TASK MANAGER
-          </Typography>
+            <Grid
+              item
+              md={3}
+              xl={2.5}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Logo sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="#app-bar-with-responsive-menu"
+                sx={{
+                  mr: 2,
+                  display: { xs: "none", md: "flex" },
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                }}
+              >
+                TASK MANAGER
+              </Typography>
+            </Grid>
+            <Grid item md={9} xl={9.5}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                  {pages.map((page) => (
+                    <Button
+                      key={page.value}
+                      onClick={() => navigate(page.link)}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      {page.title}
+                    </Button>
+                  ))}
+                </Box>
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <UserProfilePicture targetUser={auth.user} />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <Box sx={{ my: 1.5, px: 2.5 }}>
+                      <Typography variant="subtitle2" noWrap>
+                        {auth.user?.firstName} {auth.user?.lastName}
+                      </Typography>
+                      <Typography
+                        variant="subtitle2"
+                        noWrap
+                        sx={{ color: "text.secondary" }}
+                      >
+                        {auth.user?.email}
+                      </Typography>
+                    </Box>
+                    <Divider sx={{ borderStyle: "dashed" }} />
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/settings");
+                        handleCloseUserMenu();
+                      }}
+                      sx={{ mx: 1 }}
+                    >
+                      <Typography textAlign="center">Account</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout} sx={{ mx: 1 }}>
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -173,22 +264,9 @@ function MainHeader() {
           >
             TASK MANAGER
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.value}
-                onClick={() => navigate(page.link)}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page.title}
-              </Button>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                 <UserProfilePicture targetUser={auth.user} />
               </IconButton>
             </Tooltip>
@@ -208,11 +286,6 @@ function MainHeader() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
               <Box sx={{ my: 1.5, px: 2.5 }}>
                 <Typography variant="subtitle2" noWrap>
                   {auth.user?.firstName} {auth.user?.lastName}

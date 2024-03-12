@@ -32,7 +32,8 @@ import { getSingleProject } from "./projectSlice";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   // border: "1px solid red",
-  background: alpha(theme.palette.background.paper, 0.36),
+  // background: alpha(theme.palette.background.paper, 0.36),
+  background: theme.palette.action.disabled,
 
   position: "fixed",
   top: 0,
@@ -49,6 +50,7 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 }));
 
 const ModalBox = styled(Box)(({ theme }) => ({
+  border: "1px solid red",
   background: theme.palette.background.paper,
   color: theme.palette.text.primary,
   boxShadow: theme.shadows,
@@ -107,8 +109,6 @@ function AddProjectTaskModal() {
       options: [
         { value: "Backlog", label: "Backlog" },
         { value: "InProgress", label: "In Progress" },
-        { value: "WaitingForReview", label: "Waiting For Review" },
-        { value: "Reviewed", label: "Reviewed" },
         { value: "Completed", label: "Completed" },
         { value: "Archived", label: "Archived" },
       ],
@@ -134,17 +134,15 @@ function AddProjectTaskModal() {
     { name: "dueAt", label: "Due At", fieldType: "date" },
   ];
 
-  const { user } = useAuth();
-
   const defaultValues = {
     title: "",
     description: "",
     taskStatus: "Backlog",
     priority: "High",
-    assigneeId: null,
+    assigneeId: "",
     projectId: projectId,
-    startAt: null,
-    dueAt: null,
+    startAt: "",
+    dueAt: "",
     files: [""],
   };
 

@@ -11,8 +11,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import InfoIcon from "@mui/icons-material/Info";
 import ClearIcon from "@mui/icons-material/Clear";
 import LogoutIcon from "@mui/icons-material/Logout";
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import GradeIcon from "@mui/icons-material/Grade";
+
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ProjectDetailTaskFilter from "./ProjectDetailTaskFilter";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -21,13 +24,19 @@ import { useDispatch } from "react-redux";
 import { deleteSingleProject, leaveProject } from "./projectSlice";
 import ProjectDetailTasksSearch from "../task/ProjectDetailTasksSearch";
 import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
+import {
+  addProjectToFavorite,
+  removeProjectFromFavorite,
+} from "../user/userSlice";
 
 function ProjectPageControl({ selectedProject, location }) {
   const { setIsOpeningProjectInfo } = useContext(ProjectDetailPageContext);
 
   const { user } = useAuth();
   const currentUserId = user._id;
-  const projectId = selectedProject._id;
+
+  const params = useParams();
+  const projectId = params.projectId;
 
   const projectOwnerId = selectedProject?.projectOwner._id;
   const projectManagerIds = selectedProject?.projectManagers;
@@ -209,7 +218,6 @@ function ProjectPageControl({ selectedProject, location }) {
   return (
     <Box
       sx={{
-        // border: "1px solid green",
         width: 1,
         height: "40px",
         display: "flex",
@@ -227,22 +235,13 @@ function ProjectPageControl({ selectedProject, location }) {
               </SvgIcon>
             }
             variant="contained"
+            sx={{ p: 1 }}
           >
             Projects
           </Button>
         </Link>
       </Box>
-      {/* <Box
-        sx={{
-          // border: "1px solid red",
-          flexGrow: 1,
-          height: "48px",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <ProjectDetailTasksSearch />
-      </Box> */}
+
       <Stack flexDirection="row">
         <ProjectDetailTaskFilter projectId={projectId} />
         <Box
@@ -263,6 +262,7 @@ function ProjectPageControl({ selectedProject, location }) {
                 }
                 variant="contained"
                 disabled={disableAddTask}
+                sx={{ p: 1 }}
               >
                 Task
               </Button>
@@ -279,6 +279,7 @@ function ProjectPageControl({ selectedProject, location }) {
                   }
                   variant="contained"
                   disabled={disableAddTask}
+                  sx={{ p: 1 }}
                 >
                   Task
                 </Button>
@@ -300,6 +301,7 @@ function ProjectPageControl({ selectedProject, location }) {
                   }
                   variant="contained"
                   disabled={!isProjectOwner}
+                  sx={{ p: 1 }}
                 >
                   Member
                 </Button>
@@ -313,6 +315,7 @@ function ProjectPageControl({ selectedProject, location }) {
                 }
                 variant="contained"
                 disabled={!isProjectOwner}
+                sx={{ p: 1 }}
               >
                 Member
               </Button>
@@ -329,6 +332,7 @@ function ProjectPageControl({ selectedProject, location }) {
                 }
                 variant="contained"
                 sx={{
+                  p: 1,
                   backgroundColor: "error.main",
                   "&:hover": {
                     backgroundColor: "error.dark",
@@ -347,6 +351,7 @@ function ProjectPageControl({ selectedProject, location }) {
                 }
                 variant="contained"
                 sx={{
+                  p: 1,
                   backgroundColor: "error.main",
                   "&:hover": {
                     backgroundColor: "error.dark",

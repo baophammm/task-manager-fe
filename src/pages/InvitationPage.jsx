@@ -47,15 +47,15 @@ function InvitationPage() {
       icon: <MoveToInboxIcon sx={{ fontSize: 24 }} />,
       component: <IncomingInvitations />,
     },
-    {
-      value: "sentInvitations",
-      icon: <OutboxIcon sx={{ fontSize: 24 }} />,
-      component: <SentInvitations />,
-    },
+    // {
+    //   value: "sentInvitations",
+    //   icon: <OutboxIcon sx={{ fontSize: 24 }} />,
+    //   component: <SentInvitations />,
+    // },
   ];
   return (
-    <Container>
-      <Card
+    <Container sx={{ p: 2 }}>
+      {/* <Card
         sx={{
           height: "56px",
           display: "flex",
@@ -87,7 +87,7 @@ function InvitationPage() {
             ))}
           </Tabs>
         </TabsWrapperStyle>
-      </Card>
+      </Card> */}
 
       {INVITATION_TABS.map((tab) => {
         const isMatched = tab.value === currentTab;

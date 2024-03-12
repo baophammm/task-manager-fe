@@ -1,15 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+
 import {
   FDateField,
   FSelect,
@@ -35,7 +27,6 @@ export default function UpdateTaskDrawer({
   task,
   isLoading,
   isUpdatingTask,
-  // toggleUpdatingTask,
   setIsUpdatingTask,
 }) {
   const dispatch = useDispatch();
@@ -84,8 +75,6 @@ export default function UpdateTaskDrawer({
       options: [
         { value: "Backlog", label: "Backlog" },
         { value: "InProgress", label: "In Progress" },
-        { value: "WaitingForReview", label: "Waiting For Review" },
-        { value: "Reviewed", label: "Reviewed" },
         { value: "Completed", label: "Completed" },
         { value: "Archived", label: "Archived" },
       ],
@@ -104,16 +93,16 @@ export default function UpdateTaskDrawer({
     { name: "startAt", label: "Start At", fieldType: "date" },
     { name: "dueAt", label: "Due At", fieldType: "date" },
   ];
-
+  // console.log("checking task before submit update", task);
   const defaultValues = {
     title: task?.title || "",
     description: task?.description || "",
     taskStatus: task?.taskStatus || "Backlog",
     priority: task?.priority || "High",
-    assigneeId: task?.assignee?._id || "",
-    projectId: task?.project?._id || "",
-    startAt: dayjs(task?.startAt).format("DD-MM-YYYY") || "",
-    dueAt: dayjs(task?.dueAt).format("DD-MM-YYYY") || "",
+    assigneeId: task?.assignee?._id || null,
+    projectId: task?.project?._id || null,
+    startAt: task?.startAt ? dayjs(task?.startAt).format("YYYY-MM-DD") : "",
+    dueAt: task?.dueAt ? dayjs(task?.dueAt).format("YYYY-MM-DD") : "",
     files: task?.files || [],
   };
 
@@ -129,10 +118,9 @@ export default function UpdateTaskDrawer({
   } = methods;
 
   const onSubmit = (data) => {
-    console.log("UPDATE", data);
     dispatch(updateSingleTask({ taskId: task._id, ...data })).then(() => {
       reset();
-      dispatch(getSingleTask(task._id));
+      // dispatch(getSingleTask(task._id));
     });
     setIsUpdatingTask(false);
   };
@@ -147,22 +135,25 @@ export default function UpdateTaskDrawer({
   const updateTaskForm = () => (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Box
-        sx={{ width: { xs: "90vw", sm: 600 } }}
+        sx={{
+          height: "100vh",
+          width: { xs: "90vw", sm: 600 },
+        }}
         role="presentation"
         // onClick={toggleUpdatingTask(false)}
         // onKeyDown={toggleUpdatingTask(false)}
       >
         <CssBaseline />
-        <Card sx={{ p: 3 }}>
+        <Card sx={{ height: 1, p: 3 }}>
           <Typography
-            variant="h3"
+            variant="h5"
             sx={{
               mb: "12px",
             }}
           >
             Updating Task {task?.title}
           </Typography>
-          <Stack spacing={3} alignItems="flex-end" sx={{ mb: "12px" }}>
+          <Stack spacing={2} alignItems="flex-end" sx={{ mb: "12px" }}>
             {TASK_FIELDS.map((field) => {
               if (field.fieldType === "text") {
                 return (
@@ -199,13 +190,23 @@ export default function UpdateTaskDrawer({
               }
             })}
           </Stack>
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting || isLoading}
+          <Box
+            sx={{
+              width: 1,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
           >
-            Save Task
-          </LoadingButton>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting || isLoading}
+            >
+              Save Task
+            </LoadingButton>
+          </Box>
         </Card>
       </Box>
     </FormProvider>

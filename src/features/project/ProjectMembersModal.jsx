@@ -41,7 +41,8 @@ import ProjectMemberUserTable from "./ProjectMemberUserTable";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   // border: "1px solid red",
-  background: alpha(theme.palette.background.paper, 0.36),
+  // background: alpha(theme.palette.background.paper, 0.36),
+  background: theme.palette.action.disabled,
 
   position: "fixed",
   top: 0,

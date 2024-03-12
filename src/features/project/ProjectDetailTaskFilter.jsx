@@ -40,8 +40,6 @@ function ProjectDetailTaskFilter({ projectId }) {
         { value: "All", label: "All" },
         { value: "Backlog", label: "Backlog" },
         { value: "InProgress", label: "In Progress" },
-        { value: "WaitingForReview", label: "Waiting For Review" },
-        { value: "Reviewed", label: "Reviewed" },
         { value: "Completed", label: "Completed" },
         { value: "Archived", label: "Archived" },
       ],
@@ -190,7 +188,7 @@ function ProjectDetailTaskFilter({ projectId }) {
           </SvgIcon>
         }
         variant="contained"
-        sx={{ display: { xs: "none", md: "flex" } }}
+        sx={{ p: 1, display: { xs: "none", md: "flex" } }}
         onClick={handleOpenProjectTaskFilterMenu}
       >
         Filters

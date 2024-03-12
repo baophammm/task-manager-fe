@@ -18,7 +18,7 @@ function FDateField({ name, date, setDate, ...other }) {
     <Controller
       name={name}
       control={control}
-      defaultValue={date ? dayjs(date, "DD/MM/YYYY") : null}
+      defaultValue={date ? dayjs(date, "YYYY-MM-DD") : null}
       render={({ field, fieldState: { error } }) => {
         return (
           <LocalizationProvider dateAdapter={AdapterDayjs}>

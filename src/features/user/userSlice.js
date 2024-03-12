@@ -73,6 +73,22 @@ const slice = createSlice({
       state.totalPages = totalPages;
       state.totalUsers = count;
     },
+    addProjectToFavoriteSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+
+      const user = action.payload;
+
+      state.updatedProfile = user;
+    },
+    removeProjectFromFavoriteSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+
+      const user = action.payload;
+
+      state.updatedProfile = user;
+    },
   },
 });
 
@@ -194,6 +210,40 @@ export const getProjectMembers =
         data
       );
       dispatch(slice.actions.getProjectMembersSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const addProjectToFavorite =
+  ({ userId, projectId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post(
+        `users/${userId}/favorite/projects`,
+        { projectId }
+      );
+
+      dispatch(slice.actions.addProjectToFavoriteSuccess(response.data));
+      toast.success("Project added to favorite successfully!");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const removeProjectFromFavorite =
+  ({ userId, projectId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.delete(
+        `users/${userId}/favorite/projects/${projectId}`
+      );
+      dispatch(slice.actions.removeProjectFromFavoriteSuccess(response.data));
+      toast.success("Project removed from favorite successfully!");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

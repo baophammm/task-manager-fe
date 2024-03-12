@@ -1,16 +1,23 @@
 import MagnifyingGlassIcon from "@heroicons/react/24/solid/MagnifyingGlassIcon";
-import { Card, InputAdornment, OutlinedInput, SvgIcon } from "@mui/material";
+import {
+  Box,
+  Card,
+  InputAdornment,
+  OutlinedInput,
+  SvgIcon,
+} from "@mui/material";
 import { useContext } from "react";
 import { TaskPageContext } from "../../pages/TaskPage";
 
 export const TasksSearch = () => {
   const { filters, handleFilterSelection } = useContext(TaskPageContext);
+
   return (
-    <Card sx={{ p: 2 }}>
+    <Box sx={{ width: 1 }}>
       <OutlinedInput
-        // defaultValue=""
         fullWidth
         placeholder="Search task"
+        placeholderTextColor="white"
         value={filters.search}
         onChange={(e) => handleFilterSelection("search", e.target.value)}
         startAdornment={
@@ -20,8 +27,11 @@ export const TasksSearch = () => {
             </SvgIcon>
           </InputAdornment>
         }
-        sx={{ maxWidth: 1 }}
+        size="small"
+        inputProps={{
+          style: { color: "white" },
+        }}
       />
-    </Card>
+    </Box>
   );
 };

@@ -1,3 +1,5 @@
+import { Draggable } from "react-beautiful-dnd";
+
 import PropTypes from "prop-types";
 import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
 
@@ -20,6 +22,7 @@ import {
   SvgIcon,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 
 const TASK_STATUS_ICONS = [
@@ -32,14 +35,6 @@ const TASK_STATUS_ICONS = [
     icon: <PlayCircleIcon />,
   },
   {
-    taskStatus: "WaitingForReview",
-    icon: <PreviewIcon />,
-  },
-  {
-    taskStatus: "Reviewed",
-    icon: <GradingIcon />,
-  },
-  {
     taskStatus: "Completed",
     icon: <CheckCircleIcon />,
   },
@@ -49,11 +44,17 @@ const TASK_STATUS_ICONS = [
   },
 ];
 
-const TaskCard = ({ task }) => {
+const StyledContainer = styled(Box)(({ theme }) => ({
+  padding: "8px",
+  marginBottom: "8px",
+  backgroundColor: theme.palette.background.default,
+}));
+
+const TaskCard = (props) => {
   const navigate = useNavigate();
 
   const updatedTimeDifference =
-    new Date().getTime() - new Date(task.updatedAt).getTime();
+    new Date().getTime() - new Date(props.task.updatedAt).getTime();
   const updatedTimeDifferenceInMinute = Math.round(
     updatedTimeDifference / 1000 / 60,
     0
@@ -68,17 +69,27 @@ const TaskCard = ({ task }) => {
   );
 
   let taskOverdue = false;
-  if (!["Completed", "Archived"].includes(task.taskStatus) && task.dueAt) {
+  if (
+    !["Completed", "Archived"].includes(props.task.taskStatus) &&
+    props.task.dueAt
+  ) {
     const dueDateDifference =
-      new Date().getTime() - new Date(task.dueAt).getTime();
+      new Date().getTime() - new Date(props.task.dueAt).getTime();
     if (dueDateDifference > 0) {
       taskOverdue = true;
     }
   }
 
   return (
+    // <Draggable draggableId={props.task._id} index={props.index}>
+    //   {(provided) => (
+    //     <StyledContainer
+    //       {...provided.draggableProps}
+    //       {...provided.dragHandleProps}
+    //       ref={provided.innerRef}
+    //     >
     <Card
-      onClick={() => navigate(`/tasks/${task._id}`)}
+      onClick={() => navigate(`/tasks/${props.task._id}`)}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -97,7 +108,7 @@ const TaskCard = ({ task }) => {
               flexGrow: 1,
             }}
           >
-            {task.title}
+            {props.task.title}
           </Typography>
           {taskOverdue && (
             <div title="Task Overdue flagged">
@@ -109,22 +120,22 @@ const TaskCard = ({ task }) => {
           <Typography variant="span" fontWeight="bold">
             Description: 
           </Typography>
-          {task.description}
+          {props.task.description}
         </Typography>
-        {task.project && (
+        {props.task.project && (
           <Typography>
             <Typography variant="span" fontWeight="bold">
               Project:{" "}
             </Typography>
-            {task.project?.title}
+            {props.task.project?.title}
           </Typography>
         )}
-        {task.assignee && (
+        {props.task.assignee && (
           <Typography>
             <Typography variant="span" fontWeight="bold">
               Assigned to:{" "}
             </Typography>
-            {task.assignee.firstName} {task.assignee.lastName}
+            {props.task.assignee.firstName} {props.task.assignee.lastName}
           </Typography>
         )}
       </CardContent>
@@ -141,12 +152,12 @@ const TaskCard = ({ task }) => {
           <SvgIcon color="action" fontSize="small">
             {
               TASK_STATUS_ICONS.filter(
-                (icon) => icon.taskStatus === task.taskStatus
+                (icon) => icon.taskStatus === props.task.taskStatus
               )[0].icon
             }
           </SvgIcon>
           <Typography color="text.secondary" display="inline" variant="body2">
-            {task.taskStatus.replace(/([A-Z])/g, " $1").trim()}
+            {props.task.taskStatus.replace(/([A-Z])/g, " $1").trim()}
           </Typography>
         </Stack>
         <Stack alignItems="center" direction="row" spacing={1}>
@@ -164,6 +175,10 @@ const TaskCard = ({ task }) => {
         </Stack>
       </Stack>
     </Card>
+    // {/* {props.task.title} */}
+    //     </StyledContainer>
+    //   )}
+    // </Draggable>
   );
 };
 

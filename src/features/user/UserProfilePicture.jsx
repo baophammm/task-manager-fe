@@ -9,8 +9,8 @@ function UserProfilePicture({ targetUser }) {
     />
   ) : (
     <Avatar>
-      {targetUser.firstName.slice(0, 1).toUpperCase()}
-      {targetUser.lastName.slice(0, 1).toUpperCase()}
+      {targetUser.firstName?.slice(0, 1).toUpperCase()}
+      {targetUser.lastName?.slice(0, 1).toUpperCase()}
     </Avatar>
   );
 

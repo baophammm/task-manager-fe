@@ -1,7 +1,7 @@
-import { useFormContext, Controller } from 'react-hook-form';
-import { TextField } from '@mui/material';
+import { useFormContext, Controller } from "react-hook-form";
+import { TextField } from "@mui/material";
 
-function FTextField({ name, ...other }) {
+function FTextField({ name, placeholderTextColor, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -14,6 +14,12 @@ function FTextField({ name, ...other }) {
           fullWidth
           error={!!error}
           helperText={error?.message}
+          InputProps={{
+            style: { color: placeholderTextColor || "inherit" },
+            inputProps: {
+              style: { color: placeholderTextColor || "inherit" },
+            },
+          }}
           {...other}
         />
       )}

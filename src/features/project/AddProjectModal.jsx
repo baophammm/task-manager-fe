@@ -31,7 +31,8 @@ import dayjs from "dayjs";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
-  background: alpha(theme.palette.background.paper, 0.36),
+  // background: alpha(theme.palette.background.paper, 0.36),
+  background: theme.palette.action.disabled,
   position: "fixed",
   top: 0,
   left: 0,
@@ -47,7 +48,6 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 }));
 
 const ModalBox = styled(Box)(({ theme }) => ({
-  // border: "1px solid red",
   background: theme.palette.background.paper,
   color: theme.palette.text.primary,
   boxShadow: theme.shadows,

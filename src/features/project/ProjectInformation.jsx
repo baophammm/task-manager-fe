@@ -5,60 +5,156 @@ import {
   CardContent,
   Chip,
   IconButton,
+  ImageList,
   Stack,
   SvgIcon,
   Typography,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import GradeIcon from "@mui/icons-material/Grade";
 
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProjectMemberIconStack from "./ProjectMemberIconStack";
 import { fDate } from "../../utils/formatTime";
 import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
+import useAuth from "../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import {
+  addProjectToFavorite,
+  removeProjectFromFavorite,
+} from "../user/userSlice";
 
-function ProjectInformation({ selectedProject, location }) {
-  const projectId = selectedProject._id;
+function ProjectInformation({
+  // selectedProject,
+  location,
+  // setIsUpdatingProject,
+}) {
+  const { user } = useAuth();
+  const currentUserId = user._id;
+  const params = useParams();
+  const projectId = params.projectId;
 
-  const { isOpeningProjectInfo, setIsOpeningProjectInfo } = useContext(
-    ProjectDetailPageContext
+  // const projectId = selectedProject?._id;
+
+  const {
+    selectedProject,
+    isOpeningProjectInfo,
+    setIsOpeningProjectInfo,
+    setIsUpdatingProject,
+  } = useContext(ProjectDetailPageContext);
+
+  const currentUserFavoriteProjects = user.favoriteProjects;
+  const favoriteProjectList = currentUserFavoriteProjects.find(
+    (project) => project === projectId
   );
 
+  const defaultFavoriteProjectState = favoriteProjectList ? true : false;
+
+  const [isFavoriteProject, setIsFavoriteProject] = useState(
+    defaultFavoriteProjectState
+  );
+
+  const dispatch = useDispatch();
+
+  const handleAddFavoriteProject = () => {
+    if (isFavoriteProject) {
+      dispatch(
+        removeProjectFromFavorite({ userId: currentUserId, projectId })
+      ).then(() => {
+        setIsFavoriteProject(false);
+      });
+    } else {
+      dispatch(addProjectToFavorite({ userId: currentUserId, projectId })).then(
+        () => {
+          setIsFavoriteProject(true);
+        }
+      );
+    }
+  };
+
   const projectInfoCard = (
-    <Card
+    <Box
       sx={{
         // border: "1px solid orange",
+        color: "primary.contrastText",
         height: 1,
+        width: 1,
+        m: 0,
       }}
     >
-      <CardContent sx={{ height: 1, pt: 0 }}>
-        <Stack spacing={2} sx={{}}>
-          <Box
-            sx={{
-              display: "flex",
-              direction: "row",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
+      {/* <CardContent sx={{ height: 1, pt: 0 }}> */}
+      <Stack
+        spacing={2}
+        sx={{
+          //  border: "1px solid red",
+          height: 1,
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            direction: "row",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <IconButton onClick={() => setIsOpeningProjectInfo(false)}>
+            <ArrowBackIosNewIcon style={{ color: "white" }} />
+          </IconButton>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h5">{selectedProject?.title}</Typography>
+          <IconButton
+            size="large"
+            aria-label="favorite project"
+            aria-controls="menu-projectdetailcontrolbutton"
+            aria-haspopup="true"
+            onClick={handleAddFavoriteProject}
           >
-            <IconButton onClick={() => setIsOpeningProjectInfo(false)}>
-              <ArrowBackIosIcon />
-            </IconButton>
-          </Box>
-          <Typography variant="h5">{selectedProject.title}</Typography>
+            {isFavoriteProject ? (
+              <GradeIcon sx={{ color: "#f1c40f" }} />
+            ) : (
+              <StarOutlineIcon />
+            )}
+          </IconButton>
+        </Box>
+        <ImageList
+          cols={1}
+          sx={{
+            width: 1,
+            height: 1,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Typography>
             <Typography variant="span" fontWeight="bold">
               Description:{" "}
             </Typography>
-            {selectedProject.description}
+            {selectedProject?.description}
+          </Typography>
+          <Typography>
+            <Typography variant="span" fontWeight="bold">
+              Creator:{" "}
+            </Typography>
+            {selectedProject?.projectOwner?.firstName}{" "}
+            {selectedProject?.projectOwner?.lastName}
           </Typography>
           <Typography>
             <Typography variant="span" fontWeight="bold">
               Status:{" "}
             </Typography>
-            <Chip label={selectedProject.projectStatus} />
+            <Chip label={selectedProject?.projectStatus} color="primary" />
           </Typography>
           <Box
             sx={{
@@ -73,7 +169,7 @@ function ProjectInformation({ selectedProject, location }) {
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <Typography fontWeight="bold">Project Members:</Typography>
-              {selectedProject.projectMembers && (
+              {selectedProject?.projectMembers && (
                 <Stack alignItems="center" direction="row" spacing={1}>
                   <ProjectMemberIconStack
                     projectMembers={selectedProject.projectMembers}
@@ -83,7 +179,7 @@ function ProjectInformation({ selectedProject, location }) {
             </Link>
           </Box>
 
-          {selectedProject.startAt && (
+          {selectedProject?.startAt && (
             <Typography>
               <Typography variant="span" fontWeight="bold">
                 Start date:{" "}
@@ -92,7 +188,7 @@ function ProjectInformation({ selectedProject, location }) {
             </Typography>
           )}
 
-          {selectedProject.dueAt && (
+          {selectedProject?.dueAt && (
             <Typography>
               <Typography variant="span" fontWeight="bold">
                 Due date:{" "}
@@ -100,56 +196,42 @@ function ProjectInformation({ selectedProject, location }) {
               <Typography>{fDate(selectedProject?.dueAt)}</Typography>
             </Typography>
           )}
-        </Stack>
-      </CardContent>
-    </Card>
+          <Button
+            variant="contained"
+            onClick={() => setIsUpdatingProject(true)}
+          >
+            Update Project
+          </Button>
+        </ImageList>
+      </Stack>
+      {/* </CardContent> */}
+    </Box>
   );
-  return (
-    <>
-      {isOpeningProjectInfo ? (
-        projectInfoCard
-      ) : (
-        <Box
-          sx={{
-            // border: "1px solid orange",
-            width: "24px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
-            size="small"
-            sx={{ mb: 1 }}
-            onClick={() => setIsOpeningProjectInfo(true)}
-          >
-            <ArrowForwardIosIcon />
-          </IconButton>
-          <Box
-            sx={{
-              // border: "1px solid green",
-              display: { xs: "none", md: "flex" },
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography>P</Typography>
-            <Typography>r</Typography>
-            <Typography>o</Typography>
-            <Typography>j</Typography>
-            <Typography>e</Typography>
-            <Typography>c</Typography>
-            <Typography sx={{ mb: 2 }}>t</Typography>
 
-            <Typography>I</Typography>
-            <Typography>n</Typography>
-            <Typography>f</Typography>
-            <Typography>o</Typography>
-          </Box>
-        </Box>
-      )}
-    </>
-  );
+  const result = () =>
+    isOpeningProjectInfo ? (
+      projectInfoCard
+    ) : (
+      <Box
+        sx={{
+          // border: "1px solid orange",
+          height: 1,
+          width: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <IconButton
+          size="small"
+          sx={{ mb: 1 }}
+          onClick={() => setIsOpeningProjectInfo(true)}
+        >
+          <ArrowForwardIosIcon style={{ color: "white" }} />
+        </IconButton>
+      </Box>
+    );
+  return result();
 }
 
 export default ProjectInformation;

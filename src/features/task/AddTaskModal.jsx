@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { styled } from "@mui/material/styles";
+import { alpha, styled } from "@mui/material/styles";
 import {
   Avatar,
   CssBaseline,
@@ -28,18 +28,19 @@ import {
   FormProvider,
 } from "../../components/form";
 import dayjs from "dayjs";
-import { createTask } from "./taskSlice";
+import { createTask, getTasks } from "./taskSlice";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   // border: "1px solid red",
-  background: theme.palette.background.paper,
-  // opacity: "60%",
+  // background: alpha(theme.palette.background.paper, 0.36),
+  background: theme.palette.action.disabled,
+
   position: "fixed",
   top: 0,
   left: 0,
   width: "100%",
   height: "100vh",
-  // overflowY: 'scroll',
+
   WebkitOverflowScrolling: "touch",
 
   display: "flex",
@@ -49,13 +50,15 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 }));
 
 const ModalBox = styled(Box)(({ theme }) => ({
-  background: theme.palette.neutral[600],
-  color: theme.palette.primary.contrastText,
-  borderRadius: theme.shape.borderRadius,
+  background: theme.palette.background.paper,
+  color: theme.palette.text.primary,
+  boxShadow: theme.shadows,
+  borderRadius: 24,
+
   minHeight: "80vh",
-  width: "95%",
+  width: "80%",
   maxWidth: "800px",
-  padding: 10,
+  padding: 12,
 
   display: "flex",
   flexDirection: "column",
@@ -77,8 +80,6 @@ const TASK_FIELDS = [
     options: [
       { value: "Backlog", label: "Backlog" },
       { value: "InProgress", label: "In Progress" },
-      { value: "WaitingForReview", label: "Waiting For Review" },
-      { value: "Reviewed", label: "Reviewed" },
       { value: "Completed", label: "Completed" },
       { value: "Archived", label: "Archived" },
     ],
@@ -105,6 +106,7 @@ function AddTaskModal() {
   const navigate = useNavigate();
 
   const { user } = useAuth();
+  const currentUserId = user._id;
 
   const defaultValues = {
     title: "",
@@ -132,72 +134,81 @@ function AddTaskModal() {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    console.log(data);
-    dispatch(createTask(data)).then(() => reset());
+    dispatch(createTask(data)).then(() => {
+      dispatch(getTasks({ assigneeId: currentUserId }));
+      reset();
+    });
     navigate(`/tasks`);
   };
   return (
     <ModalWrapperBox ref={modalRef} onClick={() => navigate("/tasks")}>
       <ModalBox onClick={(e) => e.stopPropagation()}>
-        <Container component="main">
+        <Container
+          component="main"
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            flexWrap: "wrap",
+          }}
+        >
           <CssBaseline />
-          <Card sx={{ p: 3 }}>
-            <Typography
-              variant="h3"
-              sx={{
-                mb: "12px",
-              }}
-            >
-              Add New Task
-            </Typography>
-            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={3} alignItems="flex-end" sx={{ mb: "12px" }}>
-                {TASK_FIELDS.map((field) => {
-                  if (field.fieldType === "text") {
-                    return (
-                      <FTextField
-                        key={field.name}
-                        name={field.name}
-                        placeholder={field.label}
-                      />
-                    );
-                  } else if (field.fieldType === "select") {
-                    return (
-                      <FSelect
-                        key={field.name}
-                        name={field.name}
-                        label={field.label}
-                      >
-                        {field.options.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </FSelect>
-                    );
-                  } else if (field.fieldType === "date") {
-                    return (
-                      <FDateField
-                        key={field.name}
-                        name={field.name}
-                        label={field.label}
-                      />
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
-              </Stack>
 
-              <LoadingButton
-                type="submit"
-                variant="contained"
-                loading={isSubmitting || isLoading}
-              >
-                Add Task
-              </LoadingButton>
-            </FormProvider>
-          </Card>
+          <Typography
+            variant="h3"
+            sx={{
+              mb: "12px",
+            }}
+          >
+            Add New Task
+          </Typography>
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={3} alignItems="flex-end" sx={{ mb: "12px" }}>
+              {TASK_FIELDS.map((field) => {
+                if (field.fieldType === "text") {
+                  return (
+                    <FTextField
+                      key={field.name}
+                      name={field.name}
+                      placeholder={field.label}
+                    />
+                  );
+                } else if (field.fieldType === "select") {
+                  return (
+                    <FSelect
+                      key={field.name}
+                      name={field.name}
+                      label={field.label}
+                    >
+                      {field.options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </FSelect>
+                  );
+                } else if (field.fieldType === "date") {
+                  return (
+                    <FDateField
+                      key={field.name}
+                      name={field.name}
+                      label={field.label}
+                    />
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </Stack>
+
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting || isLoading}
+            >
+              Add Task
+            </LoadingButton>
+          </FormProvider>
         </Container>
       </ModalBox>
     </ModalWrapperBox>

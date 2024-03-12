@@ -50,6 +50,7 @@ const slice = createSlice({
 
       const { taskId, newTask } = action.payload;
       state.tasksById[taskId] = newTask;
+      state.selectedTask = newTask;
     },
     deleteSingleTaskSuccess(state, action) {
       state.isLoading = false;
@@ -187,9 +188,9 @@ export const updateSingleTask =
         startAt,
         dueAt,
       };
-      console.log("DATA IN TASK SLICE", data);
+
       const response = await apiService.put(`/tasks/${taskId}`, data);
-      console.log("UPDATE TASK RESPONSE", response);
+
       dispatch(
         slice.actions.updateSingleTaskSuccess({
           taskId,
@@ -205,7 +206,7 @@ export const updateSingleTask =
 export const deleteSingleTask = (taskId) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
-    const response = await apiService.delete(`tasks/${taskId}`);
+    const response = await apiService.delete(`/tasks/${taskId}`);
     dispatch(slice.actions.deleteSingleTaskSuccess(taskId));
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));

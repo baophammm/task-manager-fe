@@ -36,7 +36,7 @@ function IncomingInvitations() {
   };
   return (
     <Container>
-      <Typography variant="h4" sx={{ mb: 3 }}>
+      <Typography variant="h5" sx={{ mb: 3 }}>
         Incoming Project Invitations
       </Typography>
       <Card sx={{ p: 3 }}>
@@ -51,7 +51,7 @@ function IncomingInvitations() {
               sx={{ color: "text.secondary", ml: 1 }}
             >
               {totalProjects > 1
-                ? `${totalProjects} requests founds`
+                ? `${totalProjects} requests found`
                 : totalProjects === 1
                 ? `${totalProjects} request found`
                 : "No project invitation found"}

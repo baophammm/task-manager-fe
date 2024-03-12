@@ -1,42 +1,26 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { alpha, styled } from "@mui/material/styles";
 import {
-  Avatar,
   CssBaseline,
-  Link,
-  Grid,
   Box,
   Typography,
   Container,
-  Stack,
-  Card,
   TablePagination,
 } from "@mui/material";
 
-import { LoadingButton } from "@mui/lab";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRef } from "react";
-import useAuth from "../../hooks/useAuth";
+
 import { useDispatch, useSelector } from "react-redux";
-import {
-  FDateField,
-  FSelect,
-  FTextField,
-  FormProvider,
-} from "../../components/form";
-import dayjs from "dayjs";
-import { createTask } from "../task/taskSlice";
-import { getSingleProject } from "./projectSlice";
-import { getProjectAddNewMembers, getUsers } from "../user/userSlice";
+
+import { getProjectAddNewMembers } from "../user/userSlice";
 import UsersSearch from "../user/UsersSearch";
 import UserTable from "../user/UserTable";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   // border: "1px solid red",
-  background: alpha(theme.palette.background.paper, 0.36),
+  // background: alpha(theme.palette.background.paper, 0.36),
+  background: theme.palette.action.disabled,
 
   position: "fixed",
   top: 0,
@@ -98,10 +82,6 @@ function AddProjectMemberModal() {
     useSelector((state) => state.user);
 
   let users = currentPageUsers.map((userId) => usersById[userId]);
-  // users = users.map((user) => ({
-  //   ...user,
-  //   name: user.firstName + " " + user.lastName,
-  // }));
 
   useEffect(() => {
     dispatch(

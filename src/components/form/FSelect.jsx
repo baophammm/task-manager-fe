@@ -1,7 +1,7 @@
-import { TextField } from '@mui/material';
-import { Controller, useFormContext } from 'react-hook-form';
+import { TextField } from "@mui/material";
+import { Controller, useFormContext } from "react-hook-form";
 
-function FSelect({ name, children, ...other }) {
+function FSelect({ name, children, labelColor, ...other }) {
   const { control } = useFormContext();
   return (
     <Controller
@@ -15,6 +15,7 @@ function FSelect({ name, children, ...other }) {
           SelectProps={{ native: true }}
           error={!!error}
           helperText={error?.message}
+          InputLabelProps={{ style: { color: labelColor || "black" } }}
           {...other}
         >
           {children}

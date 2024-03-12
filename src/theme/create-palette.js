@@ -6,15 +6,18 @@ export function createPalette() {
   return {
     action: {
       active: neutral[500],
-      disabled: alpha(neutral[900], 0.38),
+      disabled: alpha(neutral[900], 0.8),
       disabledBackground: alpha(neutral[900], 0.12),
       focus: alpha(neutral[900], 0.16),
       hover: alpha(neutral[900], 0.04),
       selected: alpha(neutral[900], 0.12),
     },
     background: {
-      default: common.white,
+      // default: common.white,
+      default: neutral[100],
+      secondary: neutral[900],
       paper: common.white,
+      // paper: neutral[600],
     },
     divider: "#F2F4F7",
     error,
@@ -24,8 +27,9 @@ export function createPalette() {
     primary: indigo,
     success,
     text: {
-      primary: neutral[900],
-      secondary: neutral[500],
+      // primary: "F2F4F7",
+      primary: neutral[600],
+      secondary: neutral[100],
       disabled: alpha(neutral[900], 0.38),
     },
     warning,

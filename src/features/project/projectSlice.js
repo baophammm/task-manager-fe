@@ -48,7 +48,14 @@ const slice = createSlice({
 
       state.selectedProject = action.payload;
     },
+    updateSingleProjectSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
 
+      const { projectId, newProject } = action.payload;
+      state.projectsById[projectId] = newProject;
+      state.selectedProject = newProject;
+    },
     deleteSingleProjectSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
@@ -148,6 +155,7 @@ export const getProjects =
     startBefore,
     dueAfter,
     dueBefore,
+    sortBy,
     page,
     limit = PROJECT_PER_PAGE,
   }) =>
@@ -162,6 +170,7 @@ export const getProjects =
       if (startBefore) params.startBefore = startBefore;
       if (dueAfter) params.dueAfter = dueAfter;
       if (dueBefore) params.dueBefore = dueBefore;
+      if (sortBy) params.sortBy = sortBy;
 
       const response = await apiService.get("/projects", { params });
 
@@ -182,6 +191,33 @@ export const getSingleProject = (projectId) => async (dispatch) => {
     toast.error(error.message);
   }
 };
+
+export const updateSingleProject =
+  ({ projectId, title, description, projectStatus, startAt, dueAt }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const data = {
+        title,
+        description,
+        projectStatus,
+        startAt,
+        dueAt,
+      };
+
+      const response = await apiService.put(`/projects/${projectId}`, data);
+
+      dispatch(
+        slice.actions.updateSingleProjectSuccess({
+          projectId,
+          newProject: response.data,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 
 export const deleteSingleProject = (projectId) => async (dispatch) => {
   dispatch(slice.actions.startLoading());

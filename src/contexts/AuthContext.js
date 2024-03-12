@@ -44,7 +44,8 @@ const reducer = (state, action) => {
         user: null,
       };
     case UPDATE_PROFILE:
-      const { firstName, lastName, profilePictureUrl } = action.payload;
+      const { firstName, lastName, profilePictureUrl, favoriteProjects } =
+        action.payload;
 
       return {
         ...state,
@@ -53,6 +54,7 @@ const reducer = (state, action) => {
           firstName,
           lastName,
           profilePictureUrl,
+          favoriteProjects,
         },
       };
     default:

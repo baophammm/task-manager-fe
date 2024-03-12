@@ -18,6 +18,7 @@ import TaskDetailPage from "../pages/TaskDetailPage";
 import AddProjectTaskModal from "../features/project/AddProjectTaskModal";
 import AddProjectMemberModal from "../features/project/AddProjectMemberModal";
 import ProjectMembersModal from "../features/project/ProjectMembersModal";
+import TaskDetailModal from "../features/task/TaskDetailModal";
 
 function Router() {
   const location = useLocation();
@@ -35,16 +36,10 @@ function Router() {
           }
         >
           <Route index element={<HomePage />} />
-          <Route
-            path="/projects"
-            element={<ProjectPage location={{ location }} />}
-          />
-          <Route
-            path="/projects/:projectId"
-            element={<ProjectDetailPage location={location} />}
-          />
-          <Route path="/tasks" element={<TaskPage location={{ location }} />} />
-          <Route path="/tasks/:taskId" element={<TaskDetailPage />} />
+          <Route path="/projects" element={<ProjectPage />} />
+          <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+          <Route path="/tasks" element={<TaskPage />} />
+          {/* <Route path="/tasks/:taskId" element={<TaskDetailPage />} /> */}
           <Route path="/invitations" element={<InvitationPage />} />
           <Route path="/settings" element={<AccountSettingsPage />} />
         </Route>
@@ -93,6 +88,14 @@ function Router() {
             element={
               <AuthRequire>
                 <ProjectMembersModal />
+              </AuthRequire>
+            }
+          />
+          <Route
+            path="/tasks/:taskId"
+            element={
+              <AuthRequire>
+                <TaskDetailModal />
               </AuthRequire>
             }
           />

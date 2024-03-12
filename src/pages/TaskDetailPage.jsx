@@ -14,19 +14,13 @@ import {
   CardContent,
   Chip,
   Container,
+  ImageList,
   Stack,
   SvgIcon,
   Typography,
 } from "@mui/material";
-import QueueIcon from "@mui/icons-material/Queue";
-import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import UpgradeIcon from "@mui/icons-material/Upgrade";
 import ClearIcon from "@mui/icons-material/Clear";
-import PreviewIcon from "@mui/icons-material/Preview";
-import GradingIcon from "@mui/icons-material/Grading";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 
 import LoadingScreen from "../components/LoadingScreen";
 import UserProfilePicture from "../features/user/UserProfilePicture";
@@ -44,6 +38,7 @@ import FileUpload from "../components/FileUpload";
 import FileForm from "../features/task/FileForm";
 import SingleTaskGeneralInfo from "../features/task/SingleTaskGeneralInfo";
 import SingleTaskFileDisplay from "../features/task/SingleTaskFileDisplay";
+import TaskDetailPageControl from "../features/task/TaskDetailPageControl";
 
 function TaskDetailPage() {
   const { user } = useAuth();
@@ -63,20 +58,11 @@ function TaskDetailPage() {
     dispatch(getSingleTask(taskId));
   }, [dispatch, taskId]);
 
-  const handleDeleteTask = () => {
-    const result = window.confirm(
-      "Are you sure that you want to delete this task?"
-    );
-    if (result) {
-      dispatch(deleteSingleTask(taskId)).then(() => navigate("/tasks"));
-    }
-  };
-
   let disableUpdateTask = false;
 
   if (selectedTask?.project) {
     disableUpdateTask =
-      selectedTask.project.projectManagers.includes(currentUserId) ||
+      selectedTask.project?.projectManagers?.includes(currentUserId) ||
       selectedTask.project.projectOwner === currentUserId
         ? false
         : true;
@@ -86,69 +72,62 @@ function TaskDetailPage() {
     <Box
       component="main"
       sx={{
+        height: { xs: "calc(100vh - 120px)", md: "calc(100vh - 110px)" },
         flexGrow: 1,
-        py: 8,
       }}
     >
-      <Container maxWidth="xl">
+      <Container
+        maxWidth={1}
+        sx={{
+          height: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Card>
-          <CardContent>
+          <CardContent sx={{ p: 3, height: 1 }}>
             {isLoading ? (
               <LoadingScreen />
             ) : (
               selectedTask && (
                 <>
-                  <Stack spacing={3}>
-                    <Stack spacing={4}>
-                      <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        spacing={1}
-                      >
-                        <Box sx={{ flexGrow: 1 }}>
-                          <Box>
-                            <Typography variant="h4">
-                              {selectedTask?.title}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Box>
-                          <Button
-                            variant="contained"
-                            // sx={{ border: "1px solid red", zIndex: 10 }}
-                            onClick={() => setIsUpdatingTask(true)}
-                            disabled={disableUpdateTask}
-                          >
-                            Update Task
-                          </Button>
-                        </Box>
-                        <Box>
-                          <Button
-                            startIcon={
-                              <SvgIcon fontSize="small">
-                                <ClearIcon />
-                              </SvgIcon>
-                            }
-                            type="submit"
-                            variant="contained"
-                            sx={{
-                              backgroundColor: "error.main",
-                              "&:hover": { backgroundColor: "error.dark" },
-                            }}
-                            onClick={handleDeleteTask}
-                            disabled={disableUpdateTask}
-                          >
-                            Delete Task
-                          </Button>
-                        </Box>
-                      </Stack>
+                  <Stack
+                    spacing={2}
+                    sx={
+                      {
+                        // border: "1px solid red",
+                      }
+                    }
+                  >
+                    <TaskDetailPageControl
+                      selectedTask={selectedTask}
+                      disableUpdateTask={disableUpdateTask}
+                      setIsUpdatingTask={setIsUpdatingTask}
+                    />
+                    <ImageList
+                      cols={1}
+                      sx={{
+                        // border: "1px solid green",
+                        maxHeight: "calc(100vh - 140px)",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="h4">
+                          {selectedTask?.title}
+                        </Typography>
+                      </Box>
+
                       <SingleTaskGeneralInfo selectedTask={selectedTask} />
 
                       <SingleTaskFileDisplay
                         selectedTask={selectedTask}
                         disableUpdateTask={disableUpdateTask}
                       />
-                    </Stack>
+                    </ImageList>
                   </Stack>
 
                   <UpdateTaskDrawer

@@ -36,6 +36,8 @@ import ProjectInformation from "../features/project/ProjectInformation";
 import ProjectPageControl from "../features/project/ProjectPageControl";
 import ProjectInformationDrawer from "../features/project/ProjectInformationDrawer";
 import TaskByStatusBoard from "../features/task/TaskByStatusBoard";
+import TaskByStatusDraggable from "../features/task/TaskByStatusDraggable";
+import UpdateProjectDrawer from "../features/project/UpdateProjectDrawer";
 
 export const ProjectDetailPageContext = createContext();
 
@@ -52,7 +54,8 @@ function ProjectDetailPage() {
 
   const location = useLocation();
 
-  const [isOpeningProjectInfo, setIsOpeningProjectInfo] = useState(false);
+  const [isOpeningProjectInfo, setIsOpeningProjectInfo] = useState(true);
+  const [isUpdatingProject, setIsUpdatingProject] = useState(false);
 
   const { selectedProject, isLoading: isLoadingProject } = useSelector(
     (state) => state.project,
@@ -103,181 +106,191 @@ function ProjectDetailPage() {
       value={{
         isOpeningProjectInfo,
         setIsOpeningProjectInfo,
+        isUpdatingProject,
+        setIsUpdatingProject,
+        selectedProject,
+        isLoadingProject,
         filters,
         setFilters,
         handleFilterSelection,
       }}
     >
-      <FormProvider methods={methods}>
-        <Box
-          component="main"
+      <Box
+        component="main"
+        sx={{
+          // border: "1px solid green",
+          // p: 0,
+
+          width: "100vw",
+          height: {
+            xs: "calc(100vh - 12px)",
+            md: "calc(100vh - 110px)",
+          },
+        }}
+      >
+        <Container
+          maxWidth={1}
           sx={{
-            // border: "1px solid green",
-            // p: 0,
-            height: {
-              xs: "calc(100vh - 90px)",
-              md: "calc(100vh - 100px)",
-            },
+            // border: "1px solid orange",
+            p: 0,
+
+            height: 1,
           }}
         >
-          <Container
-            maxWidth
+          <Grid
+            container
+            spacing={2}
+            alignItems="flex-start"
             sx={{
-              // border: "1px solid orange",
-
-              p: 0,
-
+              // border: "1px solid red",
               height: 1,
+              width: "100vw",
+
+              m: 0,
+              ml: { xs: 0, md: -3 },
+
+              display: "flex",
             }}
           >
-            {isLoadingProject ? (
-              <LoadingScreen />
-            ) : (
-              selectedProject && (
-                <>
-                  <Grid
-                    container
-                    spacing={2}
-                    alignItems="flex-start"
-                    sx={{
-                      // border: "1px solid blue",
-                      height: "100%",
+            <StyledProjectInformationGrid
+              item
+              xs={isOpeningProjectInfo ? 6 : 1.5}
+              md={isOpeningProjectInfo ? 3 : 0.5}
+              xl={isOpeningProjectInfo ? 2.5 : 0.5}
+              spacing={0}
+              direction="row"
+              justifyContent="center"
+              alignItems="flex-start"
+              sx={{
+                // border: "3px solid green",
+                backgroundColor: "background.secondary",
+                color: "text.secondary",
+                height: 1,
+                width: 1,
+                pr: 2,
+              }}
+            >
+              <ProjectInformation
+                selectedProject={selectedProject}
+                location={location}
+              />
+            </StyledProjectInformationGrid>
+            <Grid
+              item
+              xs={isOpeningProjectInfo ? 6 : 10.5}
+              md={isOpeningProjectInfo ? 9 : 11.5}
+              xl={isOpeningProjectInfo ? 9.5 : 11.5}
+              sx={{
+                // border: "1px solid green",
+                backgroundColor: "background.default",
+                height: 1,
+              }}
+            >
+              <Stack spacing={1} sx={{ height: 1 }}>
+                <FormProvider methods={methods}>
+                  <ProjectPageControl
+                    selectedProject={selectedProject}
+                    location={location}
+                  />
+                </FormProvider>
 
-                      width: 1,
-                      maxWidth: "100%",
+                {isLoadingTask ? (
+                  <LoadingScreen />
+                ) : (
+                  <TaskByStatusDraggable tasks={tasks} filters={filters} />
+                )}
+              </Stack>
+            </Grid>
+          </Grid>
 
-                      m: 0,
-                      display: {
-                        xs: "none",
-                        md: "flex",
-                      },
-                    }}
-                  >
-                    <StyledProjectInformationGrid
-                      item
-                      md={isOpeningProjectInfo ? 3 : 0.5}
-                      xl={isOpeningProjectInfo ? 2.5 : 0.5}
-                      sx={{
-                        // border: "1px solid green",
-                        // height: "calc(100vh - 110px)",
-                        height: 1,
-                        p: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      <ProjectInformation
-                        selectedProject={selectedProject}
-                        location={location}
-                      />
-                    </StyledProjectInformationGrid>
-                    <Grid
-                      item
-                      md={isOpeningProjectInfo ? 9 : 11.5}
-                      // lg={9.5}
-                      xl={isOpeningProjectInfo ? 9.5 : 11.5}
-                      sx={{
-                        // border: "1px solid green",
-                        height: "calc(100vh - 110px)",
-                      }}
-                    >
-                      <Stack spacing={1}>
-                        <ProjectPageControl
-                          selectedProject={selectedProject}
-                          location={location}
-                        />
-                        {isLoadingTask ? (
-                          <LoadingScreen />
-                        ) : (
-                          <TaskByStatusBoard tasks={tasks} />
-                        )}
-                      </Stack>
-                    </Grid>
-                  </Grid>
+          {/* <Box
+            sx={{
+              // border: "1px solid yellow",
+              width: "100vw",
+              px: 0,
+              display: {
+                xs: "flex",
+                md: "none",
+              },
+              flexDirection: "column",
+            }}
+          >
+            <FormProvider methods={methods}>
+              <Box
+                sx={{
+                  width: "100vw",
+                  my: 1,
+                  px: 1,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <ProjectPageControl
+                  selectedProject={selectedProject}
+                  location={location}
+                />
+              </Box>
+            </FormProvider>
 
-                  <Box
-                    sx={{
-                      // border: "1px solid red",
+            <Grid
+              container
+              alignItems="flex-start"
+              sx={{
+                border: "1px solid yellow",
+                height: 1,
+                width: "100vw",
 
-                      width: "100vw",
-                      px: 0,
-                      display: {
-                        xs: "flex",
-                        md: "none",
-                      },
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        // border: "1px solid blue",
-                        width: 1,
-                        my: 1,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <ProjectPageControl
-                        selectedProject={selectedProject}
-                        location={location}
-                      />
-                    </Box>
+                m: 0,
 
-                    <Grid
-                      container
-                      sx={{
-                        // border: "1px solid blue",
-                        height: 1,
-                        width: 1,
-                        display: {
-                          xs: "flex",
-                          md: "none",
-                        },
-                      }}
-                    >
-                      <StyledProjectInformationGrid
-                        item
-                        xs={isOpeningProjectInfo ? 6 : 0.5}
-                        sx={{
-                          // border: "1px solid orange",
-                          height: 1,
-
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        <ProjectInformation
-                          selectedProject={selectedProject}
-                          location={location}
-                        />
-                      </StyledProjectInformationGrid>
-                      <Grid
-                        item
-                        xs={isOpeningProjectInfo ? 6 : 11.5}
-                        sx={{
-                          // border: "1px solid green",
-
-                          height: 1,
-                        }}
-                      >
-                        <TaskByStatusBoard tasks={tasks} />
-                      </Grid>
-                    </Grid>
-
-                    {/* <ProjectInformationDrawer
-                      project={selectedProject}
-                      location={location}
-                    /> */}
-                  </Box>
-                </>
-              )
-            )}
-          </Container>
-        </Box>
-      </FormProvider>
+                display: {
+                  xs: "flex",
+                  md: "none",
+                },
+              }}
+            >
+              <StyledProjectInformationGrid
+                item
+                xs={isOpeningProjectInfo ? 6 : 0.5}
+                sx={{
+                  border: "1px solid orange",
+                  height: "100%",
+                  backgroundColor: "background.secondary",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <ProjectInformation
+                  selectedProject={selectedProject}
+                  location={location}
+                />
+              </StyledProjectInformationGrid>
+              <Grid
+                item
+                xs={isOpeningProjectInfo ? 6 : 11.5}
+                sx={{
+                  border: "1px solid green",
+                  backgroundColor: "background.default",
+                  height: 1,
+                }}
+              >
+                {isLoadingProject ? (
+                  <LoadingScreen />
+                ) : (
+                  <TaskByStatusDraggable tasks={tasks} filters={filters} />
+                )}
+              </Grid>
+            </Grid>
+          </Box> */}
+          <UpdateProjectDrawer
+            project={selectedProject}
+            isLoading={isLoadingProject}
+            isUpdatingProject={isUpdatingProject}
+            setIsUpdatingProject={setIsUpdatingProject}
+          />
+        </Container>
+      </Box>
     </ProjectDetailPageContext.Provider>
   );
 }
