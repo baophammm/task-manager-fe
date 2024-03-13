@@ -196,38 +196,7 @@ function TaskDetailPageControl({
             md: "flex",
           },
         }}
-      >
-        <Box>
-          <Link to={`/tasks`}>
-            <Button
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <ArrowBackIcon />
-                </SvgIcon>
-              }
-              variant="contained"
-            >
-              Tasks
-            </Button>
-          </Link>
-        </Box>
-        {selectedTask?.project && (
-          <Box>
-            <Link to={`/projects/${selectedTask?.project._id}`}>
-              <Button
-                startIcon={
-                  <SvgIcon fontSize="small">
-                    <ArrowBackIcon />
-                  </SvgIcon>
-                }
-                variant="contained"
-              >
-                {selectedTask?.project.title}
-              </Button>
-            </Link>
-          </Box>
-        )}
-      </Stack>
+      ></Stack>
 
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         {selectedTask?.project ? (
