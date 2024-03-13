@@ -1,4 +1,11 @@
-import { Button, Container, ImageList, Stack, SvgIcon } from "@mui/material";
+import {
+  Button,
+  Container,
+  ImageList,
+  Stack,
+  SvgIcon,
+  Typography,
+} from "@mui/material";
 import StartIcon from "@mui/icons-material/Start";
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
@@ -6,9 +13,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getProjects } from "../project/projectSlice";
 import LoadingScreen from "../../components/LoadingScreen";
-import HomeStarredProjects from "../project/HomeStarredProjects";
-import HomeOngoingProjects from "../project/HomeOngoingProjects";
-import HomePlanningProjects from "../project/HomePlanningProjects";
+import HomeStarredProjects from "../project/FeaturedStarredProjects.jsx";
+import HomeOngoingProjects from "../project/FeaturedOngoingProjects.jsx";
+import HomePlanningProjects from "../project/FeaturedPlanningProjects.jsx";
 import { Link } from "react-router-dom";
 
 function HomePageProjects() {
@@ -49,14 +56,13 @@ function HomePageProjects() {
     <Container
       maxWidth={1}
       sx={{
-        //  border: "1px solid purple",
         height: 1,
-        p: 0,
+        py: 2,
       }}
     >
       {isLoading ? (
         <LoadingScreen />
-      ) : (
+      ) : projects.length ? (
         <ImageList
           cols={1}
           sx={{
@@ -88,8 +94,7 @@ function HomePageProjects() {
           ) : (
             <></>
           )}
-
-          <Stack direction="row" justifyContent="flex-end">
+          <Stack direction="row" justifyContent="flex-start">
             <Link to={`/projects`}>
               <Button
                 endIcon={
@@ -104,6 +109,24 @@ function HomePageProjects() {
             </Link>
           </Stack>
         </ImageList>
+      ) : (
+        <>
+          <Typography variant="h4">No Project Found</Typography>
+          <Stack direction="row" justifyContent="flex-start">
+            <Link to={`/projects`}>
+              <Button
+                endIcon={
+                  <SvgIcon>
+                    <StartIcon />
+                  </SvgIcon>
+                }
+                variant="contained"
+              >
+                All Projects
+              </Button>
+            </Link>
+          </Stack>
+        </>
       )}
     </Container>
   );

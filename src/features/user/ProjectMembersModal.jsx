@@ -29,14 +29,14 @@ import {
 } from "../../components/form";
 import dayjs from "dayjs";
 import { createTask } from "../task/taskSlice";
-import { getSingleProject } from "./projectSlice";
+import { getSingleProject } from "../project/projectSlice";
 import {
   getProjectAddNewMembers,
   getProjectMembers,
   getUsers,
-} from "../user/userSlice";
-import UsersSearch from "../user/UsersSearch";
-import UserTable from "../user/UserTable";
+} from "./userSlice";
+import UsersSearch from "./UsersSearch";
+import UserTable from "./UserTable";
 import ProjectMemberUserTable from "./ProjectMemberUserTable";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({

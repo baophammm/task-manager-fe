@@ -76,7 +76,7 @@ function InvitationProjectCard({ project }) {
               )[0].icon
             }
           </SvgIcon>
-          <Typography color="text.secondary" display="inline" variant="body2">
+          <Typography display="inline" variant="body2">
             {project.projectStatus}
           </Typography>
         </Stack>

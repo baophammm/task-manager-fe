@@ -1,14 +1,21 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, SvgIcon, Typography } from "@mui/material";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getProjects } from "./projectSlice";
 import Project from "./Project";
 
-function HomeStarredProjects({ projects }) {
+function FeaturedStarredProjects({ projects }) {
   return (
     <Box>
-      <Typography variant="h5">Starred Projects</Typography>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <SvgIcon fontSize="small">
+          <StarBorderIcon />
+        </SvgIcon>
+        <Typography variant="h6">Starred Projects</Typography>
+      </Stack>
+
       <Grid
         container
         spacing={1}
@@ -26,4 +33,4 @@ function HomeStarredProjects({ projects }) {
   );
 }
 
-export default HomeStarredProjects;
+export default FeaturedStarredProjects;

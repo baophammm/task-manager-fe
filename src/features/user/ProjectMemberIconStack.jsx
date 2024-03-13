@@ -1,6 +1,6 @@
 import { Box, Stack } from "@mui/material";
 import React from "react";
-import UserProfilePicture from "../user/UserProfilePicture";
+import UserProfilePicture from "./UserProfilePicture";
 
 function ProjectMemberIconStack({ projectMembers }) {
   return (

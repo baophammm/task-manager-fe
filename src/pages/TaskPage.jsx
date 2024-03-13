@@ -16,11 +16,7 @@ import {
 } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
-import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
-import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
 
-import TaskCard from "../features/task/TaskCard";
-import { TasksSearch } from "../features/task/TasksSearch";
 import TaskFilter from "../features/task/TaskFilter";
 import { Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";

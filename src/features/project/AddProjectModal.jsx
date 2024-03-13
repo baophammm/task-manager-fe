@@ -86,7 +86,11 @@ const PROJECT_FIELDS = [
   { name: "dueAt", label: "Due At", fieldType: "date" },
 ];
 export default function AddProjectModal() {
-  const { isLoading } = useSelector((state) => state.project);
+  const addProjectLocation = useLocation();
+  const from =
+    addProjectLocation.state?.backgroundLocation?.pathname || "/projects";
+
+  const { isLoading, selectedProject } = useSelector((state) => state.project);
 
   const modalRef = useRef();
   const navigate = useNavigate();
@@ -128,11 +132,15 @@ export default function AddProjectModal() {
     dispatch(createProject(data)).then(() => {
       dispatch(getProjects({ limit: 1000 }));
       reset();
+      navigate(`/projects/${selectedProject?._id}`);
     });
-    navigate("/projects");
+    // navigate("/projects");
   };
   return (
-    <ModalWrapperBox ref={modalRef} onClick={() => navigate("/projects")}>
+    <ModalWrapperBox
+      ref={modalRef}
+      onClick={() => navigate(from)} //return to previous location
+    >
       <ModalBox onClick={(e) => e.stopPropagation()}>
         <Container
           component="main"

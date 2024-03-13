@@ -65,7 +65,6 @@ function TaskDetailModal() {
   const taskDetailLocation = useLocation();
   const from =
     taskDetailLocation.state?.backgroundLocation?.pathname || "/tasks";
-  console.log("FROM", from);
 
   const modalRef = useRef();
   const navigate = useNavigate();

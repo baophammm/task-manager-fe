@@ -30,6 +30,7 @@ const slice = createSlice({
       const newProject = action.payload;
       state.projectsById[newProject._id] = newProject;
       state.currentPageProjects.unshift(newProject._id);
+      // state.selectedProject = newProject;
     },
     getProjectsSuccess(state, action) {
       state.isLoading = false;

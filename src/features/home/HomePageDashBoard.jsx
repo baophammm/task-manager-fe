@@ -3,7 +3,13 @@ import React from "react";
 
 function HomePageDashBoard() {
   return (
-    <Container>
+    <Container
+      maxWidth={1}
+      sx={{
+        height: 1,
+        py: 2,
+      }}
+    >
       <Typography variant="h4">Dashboard Coming soon ...</Typography>
     </Container>
   );

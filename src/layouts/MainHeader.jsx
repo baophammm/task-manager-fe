@@ -20,24 +20,26 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import useAuth from "../hooks/useAuth";
 import UserProfilePicture from "../features/user/UserProfilePicture";
-import { Divider, Grid } from "@mui/material";
+import { Divider, Grid, SvgIcon } from "@mui/material";
+import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 
 const pages = [
-  {
-    value: "home",
-    title: "Home",
-    icon: <SpaceDashboardIcon />,
-    link: "/",
-  },
+  // {
+  //   value: "home",
+  //   title: "Home",
+  //   icon: <SpaceDashboardIcon />,
+  //   link: "/",
+  // },
   {
     value: "project",
     title: "Project",
     icon: <ListAltIcon />,
     link: "/projects",
+    // link: "/",
   },
   {
     value: "task",
@@ -59,6 +61,7 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 
 function MainHeader() {
   const auth = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -91,7 +94,7 @@ function MainHeader() {
   };
   return (
     <AppBar position="static">
-      <StyledContainer maxWidth>
+      <StyledContainer maxWidth={1}>
         <Toolbar disableGutters>
           <Grid
             container
@@ -116,7 +119,7 @@ function MainHeader() {
                 variant="h6"
                 noWrap
                 component="a"
-                href="#app-bar-with-responsive-menu"
+                href="/"
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
@@ -139,7 +142,13 @@ function MainHeader() {
                   alignItems: "center",
                 }}
               >
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: { xs: "none", md: "flex" },
+                    alignItems: "center",
+                  }}
+                >
                   {pages.map((page) => (
                     <Button
                       key={page.value}
@@ -149,6 +158,44 @@ function MainHeader() {
                       {page.title}
                     </Button>
                   ))}
+
+                  <div>
+                    <Link
+                      to={`/projects/new`}
+                      state={{ backgroundLocation: location }}
+                    >
+                      <Button
+                        startIcon={
+                          <SvgIcon fontSize="small">
+                            <PlusIcon />
+                          </SvgIcon>
+                        }
+                        variant="contained"
+                        sx={{ p: 1, borderRadius: "4px" }}
+                      >
+                        Project
+                      </Button>
+                    </Link>
+                  </div>
+
+                  <div>
+                    <Link
+                      to={`/tasks/new`}
+                      state={{ backgroundLocation: location }}
+                    >
+                      <Button
+                        startIcon={
+                          <SvgIcon fontSize="small">
+                            <PlusIcon />
+                          </SvgIcon>
+                        }
+                        variant="contained"
+                        sx={{ ml: 1, p: 1, borderRadius: "4px" }}
+                      >
+                        Task
+                      </Button>
+                    </Link>
+                  </div>
                 </Box>
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
@@ -176,11 +223,7 @@ function MainHeader() {
                       <Typography variant="subtitle2" noWrap>
                         {auth.user?.firstName} {auth.user?.lastName}
                       </Typography>
-                      <Typography
-                        variant="subtitle2"
-                        noWrap
-                        sx={{ color: "text.secondary" }}
-                      >
+                      <Typography variant="subtitle2" noWrap>
                         {auth.user?.email}
                       </Typography>
                     </Box>
@@ -250,7 +293,7 @@ function MainHeader() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -290,11 +333,7 @@ function MainHeader() {
                 <Typography variant="subtitle2" noWrap>
                   {auth.user?.firstName} {auth.user?.lastName}
                 </Typography>
-                <Typography
-                  variant="subtitle2"
-                  noWrap
-                  sx={{ color: "text.secondary" }}
-                >
+                <Typography variant="subtitle2" noWrap>
                   {auth.user?.email}
                 </Typography>
               </Box>

@@ -9,10 +9,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import ProjectRole from "./ProjectRole";
+import ProjectRole from "../project/ProjectRole";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleProject } from "./projectSlice";
-import ProjectMemberActionButton from "./ProjectMemberActionButton";
+import { getSingleProject } from "../project/projectSlice";
+import ProjectMemberActionButton from "../project/ProjectMemberActionButton";
 
 function ProjectMemberUserTable({ users, projectId }) {
   const { user } = useAuth();

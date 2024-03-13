@@ -140,8 +140,6 @@ export default function UpdateTaskDrawer({
           width: { xs: "90vw", sm: 600 },
         }}
         role="presentation"
-        // onClick={toggleUpdatingTask(false)}
-        // onKeyDown={toggleUpdatingTask(false)}
       >
         <CssBaseline />
         <Card sx={{ height: 1, p: 3 }}>
@@ -151,7 +149,7 @@ export default function UpdateTaskDrawer({
               mb: "12px",
             }}
           >
-            Updating Task {task?.title}
+            Updating Task: {task?.title}
           </Typography>
           <Stack spacing={2} alignItems="flex-end" sx={{ mb: "12px" }}>
             {TASK_FIELDS.map((field) => {
@@ -204,7 +202,7 @@ export default function UpdateTaskDrawer({
               variant="contained"
               loading={isSubmitting || isLoading}
             >
-              Save Task
+              Save
             </LoadingButton>
           </Box>
         </Card>

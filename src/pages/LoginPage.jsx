@@ -51,7 +51,7 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || "/projects";
     let { email, password } = data;
 
     try {
@@ -77,7 +77,11 @@ function LoginPage() {
             </Link>
           </Alert>
 
-          <FTextField name="email" label="Email address" />
+          <FTextField
+            name="email"
+            label="Email address"
+            // placeholderTextColor="red"
+          />
 
           <FTextField
             name="password"

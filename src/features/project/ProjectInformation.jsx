@@ -18,7 +18,7 @@ import GradeIcon from "@mui/icons-material/Grade";
 
 import React, { useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ProjectMemberIconStack from "./ProjectMemberIconStack";
+import ProjectMemberIconStack from "../user/ProjectMemberIconStack";
 import { fDate } from "../../utils/formatTime";
 import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
 import useAuth from "../../hooks/useAuth";

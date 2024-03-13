@@ -15,7 +15,9 @@ function FSelect({ name, children, labelColor, ...other }) {
           SelectProps={{ native: true }}
           error={!!error}
           helperText={error?.message}
-          InputLabelProps={{ style: { color: labelColor || "black" } }}
+          InputLabelProps={{
+            style: { color: labelColor || "black", zIndex: 0 },
+          }}
           {...other}
         >
           {children}

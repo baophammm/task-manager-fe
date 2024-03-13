@@ -1,7 +1,12 @@
 import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  redirect,
+  Navigate,
+} from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
-import HomePage from "../pages/HomePage";
 import BlankLayout from "../layouts/BlankLayout";
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -14,10 +19,9 @@ import AccountSettingsPage from "../pages/AccountSettingsPage";
 import AddProjectModal from "../features/project/AddProjectModal";
 import AddTaskModal from "../features/task/AddTaskModal";
 import ProjectDetailPage from "../pages/ProjectDetailPage";
-import TaskDetailPage from "../pages/TaskDetailPage";
 import AddProjectTaskModal from "../features/project/AddProjectTaskModal";
 import AddProjectMemberModal from "../features/project/AddProjectMemberModal";
-import ProjectMembersModal from "../features/project/ProjectMembersModal";
+import ProjectMembersModal from "../features/user/ProjectMembersModal";
 import TaskDetailModal from "../features/task/TaskDetailModal";
 
 function Router() {
@@ -35,11 +39,12 @@ function Router() {
             </AuthRequire>
           }
         >
-          <Route index element={<HomePage />} />
+          <Route index element={<Navigate to="/projects" />} />
+
           <Route path="/projects" element={<ProjectPage />} />
           <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
           <Route path="/tasks" element={<TaskPage />} />
-          {/* <Route path="/tasks/:taskId" element={<TaskDetailPage />} /> */}
+
           <Route path="/invitations" element={<InvitationPage />} />
           <Route path="/settings" element={<AccountSettingsPage />} />
         </Route>

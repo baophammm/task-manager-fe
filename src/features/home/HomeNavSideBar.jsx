@@ -74,9 +74,7 @@ function HomeNavSideBar() {
               icon={tab.icon}
               label={capitalCase(tab.value)}
               sx={{
-                // border: "1px solid white",
-                // width: 0.5,
-                borderRight: 2,
+                width: 1,
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",

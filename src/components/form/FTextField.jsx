@@ -1,7 +1,7 @@
 import { useFormContext, Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
 
-function FTextField({ name, placeholderTextColor, ...other }) {
+function FTextField({ name, placeholderTextColor, labelColor, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -19,6 +19,9 @@ function FTextField({ name, placeholderTextColor, ...other }) {
             inputProps: {
               style: { color: placeholderTextColor || "inherit" },
             },
+          }}
+          InputLabelProps={{
+            style: { color: labelColor || "inherit", zIndex: 0 },
           }}
           {...other}
         />

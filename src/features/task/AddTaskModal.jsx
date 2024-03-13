@@ -100,6 +100,8 @@ const TASK_FIELDS = [
 ];
 
 function AddTaskModal() {
+  const addTaskLocation = useLocation();
+  const from = addTaskLocation.state?.backgroundLocation?.pathname || "/tasks";
   const { isLoading } = useSelector((state) => state.task);
 
   const modalRef = useRef();
@@ -117,7 +119,6 @@ function AddTaskModal() {
     // projectId: null,
     startAt: null,
     dueAt: null,
-    // files: [],
   };
 
   const methods = useForm({
@@ -141,7 +142,10 @@ function AddTaskModal() {
     navigate(`/tasks`);
   };
   return (
-    <ModalWrapperBox ref={modalRef} onClick={() => navigate("/tasks")}>
+    <ModalWrapperBox
+      ref={modalRef}
+      onClick={() => navigate(from)} //return to previous location
+    >
       <ModalBox onClick={(e) => e.stopPropagation()}>
         <Container
           component="main"

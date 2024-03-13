@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import SearchInput from "../../components/SearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import { getIncomingInvitations } from "./invitationSlice";
-import ProjectCard from "../project/ProjectCard";
 import InvitationProjectCard from "./InvitationProjectCard";
 
 function IncomingInvitations() {

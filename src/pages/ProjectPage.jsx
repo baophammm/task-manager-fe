@@ -1,33 +1,18 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects } from "../features/project/projectSlice";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
-import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  Grid,
-  Pagination,
-  Stack,
-  SvgIcon,
-  Typography,
-} from "@mui/material";
+
+import { Box, Container, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import ProjectCard from "../features/project/ProjectCard";
-import { ProjectsSearch } from "../features/project/ProjectsSearch";
 import ProjectFilter from "../features/project/ProjectFilter";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FormProvider } from "../components/form";
-import LoadingScreen from "../components/LoadingScreen";
-import ProjectsByRoleSingleLine from "../features/project/ProjectsByRoleSingleLine";
+
 import useAuth from "../hooks/useAuth";
-import ProjectByRoleBoard from "../features/project/ProjectByRoleBoard";
-import ProjectListWithPagination from "../features/project/ProjectListWithPagination";
+
+import ProjectsDisplay from "../features/project/ProjectsDisplay";
 
 export const ProjectPageContext = createContext();
 
@@ -44,7 +29,10 @@ function ProjectPage() {
 
   const location = useLocation();
 
-  const [isOpeningProjectFilter, setIsOpeningProjectFilter] = useState(true);
+  const [isOpeningProjectFilter, setIsOpeningProjectFilter] = useState(false);
+
+  const [isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects] =
+    useState(true);
 
   const {
     isLoading,
@@ -72,6 +60,7 @@ function ProjectPage() {
   });
 
   const handleFilterSelection = (field, value) => {
+    setIsDisplayingFeaturedProjects(false);
     setFilters({
       ...filters,
       [field]: value,
@@ -85,20 +74,29 @@ function ProjectPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getProjects({ page, ...filters }));
-  }, [page, filters, dispatch]);
+    if (isDisplayingFeaturedProjects) {
+      dispatch(getProjects({ page: 1, limit: 1000 }));
+    } else {
+      dispatch(getProjects({ page, ...filters }));
+    }
+  }, [isDisplayingFeaturedProjects, page, filters, dispatch]);
 
   return (
     <ProjectPageContext.Provider
       value={{
+        location,
+        isLoading,
         projects,
         totalPages,
         totalProjects,
+        isDisplayingFeaturedProjects,
+        setIsDisplayingFeaturedProjects,
         page,
         setPage,
         filters,
         setFilters,
         handleFilterSelection,
+        methods,
         isOpeningProjectFilter,
         setIsOpeningProjectFilter,
       }}
@@ -114,13 +112,8 @@ function ProjectPage() {
         <Container
           maxWidth={1}
           sx={{
-            // border: "1px solid orange ",
-
             p: 0,
-
             height: 1,
-            // display: "flex",
-            // flexDirection: "row",
           }}
         >
           <Grid
@@ -134,7 +127,6 @@ function ProjectPage() {
               mr: -3,
               height: "100%",
               width: "100vw",
-              // display: { xs: "none", md: "flex" },
               display: "flex",
             }}
           >
@@ -174,7 +166,6 @@ function ProjectPage() {
               item
               xs={12}
               md={isOpeningProjectFilter ? 9 : 11.5}
-              // lg={isOpeningProjectFilter ? 9.5 : 11.5}
               xl={isOpeningProjectFilter ? 9.5 : 11.5}
               sx={{
                 // border: "3px solid red",
@@ -182,137 +173,9 @@ function ProjectPage() {
                 width: 1,
               }}
             >
-              <Stack
-                spacing={1}
-                sx={
-                  {
-                    // border: "1px solid black",
-                  }
-                }
-              >
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  spacing={2}
-                  sx={{ px: 1 }}
-                >
-                  <Typography variant="h5">My Projects</Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: { xs: "flex", md: "none" },
-                        mr: 1,
-                      }}
-                    >
-                      <FormProvider methods={methods}>
-                        <ProjectFilter />
-                      </FormProvider>
-                    </Box>
-                    <div>
-                      <Link
-                        to={`/projects/new`}
-                        state={{ backgroundLocation: location }}
-                      >
-                        <Button
-                          startIcon={
-                            <SvgIcon fontSize="small">
-                              <PlusIcon />
-                            </SvgIcon>
-                          }
-                          variant="contained"
-                          sx={{ p: 1 }}
-                        >
-                          Project
-                        </Button>
-                      </Link>
-                    </div>
-                  </Box>
-                </Stack>
-
-                {isLoading ? (
-                  <LoadingScreen />
-                ) : (
-                  // <ProjectByRoleBoard projects={projects} />
-                  <FormProvider methods={methods}>
-                    <ProjectListWithPagination projects={projects} />
-                  </FormProvider>
-                )}
-              </Stack>
+              <ProjectsDisplay />
             </Grid>
           </Grid>
-          {/* <Box
-            alignItems="center"
-            sx={{
-              // border: "1px solid red",
-              width: "100vw",
-              p: 0,
-              m: 0,
-              display: {
-                xs: "flex",
-                md: "none",
-              },
-              flexDirection: "column",
-            }}
-          >
-            <Box
-              sx={{
-                // border: "1px solid blue",
-                width: 1,
-                my: 1,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <FormProvider methods={methods}>
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    height: "48px",
-                    display: "flex",
-                    alignItems: "center",
-                    pr: 2,
-                  }}
-                >
-                  <ProjectsSearch />
-                </Box>
-                <ProjectFilter />
-              </FormProvider>
-              <div>
-                <Link
-                  to={`/projects/new`}
-                  state={{ backgroundLocation: location }}
-                >
-                  <Button
-                    startIcon={
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    }
-                    variant="contained"
-                  >
-                    Project
-                  </Button>
-                </Link>
-              </div>
-            </Box>
-            {isLoading ? (
-              <LoadingScreen />
-            ) : (
-              // <ProjectsByRoleSingleLine user={user} projects={projects} />
-              // <ProjectByRoleBoard projects={projects} />
-              <FormProvider methods={methods}>
-                <ProjectListWithPagination projects={projects} />
-              </FormProvider>
-            )}
-          </Box> */}
         </Container>
       </Box>
     </ProjectPageContext.Provider>

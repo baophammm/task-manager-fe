@@ -7,7 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { TextField } from "@mui/material";
 
-function FDateField({ name, date, setDate, ...other }) {
+function FDateField({ name, date, setDate, labelColor, ...other }) {
   const {
     register,
     control,

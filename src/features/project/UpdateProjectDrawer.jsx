@@ -16,14 +16,10 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, CssBaseline, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import {
-  getProjects,
-  getSingleProject,
-  updateSingleProject,
-} from "../project/projectSlice";
+import { updateSingleProject } from "../project/projectSlice";
 
-const taskYupSchema = Yup.object().shape({
-  title: Yup.string().required("Task title is required"),
+const projectYupSchema = Yup.object().shape({
+  title: Yup.string().required("Project title is required"),
 });
 
 export default function UpdateProjectDrawer({
@@ -33,9 +29,6 @@ export default function UpdateProjectDrawer({
   setIsUpdatingProject,
 }) {
   const dispatch = useDispatch();
-  const { currentPageProjects, projectsById, selectedProject } = useSelector(
-    (state) => state.project
-  );
 
   // Project Field Update
 
@@ -58,10 +51,11 @@ export default function UpdateProjectDrawer({
     { name: "startAt", label: "Start At", fieldType: "date" },
     { name: "dueAt", label: "Due At", fieldType: "date" },
   ];
-  // console.log("checking project before submit update", project);
+  console.log("CHECKING Prop Project passed in", project);
 
+  console.log("CHECKING prop project title passed in", project?.title);
   const defaultValues = {
-    title: project?.title || "",
+    title: project?.title ? project.title : "",
     description: project?.description || "",
     projectStatus: project?.projectStatus || "Planning",
 
@@ -71,11 +65,11 @@ export default function UpdateProjectDrawer({
     dueAt: project?.dueAt ? dayjs(project?.dueAt).format("YYYY-MM-DD") : "",
   };
 
-  // console.log("Check default value", defaultValues);
-
+  console.log("CHECK DEFAULT VALUES:", defaultValues);
   // ERROR: DEFAULT VALUE IS CORRECT BUT VALUE ON FORM INCORRECT (or always loads previous values)
+
   const methods = useForm({
-    resolver: yupResolver(taskYupSchema),
+    // resolver: yupResolver(projectYupSchema),
     defaultValues,
   });
 
@@ -102,8 +96,6 @@ export default function UpdateProjectDrawer({
           width: { xs: "90vw", sm: 600 },
         }}
         role="presentation"
-        // onClick={toggleUpdatingTask(false)}
-        // onKeyDown={toggleUpdatingTask(false)}
       >
         <CssBaseline />
         <Card sx={{ height: 1, p: 3 }}>
@@ -113,7 +105,7 @@ export default function UpdateProjectDrawer({
               mb: "12px",
             }}
           >
-            Updating Project {project?.title}
+            Updating Project: {project?.title}
           </Typography>
           <Stack spacing={2} alignItems="flex-end" sx={{ mb: "12px" }}>
             {PROJECT_FIELDS.map((field) => {
@@ -151,6 +143,7 @@ export default function UpdateProjectDrawer({
                 return null;
               }
             })}
+            {/* <FTextField name="title" placeholder="Project Title" /> */}
           </Stack>
           <Box
             sx={{
@@ -166,7 +159,7 @@ export default function UpdateProjectDrawer({
               variant="contained"
               loading={isSubmitting || isLoading}
             >
-              Save Project
+              Save
             </LoadingButton>
           </Box>
         </Card>

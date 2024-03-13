@@ -200,12 +200,6 @@ function ProjectFilter() {
             flexDirection: "column",
           }}
         >
-          {/* <Typography variant="h6" sx={{ mb: 1 }}>
-            My Projects
-          </Typography>
-          <Box sx={{ width: 1, mb: 1 }}>
-            <ProjectSort />
-          </Box> */}
           <Box
             sx={{
               width: 1,
@@ -285,6 +279,7 @@ function ProjectFilter() {
                     startBefore: "",
                     dueAfter: "",
                     dueBefore: "",
+                    search: "",
                   })
                 }
               >

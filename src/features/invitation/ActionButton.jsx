@@ -66,19 +66,6 @@ function ActionButton({
     </Button>
   );
 
-  const btnResendInvitation = (
-    <Button
-      sx={{ fontSize: "0.6rem", ...sx }}
-      size="small"
-      variant="contained"
-      // onClick={() =>
-      //   dispatch(sendProjectInvitation({ projectId, targetUserId }))
-      // }
-    >
-      {invitation.from === currentUserId ? "Resend" : "Send"} Invitation
-    </Button>
-  );
-
   const btnGroupReact = (
     <Stack direction="row" spacing={1}>
       <Button
@@ -121,7 +108,12 @@ function ActionButton({
   }
 
   if (invitation.status === "declined") {
-    return btnResendInvitation;
+    const { from, to } = invitation;
+    if (from === currentUserId && to === targetUserId) {
+      return btnSendInvitation;
+    } else {
+      return null;
+    }
   }
 
   if (invitation.status === "pending") {
