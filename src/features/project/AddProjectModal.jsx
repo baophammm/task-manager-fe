@@ -91,6 +91,7 @@ export default function AddProjectModal() {
     addProjectLocation.state?.backgroundLocation?.pathname || "/projects";
 
   const { isLoading, selectedProject } = useSelector((state) => state.project);
+  const [newlyCreatedProject, setNewlyCreatedProject] = useState(false);
 
   const modalRef = useRef();
   const navigate = useNavigate();
@@ -128,14 +129,31 @@ export default function AddProjectModal() {
   });
   const dispatch = useDispatch();
 
+  // const onSubmit = async (data) => {
+  //   dispatch(createProject(data)).then(() => {
+  //     dispatch(getProjects({ limit: 1000 }));
+
+  //     reset();
+  //     console.log(
+  //       "SELECTED PROJECT AFTER CREATE PROJECT",
+  //       selectedProject?._id
+  //     );
+  //     navigate(`/projects/${selectedProject?._id}`);
+  //   });
+  //   // navigate("/projects");
+  // };
+
   const onSubmit = async (data) => {
-    dispatch(createProject(data)).then(() => {
-      dispatch(getProjects({ limit: 1000 }));
-      reset();
-      navigate(`/projects/${selectedProject?._id}`);
-    });
-    // navigate("/projects");
+    dispatch(createProject(data)).then(() => setNewlyCreatedProject(true));
   };
+
+  useEffect(() => {
+    if (newlyCreatedProject) {
+      setNewlyCreatedProject(false);
+      navigate(`/projects/${selectedProject?._id}`);
+    }
+  }, [newlyCreatedProject, selectedProject, navigate]);
+
   return (
     <ModalWrapperBox
       ref={modalRef}

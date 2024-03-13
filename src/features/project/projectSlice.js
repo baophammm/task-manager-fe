@@ -30,7 +30,7 @@ const slice = createSlice({
       const newProject = action.payload;
       state.projectsById[newProject._id] = newProject;
       state.currentPageProjects.unshift(newProject._id);
-      // state.selectedProject = newProject;
+      state.selectedProject = newProject;
     },
     getProjectsSuccess(state, action) {
       state.isLoading = false;
@@ -67,6 +67,7 @@ const slice = createSlice({
       if (index > -1) {
         state.currentPageProjects.splice(index, 1);
       }
+      state.selectedProject = null;
     },
     changeProjectRoleMemberToMangerSuccess(state, action) {
       state.isLoading = false;
