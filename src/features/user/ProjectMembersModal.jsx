@@ -38,6 +38,7 @@ import {
 import UsersSearch from "./UsersSearch";
 import UserTable from "./UserTable";
 import ProjectMemberUserTable from "./ProjectMemberUserTable";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   // border: "1px solid red",
@@ -125,9 +126,11 @@ function ProjectMembersModal() {
         <Container
           component="main"
           sx={{
-            width: "100%",
+            width: 1,
+            height: 1,
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
             flexWrap: "wrap",
           }}
         >
@@ -136,20 +139,29 @@ function ProjectMembersModal() {
           <Typography
             variant="h3"
             sx={{
+              width: 1,
               mb: "12px",
             }}
           >
             Project Members Modal{" "}
           </Typography>
           <UsersSearch handleSubmit={handleSubmit} />
-          <Typography variant="subtitle" sx={{ color: "text.secondary" }}>
-            {totalUsers > 1
-              ? `${totalUsers} members found`
-              : totalUsers === 1
-              ? `${totalUsers} member found`
-              : "No member found"}
-          </Typography>
-          <Box>
+          {isLoading ? (
+            <LoadingScreen />
+          ) : (
+            <Typography
+              variant="subtitle"
+              sx={{ width: 1, color: "text.primary" }}
+            >
+              {totalUsers > 1
+                ? `${totalUsers} members found`
+                : totalUsers === 1
+                ? `${totalUsers} member found`
+                : "No member found"}
+            </Typography>
+          )}
+
+          <Box sx={{ width: 1 }}>
             <TablePagination
               sx={{
                 "& .MuiTablePagination-selectLabel, .MuiTablePagination-select, .MuiTablePagination-selectIcon":
@@ -166,7 +178,11 @@ function ProjectMembersModal() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Box>
-          <ProjectMemberUserTable users={users} projectId={projectId} />
+          {isLoading ? (
+            <LoadingScreen />
+          ) : (
+            <ProjectMemberUserTable users={users} projectId={projectId} />
+          )}
         </Container>
       </ModalBox>
     </ModalWrapperBox>

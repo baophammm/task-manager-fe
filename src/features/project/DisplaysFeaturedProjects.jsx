@@ -25,13 +25,14 @@ function DisplaysFeaturedProjects() {
   );
   return (
     <Container
-      maxWidth={1}
+      maxWidth={"100%"}
       sx={{
-        // border: "1px solid red",
         height: 1,
       }}
     >
-      {projects.length ? (
+      {starredProjects.length ||
+      ongoingProjects.length ||
+      planningProjects.length ? (
         <ImageList
           cols={1}
           sx={{
@@ -40,7 +41,8 @@ function DisplaysFeaturedProjects() {
             m: 0,
             height: {
               xs: "calc(100vh - 170px)",
-              md: "calc(100vh - 176px)",
+              sm: "calc(100vh - 160px)",
+              md: "calc(100vh - 168px)",
             },
             display: "flex",
             flexDirection: "column",

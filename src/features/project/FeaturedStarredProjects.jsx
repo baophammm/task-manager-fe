@@ -24,7 +24,7 @@ function FeaturedStarredProjects({ projects }) {
         }}
       >
         {projects.map((project) => (
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid key={project._id} item xs={12} md={6} lg={4}>
             <Project project={project} />
           </Grid>
         ))}

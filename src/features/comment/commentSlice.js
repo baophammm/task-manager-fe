@@ -85,6 +85,8 @@ export const createCommentOnTask =
       });
       dispatch(slice.actions.createCommentOnTaskSuccess(response.data));
       dispatch(getCommentsOfTask({ taskId }));
+
+      toast.success("Create comment successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects } from "../features/project/projectSlice";
 
@@ -13,6 +13,7 @@ import { FormProvider } from "../components/form";
 import useAuth from "../hooks/useAuth";
 
 import ProjectsDisplay from "../features/project/ProjectsDisplay";
+import { RouterContext } from "../routes";
 
 export const ProjectPageContext = createContext();
 
@@ -24,6 +25,9 @@ const StyledProjectFilterGrid = styled(Grid)(({ theme }) => ({
 }));
 
 function ProjectPage() {
+  const { isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects } =
+    useContext(RouterContext);
+
   const { user } = useAuth();
   const [page, setPage] = useState(1);
 
@@ -31,8 +35,8 @@ function ProjectPage() {
 
   const [isOpeningProjectFilter, setIsOpeningProjectFilter] = useState(false);
 
-  const [isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects] =
-    useState(true);
+  // const [isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects] =
+  //   useState(false);
 
   const {
     isLoading,
@@ -89,8 +93,6 @@ function ProjectPage() {
         projects,
         totalPages,
         totalProjects,
-        isDisplayingFeaturedProjects,
-        setIsDisplayingFeaturedProjects,
         page,
         setPage,
         filters,
@@ -104,14 +106,16 @@ function ProjectPage() {
       <Box
         component="main"
         sx={{
-          // border: "5px solid green",
+          // border: "5px solid orange",
           height: { xs: "calc(100vh-90px)", md: "calc(100vh - 110px)" },
+          // width: "100dvw",
           // height: "calc(100vh-110px)",
         }}
       >
         <Container
-          maxWidth={1}
+          maxWidth={"100%"}
           sx={{
+            // border: "3px solid green",
             p: 0,
             height: 1,
           }}
@@ -121,12 +125,12 @@ function ProjectPage() {
             alignItems="flex-start"
             spacing={2}
             sx={{
-              // border: "1px solid blue",
+              // border: "3px solid blue",
               margin: 0,
-              ml: { xs: 0, md: -3 },
-              mr: -3,
+              ml: { xs: -3, md: -3 },
+              // mr: { xs: 0, md: -3 },
               height: "100%",
-              width: "100vw",
+              width: "100dvw",
               display: "flex",
             }}
           >
@@ -170,7 +174,7 @@ function ProjectPage() {
               sx={{
                 // border: "3px solid red",
                 height: 1,
-                width: 1,
+                width: { xs: 1, md: 1 },
               }}
             >
               <ProjectsDisplay />

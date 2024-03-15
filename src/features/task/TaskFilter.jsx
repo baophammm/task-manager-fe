@@ -2,8 +2,6 @@ import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   IconButton,
   ImageList,
   Menu,
@@ -90,7 +88,7 @@ function TaskFilter() {
       <Box>
         <Typography textAlign="center">Search</Typography>
         <MenuItem>
-          <TasksSearch />
+          <TasksSearch inputColor="text.primary" />
         </MenuItem>
       </Box>
       <Box>
@@ -126,7 +124,10 @@ function TaskFilter() {
                 <FDateField
                   name={filter.name}
                   label={filter.label}
-                  value={dayjs(filters[filter.name])}
+                  inputColor="text.primary"
+                  value={
+                    filters[filter.name] ? dayjs(filters[filter.name]) : null
+                  }
                   onChange={(e) =>
                     handleFilterSelection(filter.name, e.format("YYYY-MM-DD"))
                   }
@@ -220,7 +221,7 @@ function TaskFilter() {
             <Typography variant="h6" sx={{ mb: 1 }}>
               Task Search
             </Typography>
-            <TasksSearch />
+            <TasksSearch inputColor="text.secondary" />
           </Box>
           <Box
             sx={{
@@ -261,7 +262,12 @@ function TaskFilter() {
                       key={filter.name}
                       name={filter.name}
                       label={filter.label}
-                      value={dayjs(filters[filter.name])}
+                      inputColor="text.secondary"
+                      value={
+                        filters[filter.name]
+                          ? dayjs(filters[filter.name])
+                          : null
+                      }
                       onChange={(e) =>
                         handleFilterSelection(
                           filter.name,

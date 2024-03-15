@@ -63,7 +63,10 @@ function TaskByStatusDraggable({ tasks, filters }) {
     //TODO update position of tasks in columns
   };
   return (
-    <DragDropContext onDragEnd={onDragEnd} style={{ maxHeight: "100%" }}>
+    <DragDropContext
+      onDragEnd={onDragEnd}
+      // style={{ maxHeight: "100%" }}
+    >
       <ImageList
         sx={{
           // border: "1px solid red",

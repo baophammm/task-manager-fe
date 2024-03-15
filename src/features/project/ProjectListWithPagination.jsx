@@ -15,12 +15,16 @@ function ProjectListWithPagination() {
         // border: "4px solid orange",
         width: 1,
         m: 0,
-        height: { xs: "calc(100vh - 249px)", md: "calc(100vh-240px)" },
+        height: {
+          xs: "calc(100vh - 230px)",
+          sm: "calc(100vh-200px)",
+          md: "calc(100vh-210px)",
+        },
+        // height: 1,
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* <Box sx={{ height: 1, width: 1 }}> */}
       {projects.length ? (
         <Grid container spacing={3} my={1}>
           {projects.map((project) => (
@@ -32,7 +36,6 @@ function ProjectListWithPagination() {
       ) : (
         <Typography variant="h5">No Project Found</Typography>
       )}
-      {/* </Box> */}
     </ImageList>
   );
 }

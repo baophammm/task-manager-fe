@@ -1,23 +1,30 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { getSingleProject } from "../features/project/projectSlice";
 import {
-  deleteSingleProject,
-  getProjects,
-  getSingleProject,
-} from "../features/project/projectSlice";
-import { Box, Container, Grid, Stack } from "@mui/material";
+  Box,
+  Card,
+  Container,
+  CssBaseline,
+  Drawer,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import LoadingScreen from "../components/LoadingScreen";
 import { getTasks } from "../features/task/taskSlice";
 import { useForm } from "react-hook-form";
-import { FormProvider } from "../components/form";
+import { FTextField, FormProvider } from "../components/form";
 
 import ProjectInformation from "../features/project/ProjectInformation";
 import ProjectPageControl from "../features/project/ProjectPageControl";
 
 import TaskByStatusDraggable from "../features/task/TaskByStatusDraggable";
 import UpdateProjectDrawer from "../features/project/UpdateProjectDrawer";
+import dayjs from "dayjs";
+import { LoadingButton } from "@mui/lab";
 
 export const ProjectDetailPageContext = createContext();
 
@@ -73,9 +80,14 @@ function ProjectDetailPage() {
 
   const dispatch = useDispatch();
 
+  // ERROR TESTING: getSIngle project not passing in correctly,
+  useEffect(() => {
+    dispatch(getSingleProject(projectId));
+  }, [dispatch, projectId]);
+
   useEffect(() => {
     if (projectId) {
-      dispatch(getSingleProject(projectId));
+      // dispatch(getSingleProject(projectId));
       dispatch(getTasks({ projectId, limit: 1000, ...filters }));
     }
   }, [dispatch, projectId, filters]);
@@ -100,15 +112,15 @@ function ProjectDetailPage() {
           // border: "1px solid green",
           // p: 0,
 
-          width: "100vw",
+          // width: "100dvw",
           height: {
-            xs: "calc(100vh - 12px)",
+            xs: "calc(100vh - 90px)",
             md: "calc(100vh - 110px)",
           },
         }}
       >
         <Container
-          maxWidth={1}
+          maxWidth={"100%"}
           sx={{
             // border: "1px solid orange",
             p: 0,
@@ -123,10 +135,11 @@ function ProjectDetailPage() {
             sx={{
               // border: "1px solid red",
               height: 1,
-              width: "100vw",
+              // height: "calc(100dvh - 120px)",
+              width: "100dvw",
 
               m: 0,
-              ml: { xs: 0, md: -3 },
+              ml: { xs: 0, sm: -3 },
 
               display: "flex",
             }}
@@ -143,7 +156,7 @@ function ProjectDetailPage() {
                 backgroundColor: "background.secondary",
                 color: "text.secondary",
                 height: 1,
-                width: 1,
+                // width: 1,
                 pr: 2,
               }}
             >
@@ -161,15 +174,18 @@ function ProjectDetailPage() {
                 // border: "1px solid green",
                 backgroundColor: "background.default",
                 height: 1,
+                // width: 1,
               }}
             >
-              <Stack spacing={1} sx={{ height: 1 }}>
-                <FormProvider methods={methods}>
-                  <ProjectPageControl
-                    selectedProject={selectedProject}
-                    location={location}
-                  />
-                </FormProvider>
+              <Stack spacing={1} alignItems="center" sx={{ height: 1 }}>
+                <Box sx={{ width: 1 }}>
+                  <FormProvider methods={methods}>
+                    <ProjectPageControl
+                      selectedProject={selectedProject}
+                      location={location}
+                    />
+                  </FormProvider>
+                </Box>
 
                 {isLoadingTask ? (
                   <LoadingScreen />

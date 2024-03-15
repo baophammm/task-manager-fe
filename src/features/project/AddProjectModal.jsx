@@ -1,14 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { alpha, styled } from "@mui/material/styles";
-import {
-  CssBaseline,
-  Grid,
-  Box,
-  Typography,
-  Container,
-  Card,
-  Stack,
-} from "@mui/material";
+import { CssBaseline, Box, Typography, Container, Stack } from "@mui/material";
 
 import { LoadingButton } from "@mui/lab";
 import {
@@ -26,12 +18,11 @@ import { useRef } from "react";
 
 import useAuth from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
-import { createProject, getProjects } from "./projectSlice";
+import { createProject } from "./projectSlice";
 import dayjs from "dayjs";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
-  // background: alpha(theme.palette.background.paper, 0.36),
   background: theme.palette.action.disabled,
   position: "fixed",
   top: 0,
@@ -96,8 +87,6 @@ export default function AddProjectModal() {
   const modalRef = useRef();
   const navigate = useNavigate();
 
-  const { user } = useAuth();
-
   const defaultValues = {
     title: "",
     description: "",
@@ -114,7 +103,6 @@ export default function AddProjectModal() {
 
   const {
     handleSubmit,
-    reset,
     formState: { isSubmitting },
   } = methods;
 
@@ -128,20 +116,6 @@ export default function AddProjectModal() {
     };
   });
   const dispatch = useDispatch();
-
-  // const onSubmit = async (data) => {
-  //   dispatch(createProject(data)).then(() => {
-  //     dispatch(getProjects({ limit: 1000 }));
-
-  //     reset();
-  //     console.log(
-  //       "SELECTED PROJECT AFTER CREATE PROJECT",
-  //       selectedProject?._id
-  //     );
-  //     navigate(`/projects/${selectedProject?._id}`);
-  //   });
-  //   // navigate("/projects");
-  // };
 
   const onSubmit = async (data) => {
     dispatch(createProject(data)).then(() => setNewlyCreatedProject(true));

@@ -11,8 +11,8 @@ function ProjectsDisplayController() {
     <Box
       sx={{
         // border: "3px solid green",
-        height: 1,
-        maxHeight: 1,
+        // height: 1,
+        // maxHeight: 1,
         width: 1,
         display: "flex",
         flexDirection: "column",

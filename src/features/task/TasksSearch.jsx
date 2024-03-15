@@ -6,18 +6,24 @@ import {
   OutlinedInput,
   SvgIcon,
 } from "@mui/material";
+
 import { useContext } from "react";
 import { TaskPageContext } from "../../pages/TaskPage";
 
-export const TasksSearch = () => {
-  const { filters, handleFilterSelection } = useContext(TaskPageContext);
+export const TasksSearch = ({ inputColor }) => {
+  const color =
+    inputColor === "text.primary"
+      ? "#4D5761"
+      : inputColor === "text.secondary"
+      ? "#F3F4F6"
+      : inputColor;
 
+  const { filters, handleFilterSelection } = useContext(TaskPageContext);
   return (
     <Box sx={{ width: 1 }}>
       <OutlinedInput
         fullWidth
         placeholder="Search task"
-        placeholderTextColor="white"
         value={filters.search}
         onChange={(e) => handleFilterSelection("search", e.target.value)}
         startAdornment={
@@ -29,7 +35,7 @@ export const TasksSearch = () => {
         }
         size="small"
         inputProps={{
-          style: { color: "white" },
+          style: { color: color || "inherit" },
         }}
       />
     </Box>

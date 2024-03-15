@@ -12,13 +12,19 @@ import SearchInput from "../../components/SearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import { getIncomingInvitations } from "./invitationSlice";
 import InvitationProjectCard from "./InvitationProjectCard";
+import LoadingScreen from "../../components/LoadingScreen";
 
 function IncomingInvitations() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
-  const { currentPageProjects, projectsById, totalProjects, totalPages } =
-    useSelector((state) => state.invitation);
+  const {
+    currentPageProjects,
+    projectsById,
+    totalProjects,
+    totalPages,
+    isLoading,
+  } = useSelector((state) => state.invitation);
 
   const projects = currentPageProjects.map(
     (projectId) => projectsById[projectId]
@@ -39,22 +45,30 @@ function IncomingInvitations() {
         Incoming Project Invitations
       </Typography>
       <Card sx={{ p: 3 }}>
-        <Stack spacing={2}>
-          <Stack direction={{ xs: "column", md: "row" }} alignItems="center">
+        <Stack spacing={2} alignItems="center">
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ width: 1 }}
+          >
             <SearchInput handleSubmit={handleSubmit} />
 
             <Box sx={{ flexGrow: 1 }} />
-
-            <Typography
-              variant="subtitle"
-              sx={{ color: "text.secondary", ml: 1 }}
-            >
-              {totalProjects > 1
-                ? `${totalProjects} requests found`
-                : totalProjects === 1
-                ? `${totalProjects} request found`
-                : "No project invitation found"}
-            </Typography>
+            {isLoading ? (
+              <LoadingScreen />
+            ) : (
+              <Typography
+                variant="subtitle"
+                sx={{ color: "text.primary", ml: 1 }}
+              >
+                {totalProjects > 1
+                  ? `${totalProjects} invitations found`
+                  : totalProjects === 1
+                  ? `${totalProjects} invitation found`
+                  : "No invitation found"}
+              </Typography>
+            )}
 
             <Pagination
               count={totalPages}
@@ -63,13 +77,17 @@ function IncomingInvitations() {
             />
           </Stack>
         </Stack>
-        <Grid container spacing={3} my={1}>
-          {projects.map((project) => (
-            <Grid key={project._id} item xs={12} md={6} lg={4}>
-              <InvitationProjectCard project={project} />
-            </Grid>
-          ))}
-        </Grid>
+        {isLoading ? (
+          <LoadingScreen />
+        ) : (
+          <Grid container spacing={3} my={1}>
+            {projects.map((project) => (
+              <Grid key={project._id} item xs={12} md={6} lg={4}>
+                <InvitationProjectCard project={project} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Card>
     </Container>
   );

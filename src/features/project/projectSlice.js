@@ -46,7 +46,6 @@ const slice = createSlice({
     getSingleProjectSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-
       state.selectedProject = action.payload;
     },
     updateSingleProjectSuccess(state, action) {
@@ -142,6 +141,8 @@ export const createProject =
         projectMemberEmails,
       });
       dispatch(slice.actions.createProjectSuccess(response.data));
+
+      toast.success(`Create Project ${title} successfully`);
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
@@ -215,6 +216,8 @@ export const updateSingleProject =
           newProject: response.data,
         })
       );
+
+      toast.success(`Updating Project ${response.data.title} successfully`);
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
@@ -226,7 +229,7 @@ export const deleteSingleProject = (projectId) => async (dispatch) => {
   try {
     const response = await apiService.delete(`/projects/${projectId}`);
     dispatch(slice.actions.deleteSingleProjectSuccess(projectId));
-    toast.success("Project deleted");
+    toast.success(`Delete Project ${response.data.title} successfully`);
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
     toast.error(error.message);
@@ -245,7 +248,13 @@ export const changeProjectRoleMemberToManger =
       dispatch(
         slice.actions.changeProjectRoleMemberToMangerSuccess(response.data)
       );
-      toast.success("Change member role to Manager successfully");
+
+      const member = response.data.projectMembers.find(
+        (projectMember) => projectMember._id === memberId
+      );
+      const memberName = member.firstName + " " + member.lastName;
+      console.log("MEMBER NAME PROJECT SLICE", memberName);
+      toast.success(`Change member ${memberName} role to Manager successfully`);
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
@@ -263,7 +272,13 @@ export const changeProjectRoleManagerToMember =
       dispatch(
         slice.actions.changeProjectRoleManagerToMemberSuccess(response.data)
       );
-      toast.success("Change Member role to Member successfully");
+
+      const member = response.data.projectMembers.find(
+        (projectMember) => projectMember._id === memberId
+      );
+      const memberName = member.firstName + " " + member.lastName;
+      console.log("MEMBER NAME PROJECT SLICE", memberName);
+      toast.success(`Change member ${memberName} role to Member successfully`);
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

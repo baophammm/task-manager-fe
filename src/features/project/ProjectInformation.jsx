@@ -28,11 +28,7 @@ import {
   removeProjectFromFavorite,
 } from "../user/userSlice";
 
-function ProjectInformation({
-  // selectedProject,
-  location,
-  // setIsUpdatingProject,
-}) {
+function ProjectInformation({ location }) {
   const { user } = useAuth();
   const currentUserId = user._id;
   const params = useParams();
@@ -137,25 +133,27 @@ function ProjectInformation({
             flexDirection: "column",
           }}
         >
-          <Typography>
-            <Typography variant="span" fontWeight="bold">
-              Description:{" "}
+          <Box>
+            <Typography>
+              <Typography variant="span" fontWeight="bold">
+                Description:{" "}
+              </Typography>
+              {selectedProject?.description}
             </Typography>
-            {selectedProject?.description}
-          </Typography>
-          <Typography>
-            <Typography variant="span" fontWeight="bold">
-              Creator:{" "}
+            <Typography>
+              <Typography variant="span" fontWeight="bold">
+                Creator:{" "}
+              </Typography>
+              {selectedProject?.projectOwner.firstName}{" "}
+              {selectedProject?.projectOwner.lastName}
             </Typography>
-            {selectedProject?.projectOwner?.firstName}{" "}
-            {selectedProject?.projectOwner?.lastName}
-          </Typography>
-          <Typography>
-            <Typography variant="span" fontWeight="bold">
-              Status:{" "}
-            </Typography>
-            <Chip label={selectedProject?.projectStatus} color="primary" />
-          </Typography>
+            <Box>
+              <Typography variant="span" fontWeight="bold">
+                Status:{" "}
+              </Typography>
+              <Chip label={selectedProject?.projectStatus} color="primary" />
+            </Box>
+          </Box>
           <Box
             sx={{
               "&:hover": {

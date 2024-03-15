@@ -108,6 +108,7 @@ export const createTask =
       });
 
       dispatch(slice.actions.createTaskSuccess(response.data));
+      toast.success(`Create Task ${title} successfully`);
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
@@ -190,13 +191,14 @@ export const updateSingleTask =
       };
 
       const response = await apiService.put(`/tasks/${taskId}`, data);
-
+      console.log(response.data);
       dispatch(
         slice.actions.updateSingleTaskSuccess({
           taskId,
           newTask: response.data,
         })
       );
+      toast.success(`Update task ${response.data.title} successfully`);
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
@@ -208,6 +210,7 @@ export const deleteSingleTask = (taskId) => async (dispatch) => {
   try {
     const response = await apiService.delete(`/tasks/${taskId}`);
     dispatch(slice.actions.deleteSingleTaskSuccess(taskId));
+    toast.success("Delete task successfully");
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
     toast.error(error.message);
@@ -239,6 +242,7 @@ export const uploadFileToTask =
           newTask: response.data,
         })
       );
+      toast.success("File uploaded to task successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
@@ -266,6 +270,8 @@ export const deleteFileOfTask =
           newTask: response.data,
         })
       );
+
+      toast.success("Delete File successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

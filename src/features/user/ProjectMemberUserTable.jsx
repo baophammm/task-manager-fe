@@ -36,7 +36,7 @@ function ProjectMemberUserTable({ users, projectId }) {
   };
 
   return (
-    <Box sx={{ overflow: "auto" }}>
+    <Box sx={{ width: 1, overflow: "auto" }}>
       <TableContainer sx={{ width: 1 }}>
         <Table>
           <TableHead>

@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProjectAddNewMembers } from "../user/userSlice";
 import UsersSearch from "../user/UsersSearch";
 import UserTable from "../user/UserTable";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   // border: "1px solid red",
@@ -103,9 +104,11 @@ function AddProjectMemberModal() {
         <Container
           component="main"
           sx={{
-            width: "100%",
+            width: 1,
+            height: 1,
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
             flexWrap: "wrap",
           }}
         >
@@ -114,20 +117,28 @@ function AddProjectMemberModal() {
           <Typography
             variant="h3"
             sx={{
+              width: 1,
               mb: "12px",
             }}
           >
             Add New Member to Project
           </Typography>
           <UsersSearch handleSubmit={handleSubmit} />
-          <Typography variant="subtitle" sx={{ color: "text.secondary" }}>
-            {totalUsers > 1
-              ? `${totalUsers} users found`
-              : totalUsers === 1
-              ? `${totalUsers} user found`
-              : "No user found"}
-          </Typography>
-          <Box>
+          {isLoading ? (
+            <LoadingScreen />
+          ) : (
+            <Typography
+              variant="subtitle"
+              sx={{ width: 1, color: "text.primary" }}
+            >
+              {totalUsers > 1
+                ? `${totalUsers} users found`
+                : totalUsers === 1
+                ? `${totalUsers} user found`
+                : "No user found"}
+            </Typography>
+          )}
+          <Box sx={{ width: 1 }}>
             <TablePagination
               sx={{
                 "& .MuiTablePagination-selectLabel, .MuiTablePagination-select, .MuiTablePagination-selectIcon":
@@ -144,7 +155,11 @@ function AddProjectMemberModal() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Box>
-          <UserTable users={users} projectId={projectId} />
+          {isLoading ? (
+            <LoadingScreen />
+          ) : (
+            <UserTable users={users} projectId={projectId} />
+          )}
         </Container>
       </ModalBox>
     </ModalWrapperBox>

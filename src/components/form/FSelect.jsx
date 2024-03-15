@@ -1,7 +1,7 @@
 import { TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
-function FSelect({ name, children, labelColor, ...other }) {
+function FSelect({ name, children, labelColor, inputColor, ...other }) {
   const { control } = useFormContext();
   return (
     <Controller
@@ -16,7 +16,10 @@ function FSelect({ name, children, labelColor, ...other }) {
           error={!!error}
           helperText={error?.message}
           InputLabelProps={{
-            style: { color: labelColor || "black", zIndex: 0 },
+            style: { color: labelColor || "inherit", zIndex: 0 },
+          }}
+          InputProps={{
+            style: { color: inputColor || "inherit", zIndex: 0 },
           }}
           {...other}
         >

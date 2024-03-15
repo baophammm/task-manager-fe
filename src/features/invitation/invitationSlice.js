@@ -86,6 +86,8 @@ export const declineProjectInvitation =
           projectId,
         })
       );
+
+      toast.success("Deline Project Invitation successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
@@ -111,6 +113,8 @@ export const acceptProjectInvitation =
           projectId,
         })
       );
+
+      toast.success("Accept Project Invitation successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

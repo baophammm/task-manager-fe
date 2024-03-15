@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 
@@ -13,10 +13,12 @@ import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Card, CssBaseline, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { updateSingleProject } from "../project/projectSlice";
+import { toast } from "react-toastify";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const projectYupSchema = Yup.object().shape({
   title: Yup.string().required("Project title is required"),
@@ -51,32 +53,30 @@ export default function UpdateProjectDrawer({
     { name: "startAt", label: "Start At", fieldType: "date" },
     { name: "dueAt", label: "Due At", fieldType: "date" },
   ];
-  console.log("CHECKING Prop Project passed in", project);
 
-  console.log("CHECKING prop project title passed in", project?.title);
-  const defaultValues = {
-    title: project?.title ? project.title : "",
-    description: project?.description || "",
-    projectStatus: project?.projectStatus || "Planning",
+  const defaultValues = useMemo(
+    () => ({
+      title: project?.title ? project.title : "Default title",
+      description: project?.description || "",
+      projectStatus: project?.projectStatus || "Planning",
 
-    startAt: project?.startAt
-      ? dayjs(project?.startAt).format("YYYY-MM-DD")
-      : "",
-    dueAt: project?.dueAt ? dayjs(project?.dueAt).format("YYYY-MM-DD") : "",
-  };
-
-  console.log("CHECK DEFAULT VALUES:", defaultValues);
-  // ERROR: DEFAULT VALUE IS CORRECT BUT VALUE ON FORM INCORRECT (or always loads previous values)
+      startAt: project?.startAt
+        ? dayjs(project?.startAt).format("YYYY-MM-DD")
+        : "",
+      dueAt: project?.dueAt ? dayjs(project?.dueAt).format("YYYY-MM-DD") : "",
+    }),
+    [project]
+  );
 
   const methods = useForm({
-    // resolver: yupResolver(projectYupSchema),
+    resolver: yupResolver(projectYupSchema),
     defaultValues,
   });
 
   const {
     handleSubmit,
-    reset,
     formState: { isSubmitting },
+    reset,
   } = methods;
 
   const onSubmit = (data) => {
@@ -88,6 +88,9 @@ export default function UpdateProjectDrawer({
     setIsUpdatingProject(false);
   };
 
+  useEffect(() => {
+    reset(defaultValues);
+  }, [reset, defaultValues]);
   const updateProjectForm = () => (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Box
@@ -107,6 +110,7 @@ export default function UpdateProjectDrawer({
           >
             Updating Project: {project?.title}
           </Typography>
+
           <Stack spacing={2} alignItems="flex-end" sx={{ mb: "12px" }}>
             {PROJECT_FIELDS.map((field) => {
               if (field.fieldType === "text") {
@@ -145,6 +149,7 @@ export default function UpdateProjectDrawer({
             })}
             {/* <FTextField name="title" placeholder="Project Title" /> */}
           </Stack>
+
           <Box
             sx={{
               width: 1,

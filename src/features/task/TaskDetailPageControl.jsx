@@ -24,7 +24,7 @@ function TaskDetailPageControl({
 }) {
   const params = useParams();
 
-  const taskId = params.taskid;
+  const taskId = params.taskId;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

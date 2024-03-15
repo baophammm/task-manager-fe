@@ -9,7 +9,14 @@ import {
 import { useContext } from "react";
 import { ProjectPageContext } from "../../pages/ProjectPage";
 
-export const ProjectsSearch = ({ sx }) => {
+export const ProjectsSearch = ({ inputColor }) => {
+  const color =
+    inputColor === "text.primary"
+      ? "#4D5761"
+      : inputColor === "text.secondary"
+      ? "#F3F4F6"
+      : inputColor;
+
   const { filters, handleFilterSelection } = useContext(ProjectPageContext);
 
   return (
@@ -18,7 +25,6 @@ export const ProjectsSearch = ({ sx }) => {
         fullWidth
         placeholder="Search project"
         value={filters.search}
-        placeholderTextColor="white"
         onChange={(e) => handleFilterSelection("search", e.target.value)}
         startAdornment={
           <InputAdornment position="start">
@@ -29,7 +35,7 @@ export const ProjectsSearch = ({ sx }) => {
         }
         size="small"
         inputProps={{
-          style: { color: "white" },
+          style: { color: color || "inherit" },
         }}
       />
     </Box>

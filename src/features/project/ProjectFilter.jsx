@@ -43,11 +43,14 @@ const PROJECT_FILTERS = [
 ];
 
 function ProjectFilter() {
-  const { filters, setFilters, handleFilterSelection } =
-    useContext(ProjectPageContext);
+  const {
+    isOpeningProjectFilter,
+    setIsOpeningProjectFilter,
+    filters,
+    setFilters,
+    handleFilterSelection,
+  } = useContext(ProjectPageContext);
 
-  const { isOpeningProjectFilter, setIsOpeningProjectFilter } =
-    useContext(ProjectPageContext);
   const [anchorElFilter, setAnchorElFilter] = useState(null);
 
   const handleOpenFilterMenu = (event) => {
@@ -80,7 +83,7 @@ function ProjectFilter() {
       <Box>
         <Typography textAlign="center">Search</Typography>
         <MenuItem>
-          <ProjectsSearch />
+          <ProjectsSearch inputColor="text.primary" />
         </MenuItem>
       </Box>
       <Box>
@@ -115,7 +118,10 @@ function ProjectFilter() {
                 <FDateField
                   name={filter.name}
                   label={filter.label}
-                  value={dayjs(filters[filter.name])}
+                  inputColor="text.primary"
+                  value={
+                    filters[filter.name] ? dayjs(filters[filter.name]) : null
+                  }
                   onChange={(e) =>
                     handleFilterSelection(filter.name, e.format("YYYY-MM-DD"))
                   }
@@ -209,7 +215,7 @@ function ProjectFilter() {
             <Typography variant="h6" sx={{ mb: 1 }}>
               Project Search
             </Typography>
-            <ProjectsSearch />
+            <ProjectsSearch inputColor="text.secondary" />
           </Box>
           <Box
             sx={{
@@ -255,7 +261,12 @@ function ProjectFilter() {
                       key={filter.name}
                       name={filter.name}
                       label={filter.label}
-                      value={dayjs(filters[filter.name])}
+                      inputColor="text.secondary"
+                      value={
+                        filters[filter.name]
+                          ? dayjs(filters[filter.name])
+                          : null
+                      }
                       onChange={(e) =>
                         handleFilterSelection(
                           filter.name,

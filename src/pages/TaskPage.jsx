@@ -93,12 +93,12 @@ function TaskPage() {
         component="main"
         sx={{
           // border: "2px solid green",
-          width: "100vw",
-          height: { xs: "calc(100vh-200px)", md: "calc(100vh - 110px)" },
+
+          height: { xs: "calc(100vh-90px)", md: "calc(100vh - 110px)" },
         }}
       >
         <Container
-          maxWidth={1}
+          maxWidth={"100%"}
           sx={{
             // border: "2px solid orange",
             p: 0,
@@ -114,11 +114,10 @@ function TaskPage() {
             sx={{
               // border: "3px solid blue",
               margin: 0,
-              ml: { xs: 0, md: -3 },
-              mr: -3,
+              ml: { xs: -3, md: -3 },
+              // mr: { xs: 0, md: -3 },
               height: "100%",
-              width: "100vw",
-              // display: { xs: "none", md: "flex" },
+              width: "100dvw",
               display: "flex",
             }}
           >
@@ -156,17 +155,22 @@ function TaskPage() {
             >
               <Stack
                 spacing={1}
+                alignItems="center"
                 sx={{
-                  // border: "1px solid blue",
-                  height: 1,
+                  // border: "1px solid red",
+                  // position: { xs: "absolute", md: "relative" },
+
+                  width: { xs: "100dvw", md: 1 },
+                  ml: { xs: 1, sm: -1 },
+                  mt: -1,
                 }}
               >
                 <Stack
                   direction="row"
                   justifyContent="space-between"
                   alignItems="center"
-                  spacing={1}
-                  sx={{ px: 1 }}
+                  spacing={2}
+                  sx={{ width: 1, px: 1 }}
                 >
                   <Typography variant="h5">My Tasks</Typography>
                   <Box
@@ -215,59 +219,6 @@ function TaskPage() {
               </Stack>
             </Grid>
           </Grid>
-          {/* <Box
-              sx={{
-                width: "100vw",
-                p: 0,
-                m: 0,
-
-                display: {
-                  xs: "flex",
-                  md: "none",
-                },
-                flexDirection: "column",
-              }}
-            >
-              <Box
-                sx={{
-                  // border: "1px solid blue",
-                  width: 1,
-                  my: 1,
-                  px: 1,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant="h5">My Tasks</Typography>
-                <Stack direction="row" spacing={1}>
-                  <TaskFilter />
-                  <div>
-                    <Link
-                      to={`/tasks/new`}
-                      state={{ backgroundLocation: location }}
-                    >
-                      <Button
-                        startIcon={
-                          <SvgIcon fontSize="small">
-                            <PlusIcon />
-                          </SvgIcon>
-                        }
-                        variant="contained"
-                      >
-                        Task
-                      </Button>
-                    </Link>
-                  </div>
-                </Stack>
-              </Box>
-
-              {isLoading ? (
-                <LoadingScreen />
-              ) : (
-                <TaskByStatusDraggable tasks={tasks} filters={filters} />
-              )}
-            </Box> */}
         </Container>
       </Box>
     </TaskPageContext.Provider>

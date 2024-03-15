@@ -1,29 +1,34 @@
 import { Box, Button, Stack, SvgIcon, Typography } from "@mui/material";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
+import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
+import StarIcon from "@mui/icons-material/Star";
 import React, { useContext } from "react";
 import ProjectFilter from "./ProjectFilter";
 import { FormProvider } from "../../components/form";
 import { Link } from "react-router-dom";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { ProjectPageContext } from "../../pages/ProjectPage";
+import { RouterContext } from "../../routes";
 
 function ProjectsHeader() {
   const {
     methods,
     location,
-    isDisplayingFeaturedProjects,
-    setIsDisplayingFeaturedProjects,
+    // isDisplayingFeaturedProjects,
+    // setIsDisplayingFeaturedProjects,
     filters,
     setFilters,
   } = useContext(ProjectPageContext);
 
+  const { isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects } =
+    useContext(RouterContext);
   return (
     <Stack
       direction="row"
       justifyContent="space-between"
       alignItems="center"
       spacing={2}
-      sx={{ px: 1 }}
+      sx={{ width: 1, px: 1 }}
     >
       <Typography variant="h5">
         {isDisplayingFeaturedProjects
@@ -51,7 +56,11 @@ function ProjectsHeader() {
         <Button
           startIcon={
             <SvgIcon fontSize="small">
-              <DoubleArrowIcon />
+              {isDisplayingFeaturedProjects ? (
+                <AllInclusiveIcon />
+              ) : (
+                <StarIcon />
+              )}
             </SvgIcon>
           }
           variant="contained"

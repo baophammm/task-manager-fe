@@ -7,7 +7,16 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import { TextField } from "@mui/material";
 
-function FDateField({ name, date, setDate, labelColor, ...other }) {
+function FDateField({
+  name,
+  date,
+  setDate,
+  svgColor,
+  labelColor,
+  inputColor,
+  spanColor,
+  ...other
+}) {
   const {
     register,
     control,
@@ -48,7 +57,14 @@ function FDateField({ name, date, setDate, labelColor, ...other }) {
                     field.onChange(formattedDate);
                   }}
                   {...other}
-                  sx={{ width: "100%" }}
+                  sx={{
+                    width: "100%",
+                    zIndex: 0,
+                    svg: { color: svgColor || "inherit" },
+                    label: { color: labelColor || "inherit" },
+                    input: { color: inputColor || "inherit" },
+                    span: { color: spanColor || "red" },
+                  }}
                 />
               </div>
             </DemoContainer>

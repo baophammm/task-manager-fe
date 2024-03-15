@@ -6,9 +6,14 @@ import ProjectListWithPagination from "./ProjectListWithPagination";
 function DisplaysAllProjects() {
   return (
     <Container
-      maxWidth={1}
+      maxWidth={"100%"}
       sx={{
         // border: "1px solid red",
+        // height: {
+        //   xs: "calc(100vh - 170px)",
+        //   sm: "calc(100vh - 160px)",
+        //   md: "calc(100vh - 168px)",
+        // },
         height: 1,
       }}
     >

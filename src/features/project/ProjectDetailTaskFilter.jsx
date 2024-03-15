@@ -134,7 +134,9 @@ function ProjectDetailTaskFilter({ projectId }) {
               <FDateField
                 name={filter.name}
                 label={filter.label}
-                value={dayjs(filters[filter.name])}
+                value={
+                  filters[filter.name] ? dayjs(filters[filter.name]) : null
+                }
                 onChange={(e) =>
                   handleFilterSelection(filter.name, e.format("YYYY-MM-DD"))
                 }

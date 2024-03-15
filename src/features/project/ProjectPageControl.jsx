@@ -8,11 +8,9 @@ import {
   SvgIcon,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import InfoIcon from "@mui/icons-material/Info";
+
 import ClearIcon from "@mui/icons-material/Clear";
 import LogoutIcon from "@mui/icons-material/Logout";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
-import GradeIcon from "@mui/icons-material/Grade";
 
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -28,9 +26,10 @@ import {
   addProjectToFavorite,
   removeProjectFromFavorite,
 } from "../user/userSlice";
+import { LoadingButton } from "@mui/lab";
 
 function ProjectPageControl({ selectedProject, location }) {
-  const { setIsOpeningProjectInfo } = useContext(ProjectDetailPageContext);
+  const { isLoadingProject } = useContext(ProjectDetailPageContext);
 
   const { user } = useAuth();
   const currentUserId = user._id;
@@ -103,26 +102,6 @@ function ProjectPageControl({ selectedProject, location }) {
         display: { xs: "block", md: "none" },
       }}
     >
-      <MenuItem>
-        <Box width={1}>
-          <Button
-            fullWidth
-            startIcon={
-              <SvgIcon fontSize="small">
-                <InfoIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-            onClick={() => {
-              setIsOpeningProjectInfo(true);
-              handleCloseProjectPageControlButtonMenu();
-            }}
-            style={{ justifyContent: "flex-start" }}
-          >
-            Project Info
-          </Button>
-        </Box>
-      </MenuItem>
       {!disableAddTask && (
         <MenuItem>
           <Box width={1}>
@@ -130,7 +109,7 @@ function ProjectPageControl({ selectedProject, location }) {
               to={`/projects/${projectId}/tasks/new`}
               state={{ backgroundLocation: location }}
             >
-              <Button
+              <LoadingButton
                 fullWidth
                 startIcon={
                   <SvgIcon fontSize="small">
@@ -138,10 +117,11 @@ function ProjectPageControl({ selectedProject, location }) {
                   </SvgIcon>
                 }
                 variant="contained"
+                loading={isLoadingProject}
                 style={{ justifyContent: "flex-start" }}
               >
                 Task
-              </Button>
+              </LoadingButton>
             </Link>
           </Box>
         </MenuItem>
@@ -153,7 +133,7 @@ function ProjectPageControl({ selectedProject, location }) {
               to={`/projects/${projectId}/projectMembers/new`}
               state={{ backgroundLocation: location }}
             >
-              <Button
+              <LoadingButton
                 fullWidth
                 startIcon={
                   <SvgIcon fontSize="small">
@@ -162,10 +142,11 @@ function ProjectPageControl({ selectedProject, location }) {
                 }
                 variant="contained"
                 disabled={!isProjectOwner}
+                loading={isLoadingProject ? true : undefined}
                 style={{ justifyContent: "flex-start" }}
               >
                 Member
-              </Button>
+              </LoadingButton>
             </Link>
           </Box>
         </MenuItem>
@@ -173,7 +154,7 @@ function ProjectPageControl({ selectedProject, location }) {
       <MenuItem>
         <Box width={1}>
           {isProjectOwner ? (
-            <Button
+            <LoadingButton
               fullWidth
               startIcon={
                 <SvgIcon fontSize="small">
@@ -188,12 +169,13 @@ function ProjectPageControl({ selectedProject, location }) {
                 },
               }}
               style={{ justifyContent: "flex-start" }}
+              loading={isLoadingProject}
               onClick={handleDeleteProject}
             >
               Delete Project
-            </Button>
+            </LoadingButton>
           ) : (
-            <Button
+            <LoadingButton
               startIcon={
                 <SvgIcon fontSize="small">
                   <LogoutIcon />
@@ -206,10 +188,11 @@ function ProjectPageControl({ selectedProject, location }) {
                   backgroundColor: "error.dark",
                 },
               }}
+              loading={isLoadingProject}
               onClick={handleLeaveProject}
             >
               Leave Project
-            </Button>
+            </LoadingButton>
           )}
         </Box>
       </MenuItem>
@@ -254,7 +237,7 @@ function ProjectPageControl({ selectedProject, location }) {
         >
           <Box>
             {disableAddTask ? (
-              <Button
+              <LoadingButton
                 startIcon={
                   <SvgIcon fontSize="small">
                     <PlusIcon />
@@ -262,16 +245,17 @@ function ProjectPageControl({ selectedProject, location }) {
                 }
                 variant="contained"
                 disabled={disableAddTask}
+                loading={isLoadingProject}
                 sx={{ p: 1 }}
               >
                 Task
-              </Button>
+              </LoadingButton>
             ) : (
               <Link
                 to={`/projects/${projectId}/tasks/new`}
                 state={{ backgroundLocation: location }}
               >
-                <Button
+                <LoadingButton
                   startIcon={
                     <SvgIcon fontSize="small">
                       <PlusIcon />
@@ -279,10 +263,11 @@ function ProjectPageControl({ selectedProject, location }) {
                   }
                   variant="contained"
                   disabled={disableAddTask}
+                  loading={isLoadingProject}
                   sx={{ p: 1 }}
                 >
                   Task
-                </Button>
+                </LoadingButton>
               </Link>
             )}
           </Box>
@@ -293,7 +278,7 @@ function ProjectPageControl({ selectedProject, location }) {
                 to={`/projects/${projectId}/projectMembers/new`}
                 state={{ backgroundLocation: location }}
               >
-                <Button
+                <LoadingButton
                   startIcon={
                     <SvgIcon fontSize="small">
                       <PlusIcon />
@@ -301,13 +286,14 @@ function ProjectPageControl({ selectedProject, location }) {
                   }
                   variant="contained"
                   disabled={!isProjectOwner}
+                  loading={isLoadingProject}
                   sx={{ p: 1 }}
                 >
                   Member
-                </Button>
+                </LoadingButton>
               </Link>
             ) : (
-              <Button
+              <LoadingButton
                 startIcon={
                   <SvgIcon fontSize="small">
                     <PlusIcon />
@@ -315,16 +301,17 @@ function ProjectPageControl({ selectedProject, location }) {
                 }
                 variant="contained"
                 disabled={!isProjectOwner}
+                loading={isLoadingProject}
                 sx={{ p: 1 }}
               >
                 Member
-              </Button>
+              </LoadingButton>
             )}
           </Box>
 
           <Box>
             {isProjectOwner ? (
-              <Button
+              <LoadingButton
                 startIcon={
                   <SvgIcon fontSize="small">
                     <ClearIcon />
@@ -338,12 +325,13 @@ function ProjectPageControl({ selectedProject, location }) {
                     backgroundColor: "error.dark",
                   },
                 }}
+                loading={isLoadingProject}
                 onClick={handleDeleteProject}
               >
                 Delete Project
-              </Button>
+              </LoadingButton>
             ) : (
-              <Button
+              <LoadingButton
                 startIcon={
                   <SvgIcon fontSize="small">
                     <LogoutIcon />
@@ -357,10 +345,11 @@ function ProjectPageControl({ selectedProject, location }) {
                     backgroundColor: "error.dark",
                   },
                 }}
+                loading={isLoadingProject}
                 onClick={handleLeaveProject}
               >
                 Leave Project
-              </Button>
+              </LoadingButton>
             )}
           </Box>
         </Box>
