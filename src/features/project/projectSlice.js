@@ -75,7 +75,7 @@ const slice = createSlice({
 
       state.projectsById[projectId] = action.payload;
     },
-    changeProjectRoleManagerToMemberSuccess(state, action) {
+    changeProjectRoleLeadToMemberSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
       const projectId = action.payload._id;
@@ -94,12 +94,12 @@ const slice = createSlice({
         state.projectsById[projectId].projectMembers.slice(memberIndex, 1);
       }
 
-      if (state.projectsById[projectId].projectManagers.includes(memberId)) {
-        const managerIndex =
-          state.projectsById[projectId].projectManagers.indexOf(memberId);
+      if (state.projectsById[projectId].projectLeads.includes(memberId)) {
+        const leadIndex =
+          state.projectsById[projectId].projectLeads.indexOf(memberId);
 
-        if (managerIndex > -1) {
-          state.projectsById[projectId].projectManagers.slice(managerIndex, 1);
+        if (leadIndex > -1) {
+          state.projectsById[projectId].projectLeads.slice(leadIndex, 1);
         }
       }
     },
@@ -243,7 +243,7 @@ export const changeProjectRoleMemberToManger =
     try {
       const response = await apiService.put(
         `/projects/${projectId}/projectMembers/${memberId}`,
-        { isNewManager: true }
+        { isNewLead: true }
       );
       dispatch(
         slice.actions.changeProjectRoleMemberToMangerSuccess(response.data)
@@ -254,23 +254,23 @@ export const changeProjectRoleMemberToManger =
       );
       const memberName = member.firstName + " " + member.lastName;
       console.log("MEMBER NAME PROJECT SLICE", memberName);
-      toast.success(`Change member ${memberName} role to Manager successfully`);
+      toast.success(`Change member ${memberName} role to Lead successfully`);
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
     }
   };
-export const changeProjectRoleManagerToMember =
+export const changeProjectRoleLeadToMember =
   ({ projectId, memberId }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await apiService.put(
         `/projects/${projectId}/projectMembers/${memberId}`,
-        { isNewManager: false }
+        { isNewLead: false }
       );
       dispatch(
-        slice.actions.changeProjectRoleManagerToMemberSuccess(response.data)
+        slice.actions.changeProjectRoleLeadToMemberSuccess(response.data)
       );
 
       const member = response.data.projectMembers.find(

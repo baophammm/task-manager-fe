@@ -77,7 +77,6 @@ export const createCommentOnTask =
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      console.log(taskId);
       const response = await apiService.post("/comments", {
         targetType: "Task",
         targetId: taskId,

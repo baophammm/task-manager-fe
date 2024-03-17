@@ -127,6 +127,7 @@ function TaskDetailModal() {
                   }
                 >
                   <TaskDetailPageControl
+                    from={from}
                     selectedTask={selectedTask}
                     disableUpdateTask={disableUpdateTask}
                     setIsUpdatingTask={setIsUpdatingTask}

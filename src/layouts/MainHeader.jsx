@@ -10,12 +10,12 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-
-import Logo from "../components/Logo";
-
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+
+import Logo from "../components/Logo";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -28,6 +28,11 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { RouterContext } from "../routes";
+import NotificationListMenu from "../features/notification/NotificationListMenu";
+import { useDispatch } from "react-redux";
+import { getNotifications } from "../features/notification/notificationSlice";
+import { useSelector } from "react-redux";
+import NotificationContainer from "../features/notification/NotificationContainer";
 
 const pages = [
   // {
@@ -66,6 +71,8 @@ function MainHeader() {
     useContext(RouterContext);
 
   const auth = useAuth();
+  const userId = auth.user._id;
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -86,9 +93,11 @@ function MainHeader() {
     }
   }, [currentUrlPath]);
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElAddNew, setAnchorElAddNew] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElAddNew, setAnchorElAddNew] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElNotificationList, setAnchorElNotificationList] =
+    useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -102,6 +111,10 @@ function MainHeader() {
     setAnchorElUser(event.currentTarget);
   };
 
+  const handleOpenNotificationListMenu = (event) => {
+    setAnchorElNotificationList(event.currentTarget);
+  };
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
@@ -111,6 +124,10 @@ function MainHeader() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleCloseNotificationListMenu = () => {
+    setAnchorElNotificationList(null);
   };
 
   const handleLogout = async () => {
@@ -297,6 +314,7 @@ function MainHeader() {
       </MenuItem>
     </Menu>
   );
+
   return (
     <AppBar position="static">
       <StyledContainer maxWidth={"100dvw"} sx={{ p: { xs: 0, md: -3 } }}>
@@ -445,6 +463,25 @@ function MainHeader() {
                     </div>
                   </Box>
                 </Box>
+                {/* <Box sx={{ flexGrow: 0, mr: 1 }}>
+                  <Tooltip title="Open Notifications">
+                    <IconButton
+                      onClick={handleOpenNotificationListMenu}
+                      sx={{ p: 0 }}
+                    >
+                      <NotificationsIcon />
+                    </IconButton>
+                  </Tooltip>
+
+                  <NotificationListMenu
+                    userId={userId}
+                    anchorElNotificationList={anchorElNotificationList}
+                    handleCloseNotificationListMenu={
+                      handleCloseNotificationListMenu
+                    }
+                  />
+                </Box> */}
+                <NotificationContainer />
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -493,7 +530,7 @@ function MainHeader() {
               {AddNewMenu}
             </Box>
           </Box>
-          <Box></Box>
+
           <Logo sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -514,6 +551,7 @@ function MainHeader() {
           >
             TASK MANAGER
           </Typography>
+          <NotificationContainer sx={{ display: { xs: "flex", md: "none" } }} />
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

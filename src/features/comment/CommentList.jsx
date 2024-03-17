@@ -6,6 +6,7 @@ import { getCommentsOfTask } from "./commentSlice";
 import { Pagination, Stack, Typography } from "@mui/material";
 import LoadingScreen from "../../components/LoadingScreen";
 import CommentCard from "./CommentCard";
+import { toast } from "react-toastify";
 function CommentList({ taskId }) {
   const {
     commentsByTask,
@@ -28,8 +29,16 @@ function CommentList({ taskId }) {
 
   const dispatch = useDispatch();
 
+  // TODO ERROR render after task is deleted
   useEffect(() => {
-    if (taskId) dispatch(getCommentsOfTask({ taskId }));
+    if (taskId) {
+      console.log(taskId);
+      dispatch(getCommentsOfTask({ taskId }));
+    } else {
+      console.log("Task Id not found, should go here after delete");
+    }
+
+    // toast.error("IF IT GOES HERE, NO ERROR");
   }, [taskId, dispatch]);
 
   let renderComments;
@@ -61,9 +70,10 @@ function CommentList({ taskId }) {
           <Pagination
             count={totalPages}
             page={currentPage}
-            onChange={(e, page) =>
-              dispatch(getCommentsOfTask({ taskId, page }))
-            }
+            onChange={(e, page) => {
+              // console.log("Triggered here?");
+              dispatch(getCommentsOfTask({ taskId, page }));
+            }}
           />
         )}
       </Stack>

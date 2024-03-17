@@ -191,7 +191,6 @@ export const updateSingleTask =
       };
 
       const response = await apiService.put(`/tasks/${taskId}`, data);
-      console.log(response.data);
       dispatch(
         slice.actions.updateSingleTaskSuccess({
           taskId,

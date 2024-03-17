@@ -2,7 +2,7 @@ import { Button, Stack } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
-  changeProjectRoleManagerToMember,
+  changeProjectRoleLeadToMember,
   changeProjectRoleMemberToManger,
   getSingleProject,
   removeMemberFromProject,
@@ -17,10 +17,10 @@ function ProjectMemberActionButton({ project, targetUserId, sx }) {
   const dispatch = useDispatch();
 
   const projectOwnerId = project.projectOwner._id;
-  const projectManagerIds = project.projectManagers;
+  const projectLeadIds = project.projectLeads;
   const projectMemberIds = project.projectMembers.map((projectMember) => {
     if (
-      !projectManagerIds.includes(projectMember._id) &&
+      !projectLeadIds.includes(projectMember._id) &&
       projectOwnerId !== projectMember._id
     ) {
       return projectMember._id;
@@ -30,7 +30,7 @@ function ProjectMemberActionButton({ project, targetUserId, sx }) {
 
   const isProjectOwner = projectOwnerId === currentUserId;
 
-  const btnChangeRoleMemberToManager = (
+  const btnChangeRoleMemberToLead = (
     <Button
       sx={{ fontSize: "0.6rem", ...sx }}
       size="small"
@@ -45,11 +45,11 @@ function ProjectMemberActionButton({ project, targetUserId, sx }) {
         ).then(() => dispatch(getSingleProject(project._id)))
       }
     >
-      To Manager
+      To Lead
     </Button>
   );
 
-  const btnChangeRoleManagerToMember = (
+  const btnChangeRoleLeadToMember = (
     <Button
       sx={{ fontSize: "0.6rem", ...sx }}
       size="small"
@@ -57,7 +57,7 @@ function ProjectMemberActionButton({ project, targetUserId, sx }) {
       disabled={!isProjectOwner}
       onClick={() =>
         dispatch(
-          changeProjectRoleManagerToMember({
+          changeProjectRoleLeadToMember({
             projectId: project._id,
             memberId: targetUserId,
           })
@@ -94,10 +94,10 @@ function ProjectMemberActionButton({ project, targetUserId, sx }) {
     </Button>
   );
 
-  if (projectManagerIds.includes(targetUserId)) {
+  if (projectLeadIds.includes(targetUserId)) {
     return (
       <Stack direction="row" spacing={1}>
-        {btnChangeRoleManagerToMember}
+        {btnChangeRoleLeadToMember}
         {btnRemoveMemberFromProject}
       </Stack>
     );
@@ -106,7 +106,7 @@ function ProjectMemberActionButton({ project, targetUserId, sx }) {
   if (projectMemberIds.includes(targetUserId)) {
     return (
       <Stack direction="row" spacing={1}>
-        {btnChangeRoleMemberToManager}
+        {btnChangeRoleMemberToLead}
         {btnRemoveMemberFromProject}
       </Stack>
     );

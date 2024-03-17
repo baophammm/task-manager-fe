@@ -4,6 +4,7 @@ import taskReducer from "../features/task/taskSlice";
 import commentReducer from "../features/comment/commentSlice";
 import userReducer from "../features/user/userSlice";
 import invitationReducer from "../features/invitation/invitationSlice";
+import notificationReducer from "../features/notification/notificationSlice";
 
 const rootReducer = {
   project: projectReducer,
@@ -11,6 +12,7 @@ const rootReducer = {
   comment: commentReducer,
   user: userReducer,
   invitation: invitationReducer,
+  notification: notificationReducer,
 };
 
 const store = configureStore({

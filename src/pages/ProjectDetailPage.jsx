@@ -23,8 +23,6 @@ import ProjectPageControl from "../features/project/ProjectPageControl";
 
 import TaskByStatusDraggable from "../features/task/TaskByStatusDraggable";
 import UpdateProjectDrawer from "../features/project/UpdateProjectDrawer";
-import dayjs from "dayjs";
-import { LoadingButton } from "@mui/lab";
 
 export const ProjectDetailPageContext = createContext();
 

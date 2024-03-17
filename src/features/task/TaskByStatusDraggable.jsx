@@ -1,7 +1,7 @@
 import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskColumn from "./TaskColumn";
-import { Box, ImageList } from "@mui/material";
+import { ImageList } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getTasks, updateSingleTask } from "./taskSlice";
 import { useParams } from "react-router-dom";
@@ -84,6 +84,23 @@ function TaskByStatusDraggable({ tasks, filters }) {
           gridAutoColumns: `minmax(320px, 1fr)`,
 
           borderRadius: "8px",
+
+          "&::-webkit-scrollbar": {
+            WebkitAppearance: "none",
+          },
+
+          "&::-webkit-scrollbar:vertical": {
+            width: "11px",
+          },
+          "&::-webkit-scrollbar:horizontal": {
+            height: "11px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            borderRadius: "8px",
+            border: "2px solid",
+            borderColor: "background.default",
+            backgroundColor: "text.disabled",
+          },
         }}
       >
         {TASKS_BY_STATUSES.map((taskStatusColumn) => {

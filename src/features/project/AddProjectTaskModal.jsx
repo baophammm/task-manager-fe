@@ -1,16 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { alpha, styled } from "@mui/material/styles";
-import {
-  Avatar,
-  CssBaseline,
-  Link,
-  Grid,
-  Box,
-  Typography,
-  Container,
-  Stack,
-  Card,
-} from "@mui/material";
+import { CssBaseline, Box, Typography, Container, Stack } from "@mui/material";
 
 import { LoadingButton } from "@mui/lab";
 import { useForm } from "react-hook-form";
@@ -157,7 +147,6 @@ function AddProjectTaskModal() {
   } = methods;
 
   const onSubmit = async (data) => {
-    console.log(data);
     dispatch(createTask(data)).then(() => {
       getTasks({ projectId, limit: 1000 });
       reset();

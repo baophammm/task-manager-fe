@@ -34,7 +34,7 @@ const PROJECT_FILTERS = [
     name: "currentUserRole",
     label: "Your Project Role",
     fieldType: "select",
-    options: ["All", "Owner", "Manager", "Member"],
+    options: ["All", "Owner", "Lead", "Member"],
   },
   { name: "startAfter", label: "Start After", fieldType: "date" },
   { name: "startBefore", label: "Start Before", fieldType: "date" },

@@ -3,10 +3,10 @@ import React from "react";
 
 function ProjectRole({ project, targetUserId, sx }) {
   const projectOwnerId = project.projectOwner._id;
-  const projectManagerIds = project.projectManagers;
+  const projectLeadIds = project.projectLeads;
   const projectMemberIds = project.projectMembers.map((projectMember) => {
     if (
-      !projectManagerIds.includes(projectMember._id) &&
+      !projectLeadIds.includes(projectMember._id) &&
       projectOwnerId !== projectMember._id
     ) {
       return projectMember._id;
@@ -18,8 +18,8 @@ function ProjectRole({ project, targetUserId, sx }) {
     return <Chip sx={{ ...sx }} icon={<></>} label="Member" color="default" />;
   }
 
-  if (projectManagerIds.includes(targetUserId)) {
-    return <Chip sx={{ ...sx }} icon={<></>} label="Manager" color="default" />;
+  if (projectLeadIds.includes(targetUserId)) {
+    return <Chip sx={{ ...sx }} icon={<></>} label="Lead" color="default" />;
   }
 
   if (projectOwnerId === targetUserId) {

@@ -20,12 +20,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useAuth from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { deleteSingleProject, leaveProject } from "./projectSlice";
-import ProjectDetailTasksSearch from "../task/ProjectDetailTasksSearch";
+
 import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
-import {
-  addProjectToFavorite,
-  removeProjectFromFavorite,
-} from "../user/userSlice";
+
 import { LoadingButton } from "@mui/lab";
 
 function ProjectPageControl({ selectedProject, location }) {
@@ -38,12 +35,11 @@ function ProjectPageControl({ selectedProject, location }) {
   const projectId = params.projectId;
 
   const projectOwnerId = selectedProject?.projectOwner._id;
-  const projectManagerIds = selectedProject?.projectManagers;
+  const projectLeadIds = selectedProject?.projectLeads;
 
   const isProjectOwner = currentUserId === projectOwnerId ? true : false;
   const disableAddTask =
-    currentUserId !== projectOwnerId &&
-    !projectManagerIds?.includes(currentUserId)
+    currentUserId !== projectOwnerId && !projectLeadIds?.includes(currentUserId)
       ? true
       : false;
 

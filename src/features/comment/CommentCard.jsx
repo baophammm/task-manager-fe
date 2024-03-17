@@ -34,7 +34,6 @@ function CommentCard({ comment }) {
   };
   return (
     <Stack direction="row" spacing={2} sx={{ position: "relative" }}>
-      {/* <Avatar alt={comment.author?.name} src={comment.author?.avatarUrl} /> */}
       <UserProfilePicture targetUser={comment.author} />
       <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}>
         <Stack

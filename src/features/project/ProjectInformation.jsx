@@ -134,19 +134,23 @@ function ProjectInformation({ location }) {
           }}
         >
           <Box>
-            <Typography>
+            <Box>
               <Typography variant="span" fontWeight="bold">
                 Description:{" "}
               </Typography>
-              {selectedProject?.description}
-            </Typography>
-            <Typography>
+              <Typography variant="span">
+                {selectedProject?.description}
+              </Typography>
+            </Box>
+            <Box>
               <Typography variant="span" fontWeight="bold">
                 Creator:{" "}
               </Typography>
-              {selectedProject?.projectOwner.firstName}{" "}
-              {selectedProject?.projectOwner.lastName}
-            </Typography>
+              <Typography variant="span">
+                {selectedProject?.projectOwner.firstName}{" "}
+                {selectedProject?.projectOwner.lastName}
+              </Typography>
+            </Box>
             <Box>
               <Typography variant="span" fontWeight="bold">
                 Status:{" "}
@@ -178,21 +182,26 @@ function ProjectInformation({ location }) {
           </Box>
 
           {selectedProject?.startAt && (
-            <Typography>
+            <Box>
               <Typography variant="span" fontWeight="bold">
                 Start date:{" "}
               </Typography>
-              <Typography>{fDate(selectedProject?.startAt)}</Typography>
-            </Typography>
+              <Typography variant="span">
+                {fDate(selectedProject?.startAt)}
+              </Typography>
+            </Box>
           )}
 
           {selectedProject?.dueAt && (
-            <Typography>
+            <Box>
               <Typography variant="span" fontWeight="bold">
                 Due date:{" "}
               </Typography>
-              <Typography>{fDate(selectedProject?.dueAt)}</Typography>
-            </Typography>
+
+              <Typography variant="span">
+                {fDate(selectedProject?.dueAt)}
+              </Typography>
+            </Box>
           )}
           <Button
             variant="contained"

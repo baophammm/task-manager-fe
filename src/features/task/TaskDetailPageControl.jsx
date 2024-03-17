@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { deleteSingleTask } from "./taskSlice";
 
 function TaskDetailPageControl({
+  from,
   selectedTask,
   disableUpdateTask,
   setIsUpdatingTask,
@@ -34,7 +35,7 @@ function TaskDetailPageControl({
       "Are you sure that you want to delete this task?"
     );
     if (result) {
-      dispatch(deleteSingleTask(taskId)).then(() => navigate("/tasks"));
+      dispatch(deleteSingleTask(taskId)).then(() => navigate(from));
     }
   };
 
