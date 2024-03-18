@@ -28,15 +28,11 @@ function ProjectPage() {
   const { isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects } =
     useContext(RouterContext);
 
-  const { user } = useAuth();
   const [page, setPage] = useState(1);
 
   const location = useLocation();
 
   const [isOpeningProjectFilter, setIsOpeningProjectFilter] = useState(false);
-
-  // const [isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects] =
-  //   useState(false);
 
   const {
     isLoading,
@@ -106,16 +102,12 @@ function ProjectPage() {
       <Box
         component="main"
         sx={{
-          // border: "5px solid orange",
           height: { xs: "calc(100vh-90px)", md: "calc(100vh - 110px)" },
-          // width: "100dvw",
-          // height: "calc(100vh-110px)",
         }}
       >
         <Container
           maxWidth={"100%"}
           sx={{
-            // border: "3px solid green",
             p: 0,
             height: 1,
           }}
@@ -125,10 +117,8 @@ function ProjectPage() {
             alignItems="flex-start"
             spacing={2}
             sx={{
-              // border: "3px solid blue",
               margin: 0,
               ml: { xs: -3, md: -3 },
-              // mr: { xs: 0, md: -3 },
               height: "100%",
               width: "100dvw",
               display: "flex",
@@ -140,7 +130,6 @@ function ProjectPage() {
               md={isOpeningProjectFilter ? 3 : 0.5}
               xl={isOpeningProjectFilter ? 2.5 : 0.5}
               sx={{
-                // border: "3px solid green",
                 backgroundColor: "background.secondary",
                 color: "text.secondary",
 
@@ -157,7 +146,6 @@ function ProjectPage() {
               <Box
                 width={1}
                 sx={{
-                  //  border: "1px solid orange",
                   height: 1,
                 }}
               >
@@ -172,7 +160,6 @@ function ProjectPage() {
               md={isOpeningProjectFilter ? 9 : 11.5}
               xl={isOpeningProjectFilter ? 9.5 : 11.5}
               sx={{
-                // border: "3px solid red",
                 height: 1,
                 width: { xs: 1, md: 1 },
               }}

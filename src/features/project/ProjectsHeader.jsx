@@ -85,7 +85,11 @@ function ProjectsHeader() {
         </Button>
 
         <div>
-          <Link to={`/projects/new`} state={{ backgroundLocation: location }}>
+          <Link
+            to={`/projects/new`}
+            state={{ backgroundLocation: location }}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
             <Button
               startIcon={
                 <SvgIcon fontSize="small">
