@@ -45,18 +45,6 @@ function ProjectDetailTaskFilter({ projectId }) {
       ],
     },
     {
-      name: "priority",
-      label: "Priority",
-      fieldType: "select",
-      options: [
-        { value: "All", label: "All" },
-        { value: "Critical", label: "Critical" },
-        { value: "High", label: "High" },
-        { value: "Medium", label: "Medium" },
-        { value: "Low", label: "Low" },
-      ],
-    },
-    {
       name: "assigneeId",
       label: "Assignee",
       fieldType: "select",
@@ -159,7 +147,7 @@ function ProjectDetailTaskFilter({ projectId }) {
             setFilters({
               ...filters,
               taskStatus: "",
-              priority: "",
+
               assigneeId: "",
               startAfter: "",
               startBefore: "",

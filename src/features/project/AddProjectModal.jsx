@@ -61,8 +61,8 @@ const projectYupSchema = Yup.object().shape({
 });
 
 const PROJECT_FIELDS = [
-  { name: "title", label: "Task title", fieldType: "text" },
-  { name: "description", label: "Task description", fieldType: "text" },
+  { name: "title", label: "Project title", fieldType: "text" },
+  { name: "description", label: "Project description", fieldType: "text" },
   {
     name: "projectStatus",
     label: "Project Status",
@@ -118,7 +118,11 @@ export default function AddProjectModal() {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    dispatch(createProject(data)).then(() => setNewlyCreatedProject(true));
+    try {
+      dispatch(createProject(data)).then(() => setNewlyCreatedProject(true));
+    } catch (error) {
+      setNewlyCreatedProject(false);
+    }
   };
 
   useEffect(() => {

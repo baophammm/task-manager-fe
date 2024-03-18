@@ -15,7 +15,9 @@ import {
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DoneIcon from "@mui/icons-material/Done";
+
 import ViewListIcon from "@mui/icons-material/ViewList";
+import ClearIcon from "@mui/icons-material/Clear";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -98,6 +100,7 @@ function NotificationListMenu() {
           handleCloseNotificationListActionMenu();
         }}
       >
+        {/* TODO */}
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Stack
             direction="row"
@@ -106,9 +109,9 @@ function NotificationListMenu() {
             alignItems="center"
           >
             <SvgIcon fontSize="small">
-              <ViewListIcon />
+              <ClearIcon />
             </SvgIcon>
-            <Typography>Open notifications</Typography>
+            <Typography>Delete all read</Typography>
           </Stack>
         </Link>
       </MenuItem>

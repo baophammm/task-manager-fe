@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,42 +16,51 @@ import { TaskPageContext } from "../../pages/TaskPage";
 import { FDateField, FSelect } from "../../components/form";
 import dayjs from "dayjs";
 import { TasksSearch } from "./TasksSearch";
-
-const TASK_FILTERS = [
-  {
-    name: "taskStatus",
-    label: "Task Status",
-    fieldType: "select",
-    options: [
-      { value: "All", label: "All" },
-      { value: "Backlog", label: "Backlog" },
-      { value: "InProgress", label: "In Progress" },
-      { value: "Completed", label: "Completed" },
-      { value: "Archived", label: "Archived" },
-    ],
-  },
-  {
-    name: "priority",
-    label: "Priority",
-    fieldType: "select",
-    options: [
-      { value: "All", label: "All" },
-      { value: "Critical", label: "Critical" },
-      { value: "High", label: "High" },
-      { value: "Medium", label: "Medium" },
-      { value: "Low", label: "Low" },
-    ],
-  },
-  // { name: "projectId", label: "Project", fieldType: "select", options: [] },
-  { name: "startAfter", label: "Start After", fieldType: "date" },
-  { name: "startBefore", label: "Start Before", fieldType: "date" },
-  { name: "dueAfter", label: "Due After", fieldType: "date" },
-  { name: "dueBefore", label: "Due Before", fieldType: "date" },
-];
+import { useDispatch } from "react-redux";
+import { getProjects } from "../project/projectSlice";
+import { useSelector } from "react-redux";
 
 function TaskFilter() {
   const { filters, setFilters, handleFilterSelection } =
     useContext(TaskPageContext);
+
+  const { currentPageProjects, projectsById } = useSelector(
+    (state) => state.project
+  );
+
+  const projects = currentPageProjects.map(
+    (projectId) => projectsById[projectId]
+  );
+  let projectOptions = projects.map((project) => ({
+    value: project._id,
+    label: project.title,
+  }));
+
+  projectOptions.unshift({ value: "", label: "All" });
+  const TASK_FILTERS = [
+    {
+      name: "taskStatus",
+      label: "Task Status",
+      fieldType: "select",
+      options: [
+        { value: "All", label: "All" },
+        { value: "Backlog", label: "Backlog" },
+        { value: "InProgress", label: "In Progress" },
+        { value: "Completed", label: "Completed" },
+        { value: "Archived", label: "Archived" },
+      ],
+    },
+    {
+      name: "projectId",
+      label: "Project",
+      fieldType: "select",
+      options: projectOptions,
+    },
+    { name: "startAfter", label: "Start After", fieldType: "date" },
+    { name: "startBefore", label: "Start Before", fieldType: "date" },
+    { name: "dueAfter", label: "Due After", fieldType: "date" },
+    { name: "dueBefore", label: "Due Before", fieldType: "date" },
+  ];
 
   const { isOpeningTaskFilter, setIsOpeningTaskFilter } =
     useContext(TaskPageContext);
@@ -65,6 +74,11 @@ function TaskFilter() {
   const handleCloseFilterMenu = () => {
     setAnchorElFilter(null);
   };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProjects({ limit: 1000 }));
+  }, [dispatch]);
 
   const filterMenu = (
     <Menu
@@ -153,7 +167,6 @@ function TaskFilter() {
               setFilters({
                 ...filters,
                 taskStatus: "",
-                priority: "",
                 startAfter: "",
                 startBefore: "",
                 dueAfter: "",
@@ -286,7 +299,6 @@ function TaskFilter() {
                   setFilters({
                     ...filters,
                     taskStatus: "",
-                    priority: "",
 
                     startAfter: "",
                     startBefore: "",

@@ -43,20 +43,20 @@ const pages = [
   // },
   {
     value: "project",
-    title: "Projects",
+    title: "Home",
     icon: <ListAltIcon />,
     link: "/projects",
     // link: "/",
   },
   {
     value: "task",
-    title: "Tasks",
+    title: "My Tasks",
     icon: <AssignmentTurnedInIcon />,
     link: "/tasks",
   },
   {
     value: "invitation",
-    title: "Invitations",
+    title: "My Invitations",
     icon: <MoveToInboxIcon />,
     link: "/invitations",
   },
@@ -231,7 +231,7 @@ function MainHeader() {
                 style={{ justifyContent: "flex-start" }}
                 onClick={
                   page.value === "project"
-                    ? () => setIsDisplayingFeaturedProjects(false)
+                    ? () => setIsDisplayingFeaturedProjects(true)
                     : () => {}
                 }
               >
@@ -395,7 +395,7 @@ function MainHeader() {
                           <Button
                             onClick={
                               page.value === "project"
-                                ? () => setIsDisplayingFeaturedProjects(false)
+                                ? () => setIsDisplayingFeaturedProjects(true)
                                 : () => {}
                             }
                             sx={{

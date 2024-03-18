@@ -43,6 +43,10 @@ function ProjectInformation({ location }) {
     setIsUpdatingProject,
   } = useContext(ProjectDetailPageContext);
 
+  const projectOwnerId = selectedProject?.projectOwner._id;
+
+  const isProjectOwner = currentUserId === projectOwnerId ? true : false;
+
   const currentUserFavoriteProjects = user.favoriteProjects;
   const favoriteProjectList = currentUserFavoriteProjects.find(
     (project) => project === projectId
@@ -205,7 +209,9 @@ function ProjectInformation({ location }) {
           )}
           <Button
             variant="contained"
+            disabled={!isProjectOwner}
             onClick={() => setIsUpdatingProject(true)}
+            sx={{ mt: 1 }}
           >
             Update Project
           </Button>

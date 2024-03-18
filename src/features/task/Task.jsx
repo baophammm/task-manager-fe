@@ -6,7 +6,6 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import FlagIcon from "@mui/icons-material/Flag";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 
 import ClockIcon from "@heroicons/react/24/solid/ClockIcon";
@@ -22,6 +21,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { fDate } from "../../utils/formatTime";
 
 const TASK_STATUS_ICONS = [
   {
@@ -114,17 +114,28 @@ const Task = (props) => {
                   pb: 1,
                 }}
               >
-                <Typography
-                  align="left"
-                  gutterBottom
-                  variant="h6"
+                <Box
                   sx={{
-                    // border: "1px solid green",
-                    flexGrow: 1,
+                    width: 1,
+                    height: "3em",
+                    lineHeight: "1.5em",
+                    overflow: "hidden",
                   }}
                 >
-                  {props.task.title}
-                </Typography>
+                  <Typography
+                    align="left"
+                    gutterBottom
+                    variant="h6"
+                    sx={{
+                      // border: "1px solid green",
+                      flexGrow: 1,
+                    }}
+                  >
+                    {props.task.title.length > 20
+                      ? props.task.title.slice(0, 50) + "..."
+                      : props.task.title}
+                  </Typography>
+                </Box>
 
                 <Typography align="left" variant="body2">
                   <Typography variant="span" fontWeight="bold">
@@ -148,6 +159,35 @@ const Task = (props) => {
                     {props.task.assignee.firstName}{" "}
                     {props.task.assignee.lastName}
                   </Typography>
+                )}
+
+                {props.task.startAt && (
+                  <Box>
+                    <Typography
+                      variant="span"
+                      fontSize="0.875rem"
+                      fontWeight="bold"
+                    >
+                      Start:{" "}
+                    </Typography>
+                    <Typography variant="span" fontSize="0.875rem">
+                      {fDate(props.task.startAt)}
+                    </Typography>
+                  </Box>
+                )}
+                {props.task.dueAt && (
+                  <Box>
+                    <Typography
+                      variant="span"
+                      fontSize="0.875rem"
+                      fontWeight="bold"
+                    >
+                      Due:{" "}
+                    </Typography>
+                    <Typography variant="span" fontSize="0.875rem">
+                      {fDate(props.task.dueAt)}
+                    </Typography>
+                  </Box>
                 )}
               </CardContent>
 

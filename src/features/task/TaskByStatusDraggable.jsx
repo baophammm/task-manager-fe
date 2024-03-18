@@ -35,7 +35,7 @@ const TASKS_BY_STATUSES = [
 
 function TaskByStatusDraggable({ tasks, filters }) {
   const params = useParams();
-  const projectId = params.projectid;
+  const projectId = params.projectId;
   const dispatch = useDispatch();
 
   const onDragEnd = (result) => {
@@ -58,7 +58,9 @@ function TaskByStatusDraggable({ tasks, filters }) {
         taskId: draggableId,
         taskStatus: destination.droppableId,
       })
-    ).then(() => dispatch(getTasks({ projectId, limit: 1000, ...filters })));
+    ).then(() => {
+      dispatch(getTasks({ projectId, limit: 1000, ...filters }));
+    });
 
     //TODO update position of tasks in columns
   };

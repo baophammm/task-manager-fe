@@ -205,24 +205,77 @@ function ProjectPageControl({ selectedProject, location }) {
         alignItems: "center",
       }}
     >
-      <Box>
-        <Link to={`/projects`}>
-          <Button
-            startIcon={
-              <SvgIcon fontSize="small">
-                <ArrowBackIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-            sx={{ p: 1 }}
-          >
-            Projects
-          </Button>
-        </Link>
-      </Box>
+      <Stack direction="row" spacing={1}>
+        <Box>
+          <Link to={`/projects`}>
+            <Button
+              startIcon={
+                <SvgIcon fontSize="small">
+                  <ArrowBackIcon />
+                </SvgIcon>
+              }
+              variant="contained"
+              sx={{ p: 1 }}
+            >
+              Projects
+            </Button>
+          </Link>
+        </Box>
+        <Box
+          sx={{
+            display: { xs: "none", md: "flex" },
+            flexDirection: "row",
+          }}
+        >
+          <ProjectDetailTaskFilter projectId={projectId} />
+          {!disableAddTask && (
+            <Box>
+              <Link
+                to={`/projects/${projectId}/tasks/new`}
+                state={{ backgroundLocation: location }}
+              >
+                <LoadingButton
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                  }
+                  variant="contained"
+                  disabled={disableAddTask}
+                  loading={isLoadingProject}
+                  sx={{ p: 1 }}
+                >
+                  Task
+                </LoadingButton>
+              </Link>
+            </Box>
+          )}
+          {isProjectOwner && (
+            <Box sx={{ ml: 1 }}>
+              <Link
+                to={`/projects/${projectId}/projectMembers/new`}
+                state={{ backgroundLocation: location }}
+              >
+                <LoadingButton
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                  }
+                  variant="contained"
+                  disabled={!isProjectOwner}
+                  loading={isLoadingProject}
+                  sx={{ p: 1 }}
+                >
+                  Member
+                </LoadingButton>
+              </Link>
+            </Box>
+          )}
+        </Box>
+      </Stack>
 
       <Stack flexDirection="row">
-        <ProjectDetailTaskFilter projectId={projectId} />
         <Box
           sx={{
             display: { xs: "none", md: "flex" },
@@ -231,7 +284,7 @@ function ProjectPageControl({ selectedProject, location }) {
             alignItems: "center",
           }}
         >
-          <Box>
+          {/* <Box>
             {disableAddTask ? (
               <LoadingButton
                 startIcon={
@@ -266,9 +319,8 @@ function ProjectPageControl({ selectedProject, location }) {
                 </LoadingButton>
               </Link>
             )}
-          </Box>
-
-          <Box sx={{ px: "6px" }}>
+          </Box> */}
+          {/* <Box sx={{ px: "6px" }}>
             {isProjectOwner ? (
               <Link
                 to={`/projects/${projectId}/projectMembers/new`}
@@ -303,7 +355,7 @@ function ProjectPageControl({ selectedProject, location }) {
                 Member
               </LoadingButton>
             )}
-          </Box>
+          </Box> */}
 
           <Box>
             {isProjectOwner ? (

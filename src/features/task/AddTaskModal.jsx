@@ -27,12 +27,11 @@ import {
   FTextField,
   FormProvider,
 } from "../../components/form";
-import dayjs from "dayjs";
+
 import { createTask, getTasks } from "./taskSlice";
+import { getProjects } from "../project/projectSlice";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
-  // border: "1px solid red",
-  // background: alpha(theme.palette.background.paper, 0.36),
   background: theme.palette.action.disabled,
 
   position: "fixed",
@@ -84,17 +83,6 @@ const TASK_FIELDS = [
       { value: "Archived", label: "Archived" },
     ],
   },
-  {
-    name: "priority",
-    label: "Priority",
-    fieldType: "select",
-    options: [
-      { value: "Critical", label: "Critical" },
-      { value: "High", label: "High" },
-      { value: "Medium", label: "Medium" },
-      { value: "Low", label: "Low" },
-    ],
-  },
   { name: "startAt", label: "Start At", fieldType: "date" },
   { name: "dueAt", label: "Due At", fieldType: "date" },
 ];
@@ -103,6 +91,43 @@ function AddTaskModal() {
   const addTaskLocation = useLocation();
   const from = addTaskLocation.state?.backgroundLocation?.pathname || "/tasks";
   const { isLoading } = useSelector((state) => state.task);
+  const { currentPageProjects, projectsById } = useSelector(
+    (state) => state.project
+  );
+
+  const projects = currentPageProjects.map(
+    (projectId) => projectsById[projectId]
+  );
+  let projectOptions = projects.map((project) => ({
+    value: project._id,
+    label: project.title,
+  }));
+
+  projectOptions.unshift({ value: "", label: "None" });
+
+  const TASK_FIELDS = [
+    { name: "title", label: "Task title", fieldType: "text" },
+    { name: "description", label: "Task description", fieldType: "text" },
+    {
+      name: "projectId",
+      label: "Project",
+      fieldType: "select",
+      options: projectOptions,
+    },
+    {
+      name: "taskStatus",
+      label: "Task Status",
+      fieldType: "select",
+      options: [
+        { value: "Backlog", label: "Backlog" },
+        { value: "InProgress", label: "In Progress" },
+        { value: "Completed", label: "Completed" },
+        { value: "Archived", label: "Archived" },
+      ],
+    },
+    { name: "startAt", label: "Start At", fieldType: "date" },
+    { name: "dueAt", label: "Due At", fieldType: "date" },
+  ];
 
   const modalRef = useRef();
   const navigate = useNavigate();
@@ -114,11 +139,10 @@ function AddTaskModal() {
     title: "",
     description: "",
     taskStatus: "Backlog",
-    priority: "High",
     // assigneeId: null,
-    // projectId: null,
-    startAt: null,
-    dueAt: null,
+    projectId: "",
+    startAt: "",
+    dueAt: "",
   };
 
   const methods = useForm({
@@ -133,6 +157,10 @@ function AddTaskModal() {
   } = methods;
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProjects({ limit: 1000 }));
+  }, [dispatch]);
 
   const onSubmit = async (data) => {
     dispatch(createTask(data)).then(() => {

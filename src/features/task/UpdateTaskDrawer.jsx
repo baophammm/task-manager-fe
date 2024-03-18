@@ -79,17 +79,7 @@ export default function UpdateTaskDrawer({
         { value: "Archived", label: "Archived" },
       ],
     },
-    {
-      name: "priority",
-      label: "Priority",
-      fieldType: "select",
-      options: [
-        { value: "Critical", label: "Critical" },
-        { value: "High", label: "High" },
-        { value: "Medium", label: "Medium" },
-        { value: "Low", label: "Low" },
-      ],
-    },
+
     { name: "startAt", label: "Start At", fieldType: "date" },
     { name: "dueAt", label: "Due At", fieldType: "date" },
   ];
@@ -98,7 +88,6 @@ export default function UpdateTaskDrawer({
     title: task?.title || "",
     description: task?.description || "",
     taskStatus: task?.taskStatus || "Backlog",
-    priority: task?.priority || "High",
     assigneeId: task?.assignee?._id || null,
     projectId: task?.project?._id || null,
     startAt: task?.startAt ? dayjs(task?.startAt).format("YYYY-MM-DD") : "",

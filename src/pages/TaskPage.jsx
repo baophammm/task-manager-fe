@@ -49,7 +49,6 @@ function TaskPage() {
 
   const defaultValues = {
     taskStatus: "",
-    priority: "",
     assigneeId: user._id,
     projectId: "",
     startBefore: "",

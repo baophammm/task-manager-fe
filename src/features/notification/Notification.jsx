@@ -167,12 +167,6 @@ function Notification({ notification, handleCloseNotificationListMenu }) {
         mb: 0.5,
       }}
     >
-      {/* <Box
-        sx={{
-          // border: "1px solid red",
-          pb: 1,
-        }}
-      > */}
       <Box
         sx={{
           height: 1,
@@ -182,10 +176,11 @@ function Notification({ notification, handleCloseNotificationListMenu }) {
       >
         <Box
           sx={{
+            // border: "1px solid red",
             height: 1,
             fullHeight: 1,
             flexGrow: 1,
-            p: 1,
+            pl: 1,
           }}
           onClick={() => {
             if (!isRead) {
@@ -203,15 +198,51 @@ function Notification({ notification, handleCloseNotificationListMenu }) {
             }
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <Typography variant="subtitle1">{notification.title}</Typography>
-            <Typography variant="body2">{notification.message}</Typography>
-
-            <Typography variant="body2">
-              {displayDay} - {displayTime}
-            </Typography>
+            <Box
+              sx={
+                {
+                  // border: "1px solid orange",
+                }
+              }
+            >
+              <Typography variant="subtitle1">{notification.title}</Typography>
+            </Box>
+            <Box
+              sx={{
+                // border: "1px solid green",
+                width: 1,
+                maxWidth: "360px",
+                height: "3em",
+                lineHeight: "1.5em",
+                overflow: "hidden",
+              }}
+            >
+              <Typography variant="body2">
+                {notification.message.length > 100
+                  ? notification.message.slice(0, 100) + "..."
+                  : notification.message}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+              }}
+            >
+              <Typography variant="body2">
+                {displayDay} - {displayTime}
+              </Typography>
+            </Box>
           </Link>
         </Box>
-        <Stack direction="column">
+        <Box
+          sx={{
+            width: "30px",
+            // border: "1px solid orange",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <Box>
             <Tooltip>
               <IconButton onClick={handleOpenNotificationActionMenu}>
@@ -233,9 +264,9 @@ function Notification({ notification, handleCloseNotificationListMenu }) {
               </SvgIcon>
             </IconButton>
           </Tooltip>
-        </Stack>
+        </Box>
       </Box>
-      {/* </Box> */}
+
       <Divider />
     </Box>
   );

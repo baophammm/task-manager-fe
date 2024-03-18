@@ -56,7 +56,6 @@ function ProjectDetailPage() {
 
   const defaultValuesProjectTaskFilter = {
     taskStatus: "",
-    priority: "",
     assigneeId: "",
     startBefore: "",
     startAfter: "",
@@ -102,6 +101,7 @@ function ProjectDetailPage() {
         filters,
         setFilters,
         handleFilterSelection,
+        location,
       }}
     >
       <Box

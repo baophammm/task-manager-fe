@@ -2,6 +2,7 @@ import { Badge, Box, IconButton, SvgIcon, Tooltip } from "@mui/material";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import React, { createContext, useEffect, useState } from "react";
 import NotificationListMenu from "./NotificationListMenu";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getNotifications } from "./notificationSlice";
@@ -75,14 +76,12 @@ function NotificationContainer({ sx }) {
           <IconButton
             onClick={handleOpenNotificationListMenu}
             sx={{
-              border: "2px solid",
-              borderColor: "#fff200",
               p: 0.8,
             }}
           >
             <Badge color="error" badgeContent={unreadNotificationCount}>
               <SvgIcon fontSize="medium">
-                <NotificationsNoneIcon style={{ color: "#fff200" }} />
+                <NotificationsIcon />
               </SvgIcon>
             </Badge>
             {/* )} */}

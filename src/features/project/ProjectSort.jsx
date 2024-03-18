@@ -3,10 +3,10 @@ import { ProjectPageContext } from "../../pages/ProjectPage";
 import { FSelect } from "../../components/form";
 
 const PROJECT_SORT_BY_OPTIONS = [
-  { value: "created_at_desc", label: "Created At Descending" },
-  { value: "created_at_asc", label: "Created At Ascending" },
-  { value: "title_desc", label: "Title Descending" },
-  { value: "title_asc", label: "Title Ascending" },
+  { value: "created_at_desc", label: "Created At Newest-Oldest" },
+  { value: "created_at_asc", label: "Created At Oldest-Newest" },
+  { value: "title_desc", label: "Title Z-A" },
+  { value: "title_asc", label: "Title A-Z" },
 ];
 function ProjectSort() {
   const { filters, setFilters, handleFilterSelection } =

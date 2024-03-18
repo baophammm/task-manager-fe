@@ -14,24 +14,40 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { Card, CssBaseline, Stack, Typography } from "@mui/material";
+import { Card, CssBaseline, Stack, SvgIcon, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { updateSingleProject } from "../project/projectSlice";
 import { toast } from "react-toastify";
 import LoadingScreen from "../../components/LoadingScreen";
+import { Link, useParams } from "react-router-dom";
+import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import { useContext } from "react";
+import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
 
 const projectYupSchema = Yup.object().shape({
   title: Yup.string().required("Project title is required"),
 });
 
-export default function UpdateProjectDrawer({
-  project,
-  isLoading,
-  isUpdatingProject,
-  setIsUpdatingProject,
-}) {
+export default function UpdateProjectDrawer() {
+  // {
+  // project,
+  // isLoading,
+  // isUpdatingProject,
+  // setIsUpdatingProject,
+  // location,
+  // }
+  const {
+    selectedProject: project,
+    isLoadingProject: isLoading,
+    isUpdatingProject,
+    setIsUpdatingProject,
+    location,
+  } = useContext(ProjectDetailPageContext);
+
   const dispatch = useDispatch();
 
+  const params = useParams();
+  const projectId = params.projectId;
   // Project Field Update
 
   const PROJECT_FIELDS = [
@@ -155,10 +171,28 @@ export default function UpdateProjectDrawer({
               width: 1,
               display: "flex",
               flexDirection: "row",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
+            <Link
+              to={`/projects/${projectId}/projectMembers/new`}
+              state={{ backgroundLocation: location }}
+              onClick={() => setIsUpdatingProject(false)}
+            >
+              <LoadingButton
+                startIcon={
+                  <SvgIcon fontSize="small">
+                    <PlusIcon />
+                  </SvgIcon>
+                }
+                variant="contained"
+                loading={isLoading}
+                sx={{ p: 1 }}
+              >
+                Member
+              </LoadingButton>
+            </Link>
             <LoadingButton
               type="submit"
               variant="contained"

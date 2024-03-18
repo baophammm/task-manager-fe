@@ -103,17 +103,6 @@ function AddProjectTaskModal() {
       ],
     },
     {
-      name: "priority",
-      label: "Priority",
-      fieldType: "select",
-      options: [
-        { value: "Critical", label: "Critical" },
-        { value: "High", label: "High" },
-        { value: "Medium", label: "Medium" },
-        { value: "Low", label: "Low" },
-      ],
-    },
-    {
       name: "assigneeId",
       label: "Assignee",
       fieldType: "select",
@@ -127,7 +116,6 @@ function AddProjectTaskModal() {
     title: "",
     description: "",
     taskStatus: "Backlog",
-    priority: "High",
     assigneeId: "",
     projectId: projectId,
     startAt: "",

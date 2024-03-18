@@ -81,6 +81,14 @@ function Project(props) {
     }
   };
   return (
+    // <Link
+    //   to={`/projects/${props.project._id}`}
+    //   style={{
+    //     textDecoration: "none",
+    //     color: "inherit",
+    //   }}
+    //   onClick={(e) => e.stopPropagation()}
+    // >
     <StyledContainer>
       <Card
         sx={{
@@ -111,17 +119,16 @@ function Project(props) {
             }}
           >
             <Typography variant="h6">{props.project.title}</Typography>
+
             <IconButton
               size="small"
               aria-label="favorite project"
               aria-controls="menu-projectdetailcontrolbutton"
               aria-haspopup="true"
-              onClick={handleAddFavoriteProject}
-              sx={
-                {
-                  // backgroundColor: isFavoriteProject ? "yellow" : "transparent",
-                }
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddFavoriteProject();
+              }}
             >
               {isFavoriteProject ? (
                 <GradeIcon sx={{ color: "#f1c40f" }} />
@@ -130,18 +137,40 @@ function Project(props) {
               )}
             </IconButton>
           </Box>
-          <Typography align="left" variant="body2">
-            <Typography variant="span" fontWeight="bold">
+          <Box
+            sx={{
+              width: 1,
+              height: "3em",
+              lineHeight: "1.5em",
+              overflow: "hidden",
+            }}
+          >
+            <Typography variant="span" fontWeight="bold" fontSize="0.875rem">
               Description:{" "}
             </Typography>
-            {props.project.description}
-          </Typography>
-          <Typography align="left" variant="body2">
-            <Typography variant="span" fontWeight="bold">
+            <Typography variant="span" fontSize="0.875rem">
+              {props.project.description.length > 80
+                ? props.project.description.slice(0, 80) + "..."
+                : props.project.description}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="span" fontWeight="bold" fontSize="0.875rem">
               Task count:
             </Typography>{" "}
-            {props.project.taskCount}
-          </Typography>
+            <Typography align="left" variant="span" fontSize="0.875rem">
+              {props.project.taskCount}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="span" fontWeight="bold" fontSize="0.875rem">
+              Member count:
+            </Typography>{" "}
+            <Typography align="left" variant="span" fontSize="0.875rem">
+              {props.project.projectMembers.length}
+            </Typography>
+          </Box>
+
           <Typography align="left" variant="body2">
             <Typography variant="span" fontWeight="bold">
               Creator:
@@ -215,6 +244,7 @@ function Project(props) {
         </Grid>
       </Card>
     </StyledContainer>
+    // </Link>
   );
 }
 

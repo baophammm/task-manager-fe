@@ -45,6 +45,7 @@ function SingleTaskGeneralInfo({ selectedTask }) {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          mb: 1,
         }}
       >
         {selectedTask?.project && (
@@ -72,6 +73,9 @@ function SingleTaskGeneralInfo({ selectedTask }) {
         flexWrap="wrap"
         justifyContent="flex-start"
         alignItems="center"
+        sx={{
+          mb: 1,
+        }}
       >
         <Box>
           <Typography fontWeight="bold">Assignee</Typography>
@@ -86,10 +90,6 @@ function SingleTaskGeneralInfo({ selectedTask }) {
               )[0].label
             }
           />
-        </Box>
-        <Box>
-          <Typography fontWeight="bold">Task Priority</Typography>
-          <Chip label={selectedTask?.priority} />
         </Box>
 
         {selectedTask?.startAt && (

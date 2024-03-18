@@ -61,6 +61,7 @@ const slice = createSlice({
       if (index > -1) {
         state.currentPageTasks.splice(index, 1);
       }
+      state.selectedTask = null;
     },
     uploadFileToTaskSuccess(state, action) {
       state.isLoading = false;
@@ -86,7 +87,6 @@ export const createTask =
     title,
     description,
     taskStatus,
-    taskPriority,
     assigneeId,
     projectId,
     startAt,
@@ -100,7 +100,6 @@ export const createTask =
         title,
         description,
         taskStatus,
-        taskPriority,
         assigneeId,
         projectId,
         startAt,
@@ -119,7 +118,6 @@ export const getTasks =
   ({
     search,
     taskStatus,
-    priority,
     assigneeId,
     projectId,
     startBefore,
@@ -135,7 +133,6 @@ export const getTasks =
       const params = { page, limit };
       if (search) params.search = search;
       if (taskStatus) params.taskStatus = taskStatus;
-      if (priority) params.priority = priority;
       if (assigneeId) params.assigneeId = assigneeId;
       if (projectId) params.projectId = projectId;
       if (startAfter) params.startAfter = startAfter;
@@ -169,7 +166,6 @@ export const updateSingleTask =
     title,
     description,
     taskStatus,
-    priority,
     assigneeId,
     projectId,
     startAt,
@@ -183,7 +179,6 @@ export const updateSingleTask =
         title,
         description,
         taskStatus,
-        priority,
         assigneeId,
         projectId,
         startAt,

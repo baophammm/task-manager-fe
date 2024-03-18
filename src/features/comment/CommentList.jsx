@@ -7,6 +7,7 @@ import { Pagination, Stack, Typography } from "@mui/material";
 import LoadingScreen from "../../components/LoadingScreen";
 import CommentCard from "./CommentCard";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 function CommentList({ taskId }) {
   const {
     commentsByTask,
@@ -32,12 +33,13 @@ function CommentList({ taskId }) {
   // TODO ERROR render after task is deleted
   useEffect(() => {
     if (taskId) {
-      console.log(taskId);
+      console.log("TASK ID IN COMMENT LIST", taskId);
       dispatch(getCommentsOfTask({ taskId }));
     } else {
       console.log("Task Id not found, should go here after delete");
     }
 
+    return () => {};
     // toast.error("IF IT GOES HERE, NO ERROR");
   }, [taskId, dispatch]);
 

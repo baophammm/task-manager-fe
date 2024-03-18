@@ -70,11 +70,10 @@ function TaskDetailModal() {
   const navigate = useNavigate();
 
   const params = useParams();
+  const taskId = params.taskId;
 
   const { user } = useAuth();
   const currentUserId = user._id;
-
-  const taskId = params.taskId;
 
   const { selectedTask, isLoading } = useSelector((state) => state.task);
 
@@ -96,6 +95,7 @@ function TaskDetailModal() {
         ? false
         : true;
   }
+  console.log("TASK ID IN TASK DETAIL PAGE", taskId);
 
   return (
     <ModalWrapperBox
