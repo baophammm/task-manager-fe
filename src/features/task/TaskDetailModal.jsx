@@ -95,7 +95,6 @@ function TaskDetailModal() {
         ? false
         : true;
   }
-  console.log("TASK ID IN TASK DETAIL PAGE", taskId);
 
   return (
     <ModalWrapperBox

@@ -25,20 +25,13 @@ function NotificationContainer({ sx }) {
     currentPageNotifications,
     notificationsById,
     totalNotifications,
+    totalUnreadNotifications,
     isLoading,
   } = useSelector((state) => state.notification);
 
   const notifications = currentPageNotifications.map(
     (notificationId) => notificationsById[notificationId]
   );
-  // Find if there is unread notification
-  let unreadNotificationCount = 0;
-
-  notifications.forEach((notification) => {
-    if (notification.isRead === false) {
-      unreadNotificationCount += 1;
-    }
-  });
 
   const dispatch = useDispatch();
 
@@ -69,8 +62,8 @@ function NotificationContainer({ sx }) {
     >
       <Box sx={{ ...sx, flexGrow: 0, mr: { xs: 1, sm: 2 } }}>
         <Tooltip
-          title={`You have ${unreadNotificationCount} unread ${
-            unreadNotificationCount > 1 ? "notifications" : "notification"
+          title={`You have ${totalUnreadNotifications} unread ${
+            totalUnreadNotifications > 1 ? "notifications" : "notification"
           }`}
         >
           <IconButton
@@ -79,7 +72,7 @@ function NotificationContainer({ sx }) {
               p: 0.8,
             }}
           >
-            <Badge color="error" badgeContent={unreadNotificationCount}>
+            <Badge color="error" badgeContent={totalUnreadNotifications}>
               <SvgIcon fontSize="medium">
                 <NotificationsIcon />
               </SvgIcon>

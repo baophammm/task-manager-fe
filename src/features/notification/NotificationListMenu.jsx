@@ -22,6 +22,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
+  deleteManyNotifications,
   getNotifications,
   updateReadAndUndreadAllNotifications,
 } from "./notificationSlice";
@@ -30,14 +31,17 @@ import Notification from "./Notification";
 import { Link } from "react-router-dom";
 
 import { NotificationContainerContext } from "./NotificationContainer";
+import { NOTIFICATION_PER_PAGE } from "../../app/config";
 
 function NotificationListMenu() {
   const {
+    page,
     setPage,
     checkedUnreadOnly,
     setCheckedUnreadOnly,
     notifications,
     totalNotifications,
+    totalUnreadNotifications,
     isLoading,
     anchorElNotificationList,
     handleCloseNotificationListMenu,
@@ -56,7 +60,31 @@ function NotificationListMenu() {
 
   const dispatch = useDispatch();
   const markAllNotificationsRead = () => {
-    dispatch(updateReadAndUndreadAllNotifications({ isRead: true }));
+    dispatch(updateReadAndUndreadAllNotifications({ isRead: true })).then(() =>
+      dispatch(
+        getNotifications({ page, isRead: checkedUnreadOnly ? false : null })
+      )
+    );
+  };
+
+  // TODO check notification refresh after updates
+  const handleDeleteAllReadNotifications = () => {
+    const result = window.confirm("Delete all read notifications?");
+
+    if (result) {
+      const newPage = Math.ceil(
+        totalUnreadNotifications / NOTIFICATION_PER_PAGE
+      );
+
+      dispatch(deleteManyNotifications({ isRead: true, page })).then(
+        dispatch(
+          getNotifications({
+            page: newPage,
+            isRead: checkedUnreadOnly ? false : null,
+          })
+        )
+      );
+    }
   };
 
   const NotificationListActionMenu = (
@@ -96,24 +124,21 @@ function NotificationListMenu() {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          // handleDeleteNotification();
+          handleDeleteAllReadNotifications();
           handleCloseNotificationListActionMenu();
         }}
       >
-        {/* TODO */}
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <SvgIcon fontSize="small">
-              <ClearIcon />
-            </SvgIcon>
-            <Typography>Delete all read</Typography>
-          </Stack>
-        </Link>
+        <Stack
+          direction="row"
+          spacing={1}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <SvgIcon fontSize="small">
+            <ClearIcon />
+          </SvgIcon>
+          <Typography>Delete all read</Typography>
+        </Stack>
       </MenuItem>
     </Menu>
   );

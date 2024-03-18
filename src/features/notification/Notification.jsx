@@ -18,15 +18,20 @@ import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   deleteSingleNotification,
+  getNotifications,
   updateReadAndUndreadNotification,
 } from "./notificationSlice";
 import { Link, useLocation } from "react-router-dom";
+import { NotificationContainerContext } from "./NotificationContainer";
 
-function Notification({ notification, handleCloseNotificationListMenu }) {
+function Notification({ notification }) {
+  const { page, handleCloseNotificationListMenu, checkedUnreadOnly } =
+    useContext(NotificationContainerContext);
+
   const location = useLocation();
   // notification link to
 
@@ -53,6 +58,10 @@ function Notification({ notification, handleCloseNotificationListMenu }) {
         notificationId: notification._id,
         isRead: !notification.isRead,
       })
+    ).then(() =>
+      dispatch(
+        getNotifications({ page, isRead: checkedUnreadOnly ? false : null })
+      )
     );
   };
 

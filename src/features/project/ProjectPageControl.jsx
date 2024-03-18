@@ -221,13 +221,13 @@ function ProjectPageControl({ selectedProject, location }) {
             </Button>
           </Link>
         </Box>
+        <ProjectDetailTaskFilter projectId={projectId} />
         <Box
           sx={{
             display: { xs: "none", md: "flex" },
             flexDirection: "row",
           }}
         >
-          <ProjectDetailTaskFilter projectId={projectId} />
           {!disableAddTask && (
             <Box>
               <Link

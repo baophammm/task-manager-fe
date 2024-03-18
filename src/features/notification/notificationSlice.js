@@ -9,6 +9,7 @@ const initialState = {
   currentPageNotifications: [],
   notificationsById: {},
   totalNotifications: 0,
+  totalUnreadNotifications: 0,
   totalPages: 1,
 };
 
@@ -26,7 +27,7 @@ const slice = createSlice({
     getNotificationsSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      const { notifications, count, totalPages } = action.payload;
+      const { notifications, count, totalPages, countUnread } = action.payload;
       notifications.forEach((notification) => {
         state.notificationsById[notification._id] = notification;
         if (!state.currentPageNotifications.includes(notification._id)) {
@@ -34,6 +35,7 @@ const slice = createSlice({
         }
       });
       state.totalNotifications = count;
+      state.totalUnreadNotifications = countUnread;
       state.totalPages = totalPages;
     },
 
@@ -73,6 +75,22 @@ const slice = createSlice({
       if (index > -1) {
         state.currentPageNotifications.splice(index, 1);
       }
+    },
+    deleteManyNotificationsSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+
+      const { notifications, totalPages, count } = action.payload;
+      state.notificationsById = {};
+      state.currentPageNotifications = [];
+      notifications.forEach((notification) => {
+        state.notificationsById[notification._id] = notification;
+        if (!state.currentPageNotifications.includes(notification._id)) {
+          state.currentPageNotifications.push(notification._id);
+        }
+      });
+      state.totalNotifications = count;
+      state.totalPages = totalPages;
     },
   },
 });
@@ -152,6 +170,28 @@ export const deleteSingleNotification =
         `/notifications/${notificationId}`
       );
       dispatch(slice.actions.deleteSingleNotificationSuccess(notificationId));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const deleteManyNotifications =
+  ({ isRead, page, limit = NOTIFICATION_PER_PAGE }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const params = {
+        isRead,
+        page,
+        limit: limit * page,
+      };
+      const response = await apiService.delete(
+        `/notifications?isRead=${isRead}&page=${page}&limit=${limit}`
+      );
+      dispatch(slice.actions.deleteManyNotificationsSuccess(response.data));
+
+      toast.success("Delete multiple notifications successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
