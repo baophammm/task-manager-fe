@@ -8,12 +8,6 @@ function DisplaysAllProjects() {
     <Container
       maxWidth={"100%"}
       sx={{
-        // border: "1px solid red",
-        // height: {
-        //   xs: "calc(100vh - 170px)",
-        //   sm: "calc(100vh - 160px)",
-        //   md: "calc(100vh - 168px)",
-        // },
         height: 1,
       }}
     >

@@ -1,4 +1,4 @@
-# Task Manager App
+# Task Easify App
 
 ## Requirements
 
@@ -67,16 +67,9 @@
 - [ ] Notifications can be filtered with Unread only switch, can be deleted or set between Read or Unread.
 - [ ] User can see number of Unread notifications on the Notification icon on the Header.
 
-```
-npx create-react-app codercomm-demo --template redux
-```
-
 - Install libraries
 
 ```
-npm install @mui/material @emotion/react @emotion/styled
-npm install @mui/icons-material @mui/lab
-npm install react-router-dom@6 react-hook-form @hookform/resolvers yup
-npm install axios numeral lodash jwt-decode change-case
-npm install react-markdown rehype-raw date-fns react-dropzone react-toastify
+npm install
+
 ```

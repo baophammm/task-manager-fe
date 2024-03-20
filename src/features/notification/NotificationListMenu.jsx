@@ -1,9 +1,7 @@
 import {
   Box,
-  Button,
   Divider,
   FormControlLabel,
-  FormGroup,
   IconButton,
   Menu,
   MenuItem,
@@ -16,11 +14,10 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DoneIcon from "@mui/icons-material/Done";
 
-import ViewListIcon from "@mui/icons-material/ViewList";
 import ClearIcon from "@mui/icons-material/Clear";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+
 import {
   deleteManyNotifications,
   getNotifications,
@@ -28,7 +25,6 @@ import {
 } from "./notificationSlice";
 import { LoadingButton } from "@mui/lab";
 import Notification from "./Notification";
-import { Link } from "react-router-dom";
 
 import { NotificationContainerContext } from "./NotificationContainer";
 import { NOTIFICATION_PER_PAGE } from "../../app/config";
@@ -67,7 +63,6 @@ function NotificationListMenu() {
     );
   };
 
-  // TODO check notification refresh after updates
   const handleDeleteAllReadNotifications = () => {
     const result = window.confirm("Delete all read notifications?");
 
@@ -161,10 +156,8 @@ function NotificationListMenu() {
     >
       <Box
         sx={{
-          // border: "1px solid red",
           width: 1,
           px: 1,
-          // maxHeight: "600px",
         }}
       >
         <Stack
@@ -174,7 +167,6 @@ function NotificationListMenu() {
         >
           <Typography variant="h6">Notifications</Typography>
           <Stack direction="row" alignItems="center">
-            {/* <FormGroup> */}
             <FormControlLabel
               control={
                 <Switch
@@ -185,7 +177,7 @@ function NotificationListMenu() {
               }
               label="Unread only"
             />
-            {/* </FormGroup> */}
+
             <Box>
               <Tooltip>
                 <IconButton onClick={handleOpenNotificationListActionMenu}>

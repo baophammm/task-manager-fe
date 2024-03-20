@@ -1,48 +1,24 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { alpha, styled } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
+import { styled } from "@mui/material/styles";
 import {
-  Avatar,
   CssBaseline,
-  Link,
-  Grid,
   Box,
   Typography,
   Container,
-  Stack,
-  Card,
   TablePagination,
 } from "@mui/material";
 
-import { LoadingButton } from "@mui/lab";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRef } from "react";
-import useAuth from "../../hooks/useAuth";
+
 import { useDispatch, useSelector } from "react-redux";
-import {
-  FDateField,
-  FSelect,
-  FTextField,
-  FormProvider,
-} from "../../components/form";
-import dayjs from "dayjs";
-import { createTask } from "../task/taskSlice";
-import { getSingleProject } from "../project/projectSlice";
-import {
-  getProjectAddNewMembers,
-  getProjectMembers,
-  getUsers,
-} from "./userSlice";
+
+import { getProjectMembers } from "./userSlice";
 import UsersSearch from "./UsersSearch";
-import UserTable from "./UserTable";
 import ProjectMemberUserTable from "./ProjectMemberUserTable";
 import LoadingScreen from "../../components/LoadingScreen";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
-  // border: "1px solid red",
-  // background: alpha(theme.palette.background.paper, 0.36),
   background: theme.palette.action.disabled,
 
   position: "fixed",

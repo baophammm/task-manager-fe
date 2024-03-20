@@ -170,7 +170,6 @@ export const updateSingleTask =
     projectId,
     startAt,
     dueAt,
-    // files,
   }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -216,27 +215,31 @@ export const uploadFileToTask =
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      // upload file to cloudinary (or other middleware that handles files)
-      const fileUrl = await cloudinaryUpload(file);
+      if (file) {
+        // upload file to cloudinary (or other middleware that handles files)
+        const fileUrl = await cloudinaryUpload(file);
 
-      //Get file list
-      const responseGetTask = await apiService.get(`/tasks/${taskId}`);
-      const taskFileList = responseGetTask.data.files;
+        //Get file list
+        const responseGetTask = await apiService.get(`/tasks/${taskId}`);
+        const taskFileList = responseGetTask.data.files;
 
-      //add to file list
-      taskFileList.unshift(fileUrl);
+        //add to file list
+        taskFileList.unshift(fileUrl);
 
-      //replace file list
-      const response = await apiService.put(`/tasks/${taskId}`, {
-        files: taskFileList,
-      });
-      dispatch(
-        slice.actions.uploadFileToTaskSuccess({
-          taskId,
-          newTask: response.data,
-        })
-      );
-      toast.success("File uploaded to task successfully");
+        //replace file list
+        const response = await apiService.put(`/tasks/${taskId}`, {
+          files: taskFileList,
+        });
+        dispatch(
+          slice.actions.uploadFileToTaskSuccess({
+            taskId,
+            newTask: response.data,
+          })
+        );
+        toast.success("File uploaded to task successfully");
+      } else {
+        return;
+      }
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

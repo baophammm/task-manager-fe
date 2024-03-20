@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
 
 const TASK_STATUS_ICONS = [
@@ -53,7 +53,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 }));
 
 const Task = (props) => {
-  // const navigate = useNavigate();
   const location = useLocation();
 
   const updatedTimeDifference =
@@ -97,9 +96,7 @@ const Task = (props) => {
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Card
-              // onClick={() => navigate(`/tasks/${props.task._id}`)}
               sx={{
-                // border: "1px solid red",
                 display: "flex",
                 flexDirection: "column",
                 height: "100%",
@@ -109,7 +106,6 @@ const Task = (props) => {
             >
               <CardContent
                 sx={{
-                  // border: "1px solid red",
                   p: 0,
                   pb: 1,
                 }}
@@ -127,7 +123,6 @@ const Task = (props) => {
                     gutterBottom
                     variant="h6"
                     sx={{
-                      // border: "1px solid green",
                       flexGrow: 1,
                     }}
                   >
@@ -199,11 +194,9 @@ const Task = (props) => {
                 justifyContent="space-between"
                 spacing={0}
                 sx={{
-                  // border: "1px solid red",
                   width: 1,
                   m: 0,
                   p: 0,
-                  // px: 2,
                 }}
               >
                 <Grid item xs={taskOverdue ? 8 : 12}>

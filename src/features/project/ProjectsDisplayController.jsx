@@ -10,9 +10,6 @@ function ProjectsDisplayController() {
   return (
     <Box
       sx={{
-        // border: "3px solid green",
-        // height: 1,
-        // maxHeight: 1,
         width: 1,
         display: "flex",
         flexDirection: "column",
@@ -37,12 +34,10 @@ function ProjectsDisplayController() {
         </Box>
         <Stack
           direction={{ xs: "column", md: "row" }}
-          // direction="row"
           spacing={1}
           justifyContent={{ xs: "center", md: "flex-end" }}
           alignItems="center"
           sx={{
-            //  border: "1px solid red",
             mx: 2,
             width: { xs: "50%", md: "auto" },
           }}

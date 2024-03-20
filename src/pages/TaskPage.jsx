@@ -1,15 +1,13 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects } from "../features/project/projectSlice";
+
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 
 import {
   Box,
   Button,
-  Card,
   Container,
   Grid,
-  Pagination,
   Stack,
   SvgIcon,
   Typography,
@@ -26,6 +24,7 @@ import { FormProvider } from "../components/form";
 import LoadingScreen from "../components/LoadingScreen";
 
 import TaskByStatusDraggable from "../features/task/TaskByStatusDraggable";
+import { debounce } from "lodash";
 
 export const TaskPageContext = createContext();
 
@@ -74,13 +73,23 @@ function TaskPage() {
 
   const dispatch = useDispatch();
 
+  const debounceGetTasks = useCallback(
+    debounce((nextValue) => dispatch(getTasks(nextValue)), 1000),
+    []
+  );
+
   useEffect(() => {
-    dispatch(getTasks({ page, ...filters }));
-  }, [page, filters, dispatch]);
+    if (filters.search) {
+      debounceGetTasks({ page, ...filters });
+    } else {
+      dispatch(getTasks({ page, ...filters }));
+    }
+  }, [page, filters, dispatch, debounceGetTasks]);
 
   return (
     <TaskPageContext.Provider
       value={{
+        isLoading,
         filters,
         setFilters,
         handleFilterSelection,
@@ -91,19 +100,14 @@ function TaskPage() {
       <Box
         component="main"
         sx={{
-          // border: "2px solid green",
-
           height: { xs: "calc(100vh-90px)", md: "calc(100vh - 110px)" },
         }}
       >
         <Container
           maxWidth={"100%"}
           sx={{
-            // border: "2px solid orange",
             p: 0,
             height: 1,
-            // display: "flex",
-            // flexDirection: "row",
           }}
         >
           <Grid
@@ -111,10 +115,8 @@ function TaskPage() {
             alignItems="flex-start"
             spacing={2}
             sx={{
-              // border: "3px solid blue",
               margin: 0,
               ml: { xs: -3, md: -3 },
-              // mr: { xs: 0, md: -3 },
               height: "100%",
               width: "100dvw",
               display: "flex",
@@ -125,7 +127,6 @@ function TaskPage() {
               md={isOpeningTaskFilter ? 3 : 0.5}
               xl={isOpeningTaskFilter ? 2.5 : 0.5}
               sx={{
-                // border: "3px solid green",
                 backgroundColor: "background.secondary",
                 color: "text.secondary",
 
@@ -156,9 +157,6 @@ function TaskPage() {
                 spacing={1}
                 alignItems="center"
                 sx={{
-                  // border: "1px solid red",
-                  // position: { xs: "absolute", md: "relative" },
-
                   width: { xs: "100dvw", md: 1 },
                   ml: { xs: 1, sm: -1 },
                   mt: -1,

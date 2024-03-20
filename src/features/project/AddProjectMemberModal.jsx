@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { alpha, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import {
   CssBaseline,
   Box,
@@ -19,8 +19,6 @@ import UserTable from "../user/UserTable";
 import LoadingScreen from "../../components/LoadingScreen";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
-  // border: "1px solid red",
-  // background: alpha(theme.palette.background.paper, 0.36),
   background: theme.palette.action.disabled,
 
   position: "fixed",

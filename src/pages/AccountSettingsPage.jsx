@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 
-import { Box, Card, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Card, Container, Grid, Typography } from "@mui/material";
 import { FormProvider, FTextField, FUploadAvatar } from "../components/form";
 import { LoadingButton } from "@mui/lab";
 import { fData } from "../utils/numberFormat";
@@ -33,7 +33,6 @@ function AccountSettingsPage() {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    // console.log(data);
     dispatch(updateUserProfile({ userId: user._id, ...data }));
   };
 

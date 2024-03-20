@@ -4,7 +4,6 @@ import {
   Grid,
   IconButton,
   ImageList,
-  ListItem,
   Stack,
   SvgIcon,
   Typography,
@@ -56,7 +55,6 @@ function SingleTaskFileDisplay({ selectedTask, disableUpdateTask }) {
           <ImageList
             cols={1}
             sx={{
-              // border: "1px solid blue",
               width: 1,
               m: 0,
               pt: 3,
@@ -69,7 +67,6 @@ function SingleTaskFileDisplay({ selectedTask, disableUpdateTask }) {
               container
               spacing={1}
               sx={{
-                //  border: "1px solid red",
                 width: 1,
               }}
             >
@@ -80,8 +77,6 @@ function SingleTaskFileDisplay({ selectedTask, disableUpdateTask }) {
                   xs={12}
                   md={4}
                   sx={{
-                    //  border: "1px solid blue",
-
                     position: "relative",
                   }}
                 >
@@ -133,7 +128,6 @@ function SingleTaskFileDisplay({ selectedTask, disableUpdateTask }) {
           <div
             onClick={() => setAddingFile(false)}
             style={{
-              // border: "1px solid red",
               position: "absolute",
               left: 0,
               top: 0,

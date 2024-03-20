@@ -39,7 +39,6 @@ function TaskByStatusDraggable({ tasks, filters }) {
   const dispatch = useDispatch();
 
   const onDragEnd = (result) => {
-    //TODO reorder our column
     const { destination, source, draggableId } = result;
 
     if (!destination) {
@@ -65,19 +64,15 @@ function TaskByStatusDraggable({ tasks, filters }) {
     //TODO update position of tasks in columns
   };
   return (
-    <DragDropContext
-      onDragEnd={onDragEnd}
-      // style={{ maxHeight: "100%" }}
-    >
+    <DragDropContext onDragEnd={onDragEnd}>
       <ImageList
         sx={{
-          // border: "1px solid red",
           p: 1,
           height: {
             xs: "calc(100vh - 170px)",
             md: "calc(100vh - 170px)",
           },
-          // height: 1,
+
           maxHeight: 1,
           width: 1,
           m: 0,
@@ -116,7 +111,6 @@ function TaskByStatusDraggable({ tasks, filters }) {
             taskIds: selectedStatusTasks.map((task) => task._id),
           };
 
-          // if (selectedStatusTasks.length) {
           return (
             <TaskColumn
               key={column.id}
@@ -125,9 +119,6 @@ function TaskByStatusDraggable({ tasks, filters }) {
               backgroundColor={taskStatusColumn.backgroundColor}
             />
           );
-          // } else {
-          //   return null;
-          // }
         })}
       </ImageList>
     </DragDropContext>

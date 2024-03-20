@@ -1,6 +1,6 @@
 import { Box, Grid, Stack, SvgIcon, Typography } from "@mui/material";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import React, { useEffect } from "react";
+import React from "react";
 
 import Project from "./Project";
 

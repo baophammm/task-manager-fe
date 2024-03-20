@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Link as RouterLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import {
   Avatar,
@@ -46,7 +45,6 @@ function UserTable({ users, projectId }) {
 
               <TableCell
                 sx={{
-                  // border: "1px solid green",
                   display: { xs: "none", md: "table-cell" },
                 }}
               >
@@ -54,7 +52,6 @@ function UserTable({ users, projectId }) {
               </TableCell>
               <TableCell
                 sx={{
-                  // border: "1px solid red",
                   display: { xs: "none", md: "table-cell" },
                   width: "20%",
                 }}

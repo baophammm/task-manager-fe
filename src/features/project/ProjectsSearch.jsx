@@ -6,6 +6,7 @@ import {
   OutlinedInput,
   SvgIcon,
 } from "@mui/material";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useContext } from "react";
 import { ProjectPageContext } from "../../pages/ProjectPage";
 
@@ -17,7 +18,8 @@ export const ProjectsSearch = ({ inputColor }) => {
       ? "#F3F4F6"
       : inputColor;
 
-  const { filters, handleFilterSelection } = useContext(ProjectPageContext);
+  const { filters, handleFilterSelection, isLoading } =
+    useContext(ProjectPageContext);
 
   return (
     <Box sx={{ width: 1 }}>
@@ -29,7 +31,7 @@ export const ProjectsSearch = ({ inputColor }) => {
         startAdornment={
           <InputAdornment position="start">
             <SvgIcon color="action" fontSize="small">
-              <MagnifyingGlassIcon />
+              {isLoading ? <MoreHorizIcon /> : <MagnifyingGlassIcon />}
             </SvgIcon>
           </InputAdornment>
         }

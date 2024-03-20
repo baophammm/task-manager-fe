@@ -1,22 +1,13 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { createContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { getSingleProject } from "../features/project/projectSlice";
-import {
-  Box,
-  Card,
-  Container,
-  CssBaseline,
-  Drawer,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import LoadingScreen from "../components/LoadingScreen";
 import { getTasks } from "../features/task/taskSlice";
 import { useForm } from "react-hook-form";
-import { FTextField, FormProvider } from "../components/form";
+import { FormProvider } from "../components/form";
 
 import ProjectInformation from "../features/project/ProjectInformation";
 import ProjectPageControl from "../features/project/ProjectPageControl";
@@ -77,14 +68,12 @@ function ProjectDetailPage() {
 
   const dispatch = useDispatch();
 
-  // ERROR TESTING: getSIngle project not passing in correctly,
   useEffect(() => {
     dispatch(getSingleProject(projectId));
   }, [dispatch, projectId]);
 
   useEffect(() => {
     if (projectId) {
-      // dispatch(getSingleProject(projectId));
       dispatch(getTasks({ projectId, limit: 1000, ...filters }));
     }
   }, [dispatch, projectId, filters]);
@@ -107,10 +96,6 @@ function ProjectDetailPage() {
       <Box
         component="main"
         sx={{
-          // border: "1px solid green",
-          // p: 0,
-
-          // width: "100dvw",
           height: {
             xs: "calc(100vh - 90px)",
             md: "calc(100vh - 110px)",
@@ -120,9 +105,7 @@ function ProjectDetailPage() {
         <Container
           maxWidth={"100%"}
           sx={{
-            // border: "1px solid orange",
             p: 0,
-
             height: 1,
           }}
         >
@@ -131,14 +114,10 @@ function ProjectDetailPage() {
             spacing={2}
             alignItems="flex-start"
             sx={{
-              // border: "1px solid red",
               height: 1,
-              // height: "calc(100dvh - 120px)",
               width: "100dvw",
-
               m: 0,
               ml: { xs: 0, sm: -3 },
-
               display: "flex",
             }}
           >
@@ -150,11 +129,9 @@ function ProjectDetailPage() {
               justifyContent="center"
               alignItems="flex-start"
               sx={{
-                // border: "3px solid green",
                 backgroundColor: "background.secondary",
                 color: "text.secondary",
                 height: 1,
-                // width: 1,
                 pr: 2,
               }}
             >
@@ -169,10 +146,8 @@ function ProjectDetailPage() {
               md={isOpeningProjectInfo ? 9 : 11.5}
               xl={isOpeningProjectInfo ? 9.5 : 11.5}
               sx={{
-                // border: "1px solid green",
                 backgroundColor: "background.default",
                 height: 1,
-                // width: 1,
               }}
             >
               <Stack spacing={1} alignItems="center" sx={{ height: 1 }}>

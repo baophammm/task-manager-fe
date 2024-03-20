@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProjects } from "../features/project/projectSlice";
 
@@ -10,10 +16,9 @@ import { useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FormProvider } from "../components/form";
 
-import useAuth from "../hooks/useAuth";
-
 import ProjectsDisplay from "../features/project/ProjectsDisplay";
 import { RouterContext } from "../routes";
+import { debounce } from "lodash";
 
 export const ProjectPageContext = createContext();
 
@@ -73,13 +78,27 @@ function ProjectPage() {
 
   const dispatch = useDispatch();
 
+  const debounceGetProjects = useCallback(
+    debounce((nextValue) => dispatch(getProjects(nextValue)), 1000),
+    []
+  );
   useEffect(() => {
     if (isDisplayingFeaturedProjects) {
       dispatch(getProjects({ page: 1, limit: 1000 }));
     } else {
-      dispatch(getProjects({ page, ...filters }));
+      if (filters.search) {
+        debounceGetProjects({ page, ...filters });
+      } else {
+        dispatch(getProjects({ page, ...filters }));
+      }
     }
-  }, [isDisplayingFeaturedProjects, page, filters, dispatch]);
+  }, [
+    isDisplayingFeaturedProjects,
+    page,
+    filters,
+    dispatch,
+    debounceGetProjects,
+  ]);
 
   return (
     <ProjectPageContext.Provider

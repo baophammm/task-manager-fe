@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Container, ImageList, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Droppable } from "react-beautiful-dnd";
-// import TaskCard from "./TaskCard";
+
 import Task from "./Task";
 
 const StyledTaskList = styled(Box)(({ theme }) => ({
@@ -29,8 +29,6 @@ function TaskColumn(props) {
         variant="h5"
         sx={{
           textAlign: "center",
-          // borderBottom: `1px solid`,
-          // borderColor: props.backgroundColor,
         }}
       >
         {props.column.title} ({props.column.taskIds.length})

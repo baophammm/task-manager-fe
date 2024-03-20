@@ -33,13 +33,6 @@ const slice = createSlice({
     createCommentOnTaskSuccess(state, action) {
       state.isLoading = false;
       state.error = action.payload;
-
-      const newComment = action.payload;
-      // TO CHECK
-      // state.commentsById[newComment._id] = newComment;
-      // state.commentsByTask.unshift(newComment._id);
-      // state.totalCommentsByTask[newComment._id] =
-      //   state.totalCommentsByTask[newComment._id] + 1 || 1;
     },
 
     getCommentsOfTaskSuccess(state, action) {
@@ -50,7 +43,7 @@ const slice = createSlice({
         (comment) => (state.commentsById[comment._id] = comment)
       );
       state.commentsByTask[taskId] = comments.map((comment) => comment._id);
-      // .reverse();
+
       state.totalCommentsByTask[taskId] = count;
       state.currentPageByTask[taskId] = page;
     },

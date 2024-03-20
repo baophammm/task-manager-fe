@@ -1,10 +1,6 @@
 import { Box, Chip, Stack, Typography } from "@mui/material";
 import QueueIcon from "@mui/icons-material/Queue";
-import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import ClearIcon from "@mui/icons-material/Clear";
-import PreviewIcon from "@mui/icons-material/Preview";
-import GradingIcon from "@mui/icons-material/Grading";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import React from "react";
@@ -41,7 +37,6 @@ function SingleTaskGeneralInfo({ selectedTask }) {
     <>
       <Box
         sx={{
-          // border: "1px solid red",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",

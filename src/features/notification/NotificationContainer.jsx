@@ -77,19 +77,10 @@ function NotificationContainer({ sx }) {
                 <NotificationsIcon />
               </SvgIcon>
             </Badge>
-            {/* )} */}
           </IconButton>
         </Tooltip>
 
-        <NotificationListMenu
-          currentPageNotifications={currentPageNotifications}
-          notificationsById={notificationsById}
-          totalNotifications={totalNotifications}
-          isLoading={isLoading}
-          notifications={notifications}
-          anchorElNotificationList={anchorElNotificationList}
-          handleCloseNotificationListMenu={handleCloseNotificationListMenu}
-        />
+        <NotificationListMenu />
       </Box>
     </NotificationContainerContext.Provider>
   );

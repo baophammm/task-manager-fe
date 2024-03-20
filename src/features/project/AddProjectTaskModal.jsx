@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { alpha, styled } from "@mui/material/styles";
+import React, { useEffect } from "react";
+import { styled } from "@mui/material/styles";
 import { CssBaseline, Box, Typography, Container, Stack } from "@mui/material";
 
 import { LoadingButton } from "@mui/lab";
@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRef } from "react";
-import useAuth from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FDateField,
@@ -16,13 +15,10 @@ import {
   FTextField,
   FormProvider,
 } from "../../components/form";
-import dayjs from "dayjs";
 import { createTask, getTasks } from "../task/taskSlice";
 import { getSingleProject } from "./projectSlice";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
-  // border: "1px solid red",
-  // background: alpha(theme.palette.background.paper, 0.36),
   background: theme.palette.action.disabled,
 
   position: "fixed",
@@ -87,7 +83,6 @@ function AddProjectTaskModal() {
     })
   );
 
-  // console.log(selectedProjectAssigneeOptions);
   const TASK_FIELDS = [
     { name: "title", label: "Task title", fieldType: "text" },
     { name: "description", label: "Task description", fieldType: "text" },

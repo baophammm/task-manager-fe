@@ -15,7 +15,6 @@ import { getSingleProject } from "../project/projectSlice";
 import ProjectMemberActionButton from "../project/ProjectMemberActionButton";
 
 function ProjectMemberUserTable({ users, projectId }) {
-  const { user } = useAuth();
   const { selectedProject } = useSelector((state) => state.project);
 
   const dispatch = useDispatch();
@@ -47,7 +46,6 @@ function ProjectMemberUserTable({ users, projectId }) {
 
               <TableCell
                 sx={{
-                  // border: "1px solid green",
                   display: { xs: "none", md: "table-cell" },
                   width: { xs: "20%", sm: "25%" },
                 }}
@@ -56,7 +54,6 @@ function ProjectMemberUserTable({ users, projectId }) {
               </TableCell>
               <TableCell
                 sx={{
-                  // border: "1px solid red",
                   display: { xs: "none", md: "table-cell" },
                 }}
               >

@@ -77,11 +77,7 @@ function LoginPage() {
             </Link>
           </Alert>
 
-          <FTextField
-            name="email"
-            label="Email address"
-            // placeholderTextColor="red"
-          />
+          <FTextField name="email" label="Email address" />
 
           <FTextField
             name="password"

@@ -185,7 +185,6 @@ function TaskFilter() {
   const TaskFilterCard = (
     <Box
       sx={{
-        // border: "1px solid red",
         height: 1,
         maxHeight: 1,
         width: "100%",
@@ -196,7 +195,6 @@ function TaskFilter() {
     >
       <Box
         sx={{
-          // border: "1px solid red",
           height: 1,
           display: "flex",
           flexDirection: "column",

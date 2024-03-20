@@ -27,7 +27,6 @@ function InvitationProjectCard({ project }) {
   const currentUserId = user._id;
   const { _id: projectId, title, projectOwner, invitation } = project;
 
-  // console.log(currentUserId);
   const actionButton = (
     <ActionButton
       currentUserId={currentUserId}

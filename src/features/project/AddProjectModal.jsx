@@ -29,7 +29,6 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
   left: 0,
   width: "100%",
   height: "100vh",
-  // overflowY: 'scroll',
   WebkitOverflowScrolling: "touch",
 
   display: "flex",

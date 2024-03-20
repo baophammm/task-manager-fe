@@ -7,7 +7,6 @@ import {
   getSingleProject,
   removeMemberFromProject,
 } from "./projectSlice";
-import { getProjectMembers } from "../user/userSlice";
 import useAuth from "../../hooks/useAuth";
 
 function ProjectMemberActionButton({ project, targetUserId, sx }) {

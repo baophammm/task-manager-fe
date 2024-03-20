@@ -59,7 +59,7 @@ function RegisterPage() {
     const { firstName, lastName, email, password } = data;
     try {
       await auth.register({ firstName, lastName, email, password }, () => {
-        navigate("/", { replace: true });
+        navigate("/login", { replace: true });
       });
     } catch (error) {
       reset();

@@ -1,14 +1,4 @@
-import {
-  Box,
-  Card,
-  Container,
-  Grid,
-  Pagination,
-  Stack,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import React, { useState } from "react";
 
@@ -20,11 +10,9 @@ import SentInvitations from "../features/invitation/SentInvitations";
 import { capitalCase } from "change-case";
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
-  // zIndex: 9,
-  // bottom: 0,
   width: "100%",
   display: "flex",
-  // position: "absolute",
+
   backgroundColor: "#fff",
   [theme.breakpoints.up("sm")]: {
     justifyContent: "center",

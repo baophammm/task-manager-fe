@@ -2,6 +2,7 @@ import { createContext, useReducer, useEffect } from "react";
 import apiService from "../app/apiService";
 import { isValidToken } from "../utils/jwt";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const initialState = {
   isInitialized: false,
@@ -12,6 +13,7 @@ const initialState = {
 const INITIALIZE = "AUTH.INITIALIZE";
 const LOGIN_SUCCESS = "AUTH.LOGIN_SUCCESS";
 const REGISTER_SUCCESS = "AUTH.REGISTER_SUCCESS";
+const VERIFY_SUCCESS = "AUTH.VERIFY_SUCCESS";
 const LOGOUT = "AUTH.LOGOUT";
 const UPDATE_PROFILE = "AUTH.UPDATE_PROFILE";
 
@@ -32,6 +34,12 @@ const reducer = (state, action) => {
         user: action.payload.user,
       };
     case REGISTER_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+      };
+    case VERIFY_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
@@ -142,13 +150,26 @@ function AuthProvider({ children }) {
       email,
       password,
     });
-    const { user, accessToken } = response.data;
 
-    setSession(accessToken);
+    const user = response.data;
+
+    setSession(null);
     dispatch({
       type: REGISTER_SUCCESS,
       payload: { user },
     });
+    toast.success("Register success! Please verify your account through email");
+
+    callback();
+  };
+
+  const verify = async ({ verificationCode }, callback) => {
+    const response = await apiService.put(`/verifications/${verificationCode}`);
+    const { user, accessToken } = response.data;
+
+    setSession(accessToken);
+    dispatch({ type: VERIFY_SUCCESS, payload: { user } });
+    toast.success("Verified! Moving to Home page!");
 
     callback();
   };
@@ -161,7 +182,7 @@ function AuthProvider({ children }) {
     callback();
   };
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout }}>
+    <AuthContext.Provider value={{ ...state, login, register, verify, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -81,14 +81,6 @@ function Project(props) {
     }
   };
   return (
-    // <Link
-    //   to={`/projects/${props.project._id}`}
-    //   style={{
-    //     textDecoration: "none",
-    //     color: "inherit",
-    //   }}
-    //   onClick={(e) => e.stopPropagation()}
-    // >
     <StyledContainer>
       <Card
         sx={{
@@ -100,12 +92,6 @@ function Project(props) {
       >
         <CardContent
           sx={{
-            // height: 1,
-            // p: "12px",
-            // display: "flex",
-            // flexDirection: "column",
-            // justifyContent: "space-between",
-            // border: "1px solid red",
             p: 0,
             pb: 1,
           }}
@@ -114,7 +100,7 @@ function Project(props) {
             sx={{
               // border: "1px solid green",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
@@ -244,7 +230,6 @@ function Project(props) {
         </Grid>
       </Card>
     </StyledContainer>
-    // </Link>
   );
 }
 

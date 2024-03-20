@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Divider, Grid, SvgIcon } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,40 +14,28 @@ import MenuItem from "@mui/material/MenuItem";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import { styled } from "@mui/material/styles";
 
 import Logo from "../components/Logo";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import useAuth from "../hooks/useAuth";
 import UserProfilePicture from "../features/user/UserProfilePicture";
-import { Divider, Grid, SvgIcon } from "@mui/material";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useContext } from "react";
 import { RouterContext } from "../routes";
-import NotificationListMenu from "../features/notification/NotificationListMenu";
-import { useDispatch } from "react-redux";
-import { getNotifications } from "../features/notification/notificationSlice";
-import { useSelector } from "react-redux";
+
 import NotificationContainer from "../features/notification/NotificationContainer";
 
 const pages = [
-  // {
-  //   value: "home",
-  //   title: "Home",
-  //   icon: <SpaceDashboardIcon />,
-  //   link: "/",
-  // },
   {
     value: "project",
     title: "Home",
     icon: <ListAltIcon />,
     link: "/projects",
-    // link: "/",
   },
   {
     value: "task",
@@ -360,7 +349,7 @@ function MainHeader() {
                   textDecoration: "none",
                 }}
               >
-                TASK MANAGER
+                TASKIFY
               </Typography>
             </Grid>
             <Grid item md={9} xl={9.5}>
@@ -463,24 +452,7 @@ function MainHeader() {
                     </div>
                   </Box>
                 </Box>
-                {/* <Box sx={{ flexGrow: 0, mr: 1 }}>
-                  <Tooltip title="Open Notifications">
-                    <IconButton
-                      onClick={handleOpenNotificationListMenu}
-                      sx={{ p: 0 }}
-                    >
-                      <NotificationsIcon />
-                    </IconButton>
-                  </Tooltip>
 
-                  <NotificationListMenu
-                    userId={userId}
-                    anchorElNotificationList={anchorElNotificationList}
-                    handleCloseNotificationListMenu={
-                      handleCloseNotificationListMenu
-                    }
-                  />
-                </Box> */}
                 <NotificationContainer />
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Open settings">
@@ -549,7 +521,7 @@ function MainHeader() {
               textDecoration: "none",
             }}
           >
-            TASK MANAGER
+            TASKIFY
           </Typography>
           <NotificationContainer sx={{ display: { xs: "flex", md: "none" } }} />
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

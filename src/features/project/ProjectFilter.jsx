@@ -1,14 +1,11 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   IconButton,
   ImageList,
   Menu,
   MenuItem,
   Stack,
-  SvgIcon,
   Typography,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -20,8 +17,6 @@ import { FDateField, FSelect } from "../../components/form";
 import { ProjectPageContext } from "../../pages/ProjectPage";
 import dayjs from "dayjs";
 import { ProjectsSearch } from "./ProjectsSearch";
-import ProjectSort from "./ProjectSort";
-// import { reset } from "numeral";
 
 const PROJECT_FILTERS = [
   {
@@ -166,7 +161,6 @@ function ProjectFilter() {
   const ProjectFilterCard = (
     <Box
       sx={{
-        // border: "1px solid red",
         height: 1,
         maxHeight: 1,
         width: "100%",
@@ -177,7 +171,6 @@ function ProjectFilter() {
     >
       <Box
         sx={{
-          // border: "1px solid red",
           height: 1,
           display: "flex",
           flexDirection: "column",
@@ -339,7 +332,6 @@ function ProjectFilter() {
         ) : (
           <Box
             sx={{
-              // border: "1px solid orange",
               width: 1,
               display: "flex",
               flexDirection: "column",

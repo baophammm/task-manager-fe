@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-function SearchInput({ handleSubmit }) {
+function SearchInput({ handleSubmit, isLoading }) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const onSubmit = (e) => {
@@ -22,7 +23,7 @@ function SearchInput({ handleSubmit }) {
           endAdornment: (
             <InputAdornment position="end">
               <IconButton type="submit" color="primary" aria-label="search">
-                <SearchIcon />
+                {isLoading ? <MoreHorizIcon /> : <SearchIcon />}
               </IconButton>
             </InputAdornment>
           ),

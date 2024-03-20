@@ -4,7 +4,6 @@ import CommentList from "./CommentList";
 import CommentForm from "./CommentForm";
 
 function SingleTaskCommentSection({ taskId }) {
-  console.log("TASK ID IN COMMENT SECTION", taskId);
   return (
     <Stack spacing={2} sx={{ width: 1 }}>
       <Typography variant="h5">Comments</Typography>

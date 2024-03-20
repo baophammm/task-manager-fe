@@ -59,7 +59,6 @@ function ActionButton({
       sx={{ fontSize: "0.6rem", ...sx }}
       size="small"
       variant="contained"
-      // color="main"
       onClick={() => navigate(`/projects/${projectId}`)}
     >
       See Details

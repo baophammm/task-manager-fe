@@ -11,14 +11,8 @@ import { ProjectPageContext } from "../../pages/ProjectPage";
 import { RouterContext } from "../../routes";
 
 function ProjectsHeader() {
-  const {
-    methods,
-    location,
-    // isDisplayingFeaturedProjects,
-    // setIsDisplayingFeaturedProjects,
-    filters,
-    setFilters,
-  } = useContext(ProjectPageContext);
+  const { methods, location, filters, setFilters } =
+    useContext(ProjectPageContext);
 
   const { isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects } =
     useContext(RouterContext);

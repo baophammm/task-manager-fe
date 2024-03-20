@@ -1,9 +1,7 @@
 import { Box, Grid, Stack, SvgIcon, Typography } from "@mui/material";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { getProjects } from "./projectSlice";
+import React from "react";
+
 import Project from "./Project";
 
 function FeaturedPlanningProjects({ projects }) {

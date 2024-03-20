@@ -17,7 +17,6 @@ function ProjectSort() {
       name="sortBy"
       label="Sort By"
       size="small"
-      // labelColor="text.primary"
       sx={{
         width: 1,
       }}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 
@@ -17,8 +17,7 @@ import { useDispatch } from "react-redux";
 import { Card, CssBaseline, Stack, SvgIcon, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { updateSingleProject } from "../project/projectSlice";
-import { toast } from "react-toastify";
-import LoadingScreen from "../../components/LoadingScreen";
+
 import { Link, useParams } from "react-router-dom";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { useContext } from "react";
@@ -29,13 +28,6 @@ const projectYupSchema = Yup.object().shape({
 });
 
 export default function UpdateProjectDrawer() {
-  // {
-  // project,
-  // isLoading,
-  // isUpdatingProject,
-  // setIsUpdatingProject,
-  // location,
-  // }
   const {
     selectedProject: project,
     isLoadingProject: isLoading,
@@ -163,7 +155,6 @@ export default function UpdateProjectDrawer() {
                 return null;
               }
             })}
-            {/* <FTextField name="title" placeholder="Project Title" /> */}
           </Stack>
 
           <Box

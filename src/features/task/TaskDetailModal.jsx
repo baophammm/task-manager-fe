@@ -25,8 +25,6 @@ import UpdateTaskDrawer from "./UpdateTaskDrawer";
 import SingleTaskCommentSection from "../comment/SingleTaskCommentSection";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
-  // border: "1px solid red",
-  // background: alpha(theme.palette.background.paper, 0.9),
   background: theme.palette.action.disabled,
 
   position: "fixed",
@@ -44,7 +42,6 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 }));
 
 const ModalBox = styled(Box)(({ theme }) => ({
-  // border: "1px solid red",
   background: theme.palette.background.paper,
   color: theme.palette.text.primary,
   boxShadow: theme.shadows,
@@ -90,7 +87,7 @@ function TaskDetailModal() {
 
   if (selectedTask?.project) {
     disableUpdateTask =
-      selectedTask.project?.projectManagers?.includes(currentUserId) ||
+      selectedTask.project?.projectLeads?.includes(currentUserId) ||
       selectedTask.project.projectOwner === currentUserId
         ? false
         : true;
@@ -117,14 +114,7 @@ function TaskDetailModal() {
           ) : (
             selectedTask && (
               <>
-                <Stack
-                  spacing={2}
-                  sx={
-                    {
-                      // border: "1px solid red",
-                    }
-                  }
-                >
+                <Stack spacing={2}>
                   <TaskDetailPageControl
                     from={from}
                     selectedTask={selectedTask}
@@ -134,7 +124,6 @@ function TaskDetailModal() {
                   <ImageList
                     cols={1}
                     sx={{
-                      // border: "1px solid green",
                       maxHeight: "calc(100vh - 140px)",
                       display: "flex",
                       flexDirection: "column",

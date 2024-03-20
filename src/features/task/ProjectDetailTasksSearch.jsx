@@ -10,7 +10,6 @@ function ProjectDetailTasksSearch({ sx }) {
   return (
     <Card sx={{ width: 1, p: 1 }}>
       <OutlinedInput
-        // defaultValue=""
         fullWidth
         placeholder="Search task"
         value={filters.search}

@@ -12,7 +12,6 @@ function ProjectListWithPagination() {
     <ImageList
       cols={1}
       sx={{
-        // border: "4px solid orange",
         width: 1,
         m: 0,
         height: {
@@ -20,7 +19,6 @@ function ProjectListWithPagination() {
           sm: "calc(100vh-200px)",
           md: "calc(100vh-210px)",
         },
-        // height: 1,
         display: "flex",
         flexDirection: "column",
       }}

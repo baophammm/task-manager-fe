@@ -17,6 +17,7 @@ import AddProjectTaskModal from "../features/project/AddProjectTaskModal";
 import AddProjectMemberModal from "../features/project/AddProjectMemberModal";
 import ProjectMembersModal from "../features/user/ProjectMembersModal";
 import TaskDetailModal from "../features/task/TaskDetailModal";
+import VerificationPage from "../pages/VerificationPage";
 
 export const RouterContext = createContext();
 function Router() {
@@ -58,6 +59,10 @@ function Router() {
           <Route element={<BlankLayout />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route
+              path="/verifications/:verificationCode"
+              element={<VerificationPage />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

@@ -1,22 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { alpha, styled } from "@mui/material/styles";
-import {
-  Avatar,
-  CssBaseline,
-  Link,
-  Grid,
-  Box,
-  Typography,
-  Container,
-  Stack,
-  Card,
-} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { CssBaseline, Box, Typography, Container, Stack } from "@mui/material";
 
 import { LoadingButton } from "@mui/lab";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useState } from "react";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import useAuth from "../../hooks/useAuth";
@@ -139,7 +129,6 @@ function AddTaskModal() {
     title: "",
     description: "",
     taskStatus: "Backlog",
-    // assigneeId: null,
     projectId: "",
     startAt: "",
     dueAt: "",

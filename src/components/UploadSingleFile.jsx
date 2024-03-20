@@ -1,22 +1,22 @@
-import isString from 'lodash/isString';
-import { useDropzone } from 'react-dropzone';
+import isString from "lodash/isString";
+import { useDropzone } from "react-dropzone";
 
-import { styled } from '@mui/material/styles';
-import { Box, Stack, Typography } from '@mui/material';
-import RejectionFiles from './RejectionFiles';
-import AddAPhotoRoundedIcon from '@mui/icons-material/AddAPhotoRounded';
+import { styled } from "@mui/material/styles";
+import { Box, Stack, Typography } from "@mui/material";
+import RejectionFiles from "./RejectionFiles";
+import AddAPhotoRoundedIcon from "@mui/icons-material/AddAPhotoRounded";
 
-const DropZoneStyle = styled('div')(({ theme }) => ({
-  outline: 'none',
-  overflow: 'hidden',
-  position: 'relative',
+const DropZoneStyle = styled("div")(({ theme }) => ({
+  outline: "none",
+  overflow: "hidden",
+  position: "relative",
   height: 200,
   padding: theme.spacing(3, 1),
   borderRadius: theme.shape.borderRadius,
-  transition: theme.transitions.create('padding'),
-  backgroundColor: '#F4F6F8',
+  transition: theme.transitions.create("padding"),
+  backgroundColor: "#F4F6F8",
   border: `1px dashed alpha('#919EAB', 0.32)`,
-  '&:hover': { opacity: 0.72, cursor: 'pointer' },
+  "&:hover": { opacity: 0.72, cursor: "pointer" },
 }));
 
 function UploadSingleFile({ error = false, file, helperText, sx, ...other }) {
@@ -32,18 +32,18 @@ function UploadSingleFile({ error = false, file, helperText, sx, ...other }) {
   });
 
   return (
-    <Box sx={{ width: '100%', ...sx }}>
+    <Box sx={{ width: "100%", ...sx }}>
       <DropZoneStyle
         {...getRootProps()}
         sx={{
           ...(isDragActive && { opacity: 0.72 }),
           ...((isDragReject || error) && {
-            color: 'error.main',
-            borderColor: 'error.light',
-            bgcolor: 'error.lighter',
+            color: "error.main",
+            borderColor: "error.light",
+            bgcolor: "error.lighter",
           }),
           ...(file && {
-            padding: '5% 0',
+            padding: "5% 0",
           }),
         }}
       >
@@ -54,13 +54,13 @@ function UploadSingleFile({ error = false, file, helperText, sx, ...other }) {
           spacing={2}
           justifyContent="center"
           alignItems="center"
-          sx={{ height: '100%' }}
+          sx={{ height: "100%" }}
         >
           <AddAPhotoRoundedIcon />
           <Typography
             gutterBottom
             variant="body2"
-            sx={{ color: '#637381' }}
+            sx={{ color: "#637381" }}
             textAlign="center"
           >
             Drop or Select Image
@@ -73,11 +73,11 @@ function UploadSingleFile({ error = false, file, helperText, sx, ...other }) {
               top: 8,
               left: 8,
               borderRadius: 1,
-              position: 'absolute',
-              width: 'calc(100% - 16px)',
-              height: 'calc(100% - 16px)',
-              overflow: 'hidden',
-              '& img': { objectFit: 'cover', width: 1, height: 1 },
+              position: "absolute",
+              width: "calc(100% - 16px)",
+              height: "calc(100% - 16px)",
+              overflow: "hidden",
+              "& img": { objectFit: "cover", width: 1, height: 1 },
             }}
           >
             <img

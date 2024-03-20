@@ -51,9 +51,6 @@ function CommentCard({ comment }) {
           </Typography>
         </Stack>
         <Typography variant="body2">{comment.content}</Typography>
-        {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <CommentReaction comment={comment} />
-    </Box> */}
       </Paper>
       {currentUserId === commentUserId ? (
         <IconButton

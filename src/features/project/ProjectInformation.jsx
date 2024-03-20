@@ -1,16 +1,13 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Chip,
   IconButton,
   ImageList,
   Stack,
-  SvgIcon,
   Typography,
 } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
+
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
@@ -33,8 +30,6 @@ function ProjectInformation({ location }) {
   const currentUserId = user._id;
   const params = useParams();
   const projectId = params.projectId;
-
-  // const projectId = selectedProject?._id;
 
   const {
     selectedProject,
@@ -79,18 +74,15 @@ function ProjectInformation({ location }) {
   const projectInfoCard = (
     <Box
       sx={{
-        // border: "1px solid orange",
         color: "primary.contrastText",
         height: 1,
         width: 1,
         m: 0,
       }}
     >
-      {/* <CardContent sx={{ height: 1, pt: 0 }}> */}
       <Stack
         spacing={2}
         sx={{
-          //  border: "1px solid red",
           height: 1,
         }}
       >
@@ -217,7 +209,6 @@ function ProjectInformation({ location }) {
           </Button>
         </ImageList>
       </Stack>
-      {/* </CardContent> */}
     </Box>
   );
 
@@ -227,7 +218,6 @@ function ProjectInformation({ location }) {
     ) : (
       <Box
         sx={{
-          // border: "1px solid orange",
           height: 1,
           width: 1,
           display: "flex",

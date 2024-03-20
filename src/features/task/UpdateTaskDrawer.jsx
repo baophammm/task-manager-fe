@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 
@@ -9,7 +9,7 @@ import {
   FormProvider,
 } from "../../components/form";
 
-import { getSingleTask, updateSingleTask } from "./taskSlice";
+import { updateSingleTask } from "./taskSlice";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -83,7 +83,7 @@ export default function UpdateTaskDrawer({
     { name: "startAt", label: "Start At", fieldType: "date" },
     { name: "dueAt", label: "Due At", fieldType: "date" },
   ];
-  // console.log("checking task before submit update", task);
+
   const defaultValues = {
     title: task?.title || "",
     description: task?.description || "",
@@ -109,7 +109,6 @@ export default function UpdateTaskDrawer({
   const onSubmit = (data) => {
     dispatch(updateSingleTask({ taskId: task._id, ...data })).then(() => {
       reset();
-      // dispatch(getSingleTask(task._id));
     });
     setIsUpdatingTask(false);
   };

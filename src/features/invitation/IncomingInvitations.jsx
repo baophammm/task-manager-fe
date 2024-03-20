@@ -7,12 +7,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SearchInput from "../../components/SearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import { getIncomingInvitations } from "./invitationSlice";
 import InvitationProjectCard from "./InvitationProjectCard";
 import LoadingScreen from "../../components/LoadingScreen";
+import { debounce } from "lodash";
 
 function IncomingInvitations() {
   const [search, setSearch] = useState("");
@@ -32,9 +33,18 @@ function IncomingInvitations() {
 
   const dispatch = useDispatch();
 
+  const debounceGetIncomingInvitations = useCallback(
+    debounce((nextValue) => dispatch(getIncomingInvitations(nextValue)), 1000),
+    []
+  );
+
   useEffect(() => {
-    dispatch(getIncomingInvitations({ search, page }));
-  }, [search, page, dispatch]);
+    if (search) {
+      debounceGetIncomingInvitations({ search, page });
+    } else {
+      dispatch(getIncomingInvitations({ search, page }));
+    }
+  }, [search, page, dispatch, debounceGetIncomingInvitations]);
 
   const handleSubmit = (searchQuery) => {
     setSearch(searchQuery);
@@ -52,7 +62,7 @@ function IncomingInvitations() {
             alignItems="center"
             sx={{ width: 1 }}
           >
-            <SearchInput handleSubmit={handleSubmit} />
+            <SearchInput handleSubmit={handleSubmit} isLoading={isLoading} />
 
             <Box sx={{ flexGrow: 1 }} />
             {isLoading ? (
