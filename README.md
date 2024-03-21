@@ -1,4 +1,4 @@
-# Task Easify App
+# Taskify App
 
 ## Requirements
 
