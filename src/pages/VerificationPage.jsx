@@ -21,15 +21,15 @@ function VerificationPage() {
             setTimeout(() => {
               setIsVerified(true);
               navigate("/", { replace: true });
-              toast.success("Verified! Moving to Home Page");
-            });
+            }, 1000);
+            toast.success("Verified! Moving to Home Page");
           });
         } catch (error) {
           toast.error(error.message);
           setTimeout(() => {
             setIsVerified(true);
             navigate("/login", { replace: true });
-          }, 2000);
+          }, 1000);
         }
       }
     };
