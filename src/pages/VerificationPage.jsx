@@ -18,8 +18,11 @@ function VerificationPage() {
       if (verificationCode) {
         try {
           await auth.verify({ verificationCode }, () => {
-            setIsVerified(true);
-            navigate("/", { replace: true });
+            setTimeout(() => {
+              setIsVerified(true);
+              navigate("/", { replace: true });
+              toast.success("Verified! Moving to Home Page");
+            });
           });
         } catch (error) {
           toast.error(error.message);

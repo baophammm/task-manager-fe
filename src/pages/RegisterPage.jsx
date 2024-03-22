@@ -31,6 +31,7 @@ const RegisterSchema = Yup.object().shape({
 const defaultValues = {
   firstName: "",
   lastName: "",
+  email: "",
   password: "",
   passwordConfirmation: "",
 };

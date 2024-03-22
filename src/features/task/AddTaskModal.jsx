@@ -129,7 +129,7 @@ function AddTaskModal() {
     title: "",
     description: "",
     taskStatus: "Backlog",
-    projectId: "",
+    projectId: null,
     startAt: "",
     dueAt: "",
   };

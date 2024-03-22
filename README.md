@@ -1,4 +1,20 @@
-# Taskify App
+# Taskify - Task Management Application MERN Stack
+
+## General Description
+
+Taskify is a task management web application that enhance collaboration and boost productivity, either personal tasks or overviewing complex projects with multiple members. Taskify provides tools for users to stay organized, focused and on track.
+
+To register, each user should provide their first name, last name, an email, a password to create an account. The email address should be unique and not link to any account in the system. User will then receive an email verification sent to their email. Confirming on the verification link will then activate user's account and allows login.
+
+After registration and login, an user can create a project and become the project owner. As project owner, he/she can invite others to join the project. Project Onwer can update project details and members' roles.
+
+Within Project, both Project Owner and Lead can create, update and assign Tasks. While normal Project Member can only view tasks and comment.
+
+For Personal Tasks, any user can create their own. User can see all of his/her assigned Tasks in one place.
+
+Users can comment on the tasks that he/she has access to.
+
+When there is an update of Task, Project User is following, or new Incoming Project Invitation, the system will generate a notification and send to User to check the related activity.
 
 ## Requirements
 

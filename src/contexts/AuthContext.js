@@ -169,8 +169,9 @@ function AuthProvider({ children }) {
 
     setSession(accessToken);
     dispatch({ type: VERIFY_SUCCESS, payload: { user } });
-    toast.success("Verified! Moving to Home page!");
 
+    console.log("Verified! Moving to Home Page");
+    toast.success("Verified! Moving to Home page!");
     callback();
   };
 
