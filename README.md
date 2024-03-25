@@ -16,7 +16,7 @@ Users can comment on the tasks that he/she has access to.
 
 When there is an update of Task, Project User is following, or new Incoming Project Invitation, the system will generate a notification and send to User to check the related activity.
 
-## Requirements
+## User Stories
 
 ### Authentication
 
@@ -83,9 +83,13 @@ When there is an update of Task, Project User is following, or new Incoming Proj
 - [ ] Notifications can be filtered with Unread only switch, can be deleted or set between Read or Unread.
 - [ ] User can see number of Unread notifications on the Notification icon on the Header.
 
-- Install libraries
+## Install libraries
 
 ```
 npm install
 
 ```
+
+## Third-party middlewares
+
+- Cloudinary

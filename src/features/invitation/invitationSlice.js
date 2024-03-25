@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import apiService from "../../app/apiService";
 import { toast } from "react-toastify";
 
+const invitationsBackendRoute = "/invitations";
+
 const initialState = {
   isLoading: false,
   error: null,
@@ -59,7 +61,7 @@ export default slice.reducer;
 export const getIncomingInvitations = () => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
-    const response = await apiService.get("/invitations/incoming");
+    const response = await apiService.get(`/invitations/incoming`);
     dispatch(slice.actions.getIncomingInvitationsSuccess(response.data));
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));

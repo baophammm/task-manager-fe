@@ -11,6 +11,7 @@ import {
   Stack,
   Card,
   ImageList,
+  Button,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -72,7 +73,7 @@ function TaskDetailModal() {
   const { user } = useAuth();
   const currentUserId = user._id;
 
-  const { selectedTask, isLoading } = useSelector((state) => state.task);
+  const { selectedTask, isLoading, error } = useSelector((state) => state.task);
 
   //states
   const [isUpdatingTask, setIsUpdatingTask] = useState(false);
@@ -109,7 +110,27 @@ function TaskDetailModal() {
           }}
         >
           <CssBaseline />
-          {isLoading ? (
+          {error ? (
+            <Box
+              sx={{
+                height: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 2,
+              }}
+            >
+              <Typography variant="h3">404 Page not found!</Typography>
+              <Typography variant="body1" color="error">
+                {error}
+              </Typography>
+
+              <Button variant="contained" onClick={() => navigate(from)}>
+                GO BACK
+              </Button>
+            </Box>
+          ) : isLoading ? (
             <LoadingScreen />
           ) : (
             selectedTask && (
@@ -154,6 +175,51 @@ function TaskDetailModal() {
               </>
             )
           )}
+          {/* {isLoading ? (
+            <LoadingScreen />
+          ) : (
+            selectedTask && (
+              <>
+                <Stack spacing={2}>
+                  <TaskDetailPageControl
+                    from={from}
+                    selectedTask={selectedTask}
+                    disableUpdateTask={disableUpdateTask}
+                    setIsUpdatingTask={setIsUpdatingTask}
+                  />
+                  <ImageList
+                    cols={1}
+                    sx={{
+                      maxHeight: "calc(100vh - 140px)",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="h4">
+                        {selectedTask?.title}
+                      </Typography>
+                    </Box>
+
+                    <SingleTaskGeneralInfo selectedTask={selectedTask} />
+
+                    <SingleTaskFileDisplay
+                      selectedTask={selectedTask}
+                      disableUpdateTask={disableUpdateTask}
+                    />
+                    <SingleTaskCommentSection taskId={taskId} />
+                  </ImageList>
+                </Stack>
+
+                <UpdateTaskDrawer
+                  task={selectedTask}
+                  isLoading={isLoading}
+                  isUpdatingTask={isUpdatingTask}
+                  setIsUpdatingTask={setIsUpdatingTask}
+                />
+              </>
+            )
+          )} */}
         </Container>
       </ModalBox>
     </ModalWrapperBox>

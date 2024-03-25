@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getSingleProject } from "../features/project/projectSlice";
-import { Box, Container, Grid, Stack } from "@mui/material";
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import LoadingScreen from "../components/LoadingScreen";
 import { getTasks } from "../features/task/taskSlice";
@@ -33,9 +33,11 @@ function ProjectDetailPage() {
   const [isOpeningProjectInfo, setIsOpeningProjectInfo] = useState(true);
   const [isUpdatingProject, setIsUpdatingProject] = useState(false);
 
-  const { selectedProject, isLoading: isLoadingProject } = useSelector(
-    (state) => state.project
-  );
+  const {
+    selectedProject,
+    isLoading: isLoadingProject,
+    error,
+  } = useSelector((state) => state.project);
 
   const {
     currentPageTasks,
@@ -109,72 +111,101 @@ function ProjectDetailPage() {
             height: 1,
           }}
         >
-          <Grid
-            container
-            spacing={2}
-            alignItems="flex-start"
-            sx={{
-              height: 1,
-              width: "100dvw",
-              m: 0,
-              ml: { xs: 0, sm: -3 },
-              display: "flex",
-            }}
-          >
-            <StyledProjectInformationGrid
-              item
-              xs={isOpeningProjectInfo ? 6 : 1.5}
-              md={isOpeningProjectInfo ? 3 : 0.5}
-              xl={isOpeningProjectInfo ? 2.5 : 0.5}
-              justifyContent="center"
-              alignItems="flex-start"
+          {error ? (
+            <Box
               sx={{
-                backgroundColor: "background.secondary",
-                color: "text.secondary",
                 height: 1,
-                pr: 2,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 2,
               }}
             >
-              <ProjectInformation
-                selectedProject={selectedProject}
-                location={location}
+              <Typography variant="h3">404 Page not found!</Typography>
+              <Typography variant="body1" color="error">
+                {error}
+              </Typography>
+              <Link
+                to="/"
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
+                <Button variant="contained">GO TO HOME</Button>
+              </Link>
+            </Box>
+          ) : (
+            <>
+              <Grid
+                container
+                spacing={2}
+                alignItems="flex-start"
+                sx={{
+                  height: 1,
+                  width: "100dvw",
+                  m: 0,
+                  ml: { xs: 0, sm: -3 },
+                  display: "flex",
+                }}
+              >
+                <StyledProjectInformationGrid
+                  item
+                  xs={isOpeningProjectInfo ? 6 : 1.5}
+                  md={isOpeningProjectInfo ? 3 : 0.5}
+                  xl={isOpeningProjectInfo ? 2.5 : 0.5}
+                  justifyContent="center"
+                  alignItems="flex-start"
+                  sx={{
+                    backgroundColor: "background.secondary",
+                    color: "text.secondary",
+                    height: 1,
+                    pr: 2,
+                  }}
+                >
+                  <ProjectInformation
+                    selectedProject={selectedProject}
+                    location={location}
+                  />
+                </StyledProjectInformationGrid>
+                <Grid
+                  item
+                  xs={isOpeningProjectInfo ? 6 : 10.5}
+                  md={isOpeningProjectInfo ? 9 : 11.5}
+                  xl={isOpeningProjectInfo ? 9.5 : 11.5}
+                  sx={{
+                    backgroundColor: "background.default",
+                    height: 1,
+                  }}
+                >
+                  <Stack spacing={1} alignItems="center" sx={{ height: 1 }}>
+                    <Box sx={{ width: 1 }}>
+                      <FormProvider methods={methods}>
+                        <ProjectPageControl
+                          selectedProject={selectedProject}
+                          location={location}
+                        />
+                      </FormProvider>
+                    </Box>
+
+                    {isLoadingTask ? (
+                      <LoadingScreen />
+                    ) : (
+                      <TaskByStatusDraggable tasks={tasks} filters={filters} />
+                    )}
+                  </Stack>
+                </Grid>
+              </Grid>
+
+              <UpdateProjectDrawer
+                project={selectedProject}
+                isLoading={isLoadingProject}
+                isUpdatingProject={isUpdatingProject}
+                setIsUpdatingProject={setIsUpdatingProject}
               />
-            </StyledProjectInformationGrid>
-            <Grid
-              item
-              xs={isOpeningProjectInfo ? 6 : 10.5}
-              md={isOpeningProjectInfo ? 9 : 11.5}
-              xl={isOpeningProjectInfo ? 9.5 : 11.5}
-              sx={{
-                backgroundColor: "background.default",
-                height: 1,
-              }}
-            >
-              <Stack spacing={1} alignItems="center" sx={{ height: 1 }}>
-                <Box sx={{ width: 1 }}>
-                  <FormProvider methods={methods}>
-                    <ProjectPageControl
-                      selectedProject={selectedProject}
-                      location={location}
-                    />
-                  </FormProvider>
-                </Box>
-
-                {isLoadingTask ? (
-                  <LoadingScreen />
-                ) : (
-                  <TaskByStatusDraggable tasks={tasks} filters={filters} />
-                )}
-              </Stack>
-            </Grid>
-          </Grid>
-
-          <UpdateProjectDrawer
-            project={selectedProject}
-            isLoading={isLoadingProject}
-            isUpdatingProject={isUpdatingProject}
-            setIsUpdatingProject={setIsUpdatingProject}
-          />
+            </>
+          )}
         </Container>
       </Box>
     </ProjectDetailPageContext.Provider>
