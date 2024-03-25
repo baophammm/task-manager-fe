@@ -24,6 +24,7 @@ import SingleTaskGeneralInfo from "./SingleTaskGeneralInfo";
 import SingleTaskFileDisplay from "./SingleTaskFileDisplay";
 import UpdateTaskDrawer from "./UpdateTaskDrawer";
 import SingleTaskCommentSection from "../comment/SingleTaskCommentSection";
+import SingleTaskSubTaskSection from "../subtask/SingleTaskSubTaskSection";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   background: theme.palette.action.disabled,
@@ -162,6 +163,7 @@ function TaskDetailModal() {
                       selectedTask={selectedTask}
                       disableUpdateTask={disableUpdateTask}
                     />
+                    <SingleTaskSubTaskSection taskId={taskId} />
                     <SingleTaskCommentSection taskId={taskId} />
                   </ImageList>
                 </Stack>
