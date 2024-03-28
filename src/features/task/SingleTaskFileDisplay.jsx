@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import React, { useState } from "react";
 import FileForm from "./FileForm";
@@ -37,7 +37,18 @@ function SingleTaskFileDisplay({ selectedTask, disableUpdateTask }) {
     <>
       <Stack spacing={1} sx={{ width: 1 }}>
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h5">Files</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <SvgIcon fontSize="medium">
+              <AttachFileIcon />
+            </SvgIcon>
+            <Typography variant="h5">Files</Typography>
+          </Box>
           <Button
             startIcon={
               <SvgIcon fontSize="small">
@@ -48,7 +59,7 @@ function SingleTaskFileDisplay({ selectedTask, disableUpdateTask }) {
             disabled={disableUpdateTask}
             onClick={() => setAddingFile(true)}
           >
-            Add File
+            File
           </Button>
         </Stack>
         {selectedTask?.files.length ? (

@@ -13,6 +13,7 @@ import useAuth from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FDateField,
+  FNumberField,
   FSelect,
   FTextField,
   FormProvider,
@@ -57,25 +58,10 @@ const ModalBox = styled(Box)(({ theme }) => ({
 
 const taskYupSchema = Yup.object().shape({
   title: Yup.string().required("Task title is required"),
+  effort: Yup.number("Effort Estimation must be number").required(
+    "Effort Estimation is required"
+  ),
 });
-
-const TASK_FIELDS = [
-  { name: "title", label: "Task title", fieldType: "text" },
-  { name: "description", label: "Task description", fieldType: "text" },
-  {
-    name: "taskStatus",
-    label: "Task Status",
-    fieldType: "select",
-    options: [
-      { value: "Backlog", label: "Backlog" },
-      { value: "InProgress", label: "In Progress" },
-      { value: "Completed", label: "Completed" },
-      { value: "Archived", label: "Archived" },
-    ],
-  },
-  { name: "startAt", label: "Start At", fieldType: "date" },
-  { name: "dueAt", label: "Due At", fieldType: "date" },
-];
 
 function AddTaskModal() {
   const addTaskLocation = useLocation();
@@ -98,6 +84,7 @@ function AddTaskModal() {
   const TASK_FIELDS = [
     { name: "title", label: "Task title", fieldType: "text" },
     { name: "description", label: "Task description", fieldType: "text" },
+    { name: "effort", label: "Effort Estimation (hours)", fieldType: "number" },
     {
       name: "projectId",
       label: "Project",
@@ -128,6 +115,7 @@ function AddTaskModal() {
   const defaultValues = {
     title: "",
     description: "",
+    effort: 0,
     taskStatus: "Backlog",
     projectId: null,
     startAt: "",
@@ -189,6 +177,14 @@ function AddTaskModal() {
                 if (field.fieldType === "text") {
                   return (
                     <FTextField
+                      key={field.name}
+                      name={field.name}
+                      placeholder={field.label}
+                    />
+                  );
+                } else if (field.fieldType === "number") {
+                  return (
+                    <FNumberField
                       key={field.name}
                       name={field.name}
                       placeholder={field.label}

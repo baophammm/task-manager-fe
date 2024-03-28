@@ -1,8 +1,10 @@
-import { Box, Chip, Stack, Typography } from "@mui/material";
+import { Box, Chip, Stack, SvgIcon, Typography } from "@mui/material";
+import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import QueueIcon from "@mui/icons-material/Queue";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import NotesIcon from "@mui/icons-material/Notes";
 import React from "react";
 import { fDate } from "../../utils/formatTime";
 import { useNavigate } from "react-router-dom";
@@ -62,19 +64,29 @@ function SingleTaskGeneralInfo({ selectedTask }) {
           </Typography>
         )}
       </Box>
-      <Stack
-        direction="row"
-        spacing={3}
-        flexWrap="wrap"
-        justifyContent="flex-start"
-        alignItems="center"
+      <Box
         sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          flexWrap: "wrap",
+          gap: 2,
           mb: 1,
         }}
       >
         <Box>
           <Typography fontWeight="bold">Assignee</Typography>
           <UserProfilePicture targetUser={selectedTask?.assignee} />
+        </Box>
+        <Box>
+          <Typography fontWeight="bold">Effort Estimation</Typography>
+
+          <Chip
+            label={`${selectedTask?.effort} ${
+              selectedTask?.effort <= 1 ? "hour" : "hours"
+            }`}
+            icon={<WatchLaterIcon />}
+          />
         </Box>
         <Box>
           <Typography fontWeight="bold">Task Status</Typography>
@@ -101,9 +113,21 @@ function SingleTaskGeneralInfo({ selectedTask }) {
             <Chip label={fDate(selectedTask?.dueAt)} />
           </Box>
         )}
-      </Stack>
+      </Box>
       <Stack spacing={2}>
-        <Typography variant="h5">Description</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            gap: 1,
+          }}
+        >
+          <SvgIcon fontSize="medium">
+            <NotesIcon />
+          </SvgIcon>
+          <Typography variant="h5">Description</Typography>
+        </Box>
         <Box
           sx={{
             display: "flex",

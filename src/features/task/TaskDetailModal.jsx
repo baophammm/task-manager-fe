@@ -1,15 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { alpha, styled } from "@mui/material/styles";
+import React, { useEffect, useRef, useState } from "react";
+import { styled } from "@mui/material/styles";
 import {
-  Avatar,
   CssBaseline,
-  Link,
-  Grid,
   Box,
   Typography,
   Container,
   Stack,
-  Card,
   ImageList,
   Button,
 } from "@mui/material";
@@ -24,7 +20,7 @@ import SingleTaskGeneralInfo from "./SingleTaskGeneralInfo";
 import SingleTaskFileDisplay from "./SingleTaskFileDisplay";
 import UpdateTaskDrawer from "./UpdateTaskDrawer";
 import SingleTaskCommentSection from "../comment/SingleTaskCommentSection";
-import SingleTaskSubTaskSection from "../subtask/SingleTaskSubTaskSection";
+import SingleTaskChecklistSection from "../checklist/SingleTaskChecklistSection";
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   background: theme.palette.action.disabled,
@@ -163,50 +159,8 @@ function TaskDetailModal() {
                       selectedTask={selectedTask}
                       disableUpdateTask={disableUpdateTask}
                     />
-                    <SingleTaskSubTaskSection taskId={taskId} />
-                    <SingleTaskCommentSection taskId={taskId} />
-                  </ImageList>
-                </Stack>
-
-                <UpdateTaskDrawer
-                  task={selectedTask}
-                  isLoading={isLoading}
-                  isUpdatingTask={isUpdatingTask}
-                  setIsUpdatingTask={setIsUpdatingTask}
-                />
-              </>
-            )
-          )}
-          {/* {isLoading ? (
-            <LoadingScreen />
-          ) : (
-            selectedTask && (
-              <>
-                <Stack spacing={2}>
-                  <TaskDetailPageControl
-                    from={from}
-                    selectedTask={selectedTask}
-                    disableUpdateTask={disableUpdateTask}
-                    setIsUpdatingTask={setIsUpdatingTask}
-                  />
-                  <ImageList
-                    cols={1}
-                    sx={{
-                      maxHeight: "calc(100vh - 140px)",
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Box>
-                      <Typography variant="h4">
-                        {selectedTask?.title}
-                      </Typography>
-                    </Box>
-
-                    <SingleTaskGeneralInfo selectedTask={selectedTask} />
-
-                    <SingleTaskFileDisplay
-                      selectedTask={selectedTask}
+                    <SingleTaskChecklistSection
+                      taskId={taskId}
                       disableUpdateTask={disableUpdateTask}
                     />
                     <SingleTaskCommentSection taskId={taskId} />
@@ -221,7 +175,7 @@ function TaskDetailModal() {
                 />
               </>
             )
-          )} */}
+          )}
         </Container>
       </ModalBox>
     </ModalWrapperBox>

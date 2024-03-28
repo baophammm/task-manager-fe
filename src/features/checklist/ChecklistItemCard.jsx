@@ -1,32 +1,27 @@
-import { Box, Checkbox, IconButton, SvgIcon, Typography } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
 import React from "react";
 import { useDispatch } from "react-redux";
 import {
-  deleteSingleSubTask,
-  getSubTasksOfSingleTask,
-  updateSubTaskIsChecked,
-} from "./subTaskSlice";
-import { Clear } from "@mui/icons-material";
+  deleteSingleChecklistItem,
+  updateSingleChecklistItemIsChecked,
+} from "./checklistSlice";
 
-function SubTaskCard({ subTask }) {
+import { Box, Checkbox, IconButton, SvgIcon, Typography } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+
+function ChecklistItemCard({ checklistItem }) {
   const dispatch = useDispatch();
 
-  const handleUpdateSubTaskIsChecked = () => {
+  const handleUpdateChecklistItemIsChecked = () => {
     dispatch(
-      updateSubTaskIsChecked({
-        subTaskId: subTask._id,
-        isChecked: !subTask.isChecked,
+      updateSingleChecklistItemIsChecked({
+        checklistItemId: checklistItem._id,
+        isChecked: !checklistItem.isChecked,
       })
-    ).then(() => {
-      dispatch(getSubTasksOfSingleTask({ taskId: subTask.task }));
-    });
+    );
   };
 
-  const handleDeleteSubTask = () => {
-    dispatch(deleteSingleSubTask(subTask._id)).then(() => {
-      dispatch(getSubTasksOfSingleTask({ taskId: subTask.task }));
-    });
+  const handleDeleteChecklistItem = () => {
+    dispatch(deleteSingleChecklistItem(checklistItem._id));
   };
 
   return (
@@ -46,7 +41,7 @@ function SubTaskCard({ subTask }) {
       }}
     >
       <Box
-        onClick={handleUpdateSubTaskIsChecked}
+        onClick={handleUpdateChecklistItemIsChecked}
         sx={{
           height: 1,
           flexGrow: 1,
@@ -60,13 +55,13 @@ function SubTaskCard({ subTask }) {
           },
         }}
       >
-        <Checkbox checked={subTask.isChecked} sx={{ color: "gray" }} />
-        <Typography>{subTask.subTaskText}</Typography>
+        <Checkbox checked={checklistItem.isChecked} sx={{ color: "gray" }} />
+        <Typography>{checklistItem.itemTitle}</Typography>
       </Box>
       <Box>
         <IconButton
           className="iconButton"
-          onClick={handleDeleteSubTask}
+          onClick={handleDeleteChecklistItem}
           sx={{ visibility: "hidden" }}
         >
           <SvgIcon fontSize="small">
@@ -78,4 +73,4 @@ function SubTaskCard({ subTask }) {
   );
 }
 
-export default SubTaskCard;
+export default ChecklistItemCard;

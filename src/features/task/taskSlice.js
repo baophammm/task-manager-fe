@@ -86,6 +86,7 @@ export const createTask =
   ({
     title,
     description,
+    effort,
     taskStatus,
     assigneeId,
     projectId,
@@ -99,6 +100,7 @@ export const createTask =
       const response = await apiService.post("/tasks", {
         title,
         description,
+        effort,
         taskStatus,
         assigneeId,
         projectId,
@@ -120,6 +122,8 @@ export const getTasks =
     taskStatus,
     assigneeId,
     projectId,
+    effortGreaterThan,
+    effortLowerThan,
     startBefore,
     startAfter,
     dueBefore,
@@ -135,6 +139,8 @@ export const getTasks =
       if (taskStatus) params.taskStatus = taskStatus;
       if (assigneeId) params.assigneeId = assigneeId;
       if (projectId) params.projectId = projectId;
+      if (effortGreaterThan) params.effortGreaterThan = effortGreaterThan;
+      if (effortLowerThan) params.effortLowerThan = effortLowerThan;
       if (startAfter) params.startAfter = startAfter;
       if (startBefore) params.startBefore = startBefore;
       if (dueAfter) params.dueAfter = dueAfter;
@@ -165,6 +171,7 @@ export const updateSingleTask =
     taskId,
     title,
     description,
+    effort,
     taskStatus,
     assigneeId,
     projectId,
@@ -177,6 +184,7 @@ export const updateSingleTask =
       const data = {
         title,
         description,
+        effort,
         taskStatus,
         assigneeId,
         projectId,

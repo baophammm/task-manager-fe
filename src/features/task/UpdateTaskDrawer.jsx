@@ -4,6 +4,7 @@ import Drawer from "@mui/material/Drawer";
 
 import {
   FDateField,
+  FNumberField,
   FSelect,
   FTextField,
   FormProvider,
@@ -56,6 +57,7 @@ export default function UpdateTaskDrawer({
   const TASK_FIELDS = [
     { name: "title", label: "Task title", fieldType: "text" },
     { name: "description", label: "Task description", fieldType: "text" },
+    { name: "effort", label: "Effort Estimation (hours)", fieldType: "number" },
     {
       name: "projectId",
       label: "Project",
@@ -87,6 +89,7 @@ export default function UpdateTaskDrawer({
   const defaultValues = {
     title: task?.title || "",
     description: task?.description || "",
+    effort: task?.effort || 0,
     taskStatus: task?.taskStatus || "Backlog",
     assigneeId: task?.assignee?._id || null,
     projectId: task?.project?._id || null,
@@ -144,6 +147,14 @@ export default function UpdateTaskDrawer({
               if (field.fieldType === "text") {
                 return (
                   <FTextField
+                    key={field.name}
+                    name={field.name}
+                    placeholder={field.label}
+                  />
+                );
+              } else if (field.fieldType === "number") {
+                return (
+                  <FNumberField
                     key={field.name}
                     name={field.name}
                     placeholder={field.label}

@@ -18,6 +18,8 @@ import { styled } from "@mui/material/styles";
 import TaskFilter from "../features/task/TaskFilter";
 import { Link, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import { getTasks } from "../features/task/taskSlice";
 import useAuth from "../hooks/useAuth";
 import { FormProvider } from "../components/form";
@@ -35,6 +37,15 @@ const StyledTaskFilterGrid = styled(Grid)(({ theme }) => ({
   }),
 }));
 
+const taskFilterYupSchema = Yup.object().shape({
+  effortGreaterThan: Yup.number("Effort Estimation must be number"),
+  effortLessThan: Yup.number("Effort Estimation must be number"),
+  startBefore: Yup.date("Start Date must be date"),
+  startAfter: Yup.date("Start Date must be date"),
+  dueBefore: Yup.date("Due Date must be date"),
+  dueAfter: Yup.date("Due Date must be date"),
+});
+
 function TaskPage() {
   const { user } = useAuth();
   const [page, setPage] = useState(1);
@@ -50,6 +61,8 @@ function TaskPage() {
     taskStatus: "",
     assigneeId: user._id,
     projectId: "",
+    effortGreaterThan: "",
+    effortLessThan: "",
     startBefore: "",
     startAfter: "",
     dueBefore: "",
@@ -58,7 +71,10 @@ function TaskPage() {
   };
   const [filters, setFilters] = useState(defaultValues);
 
-  const methods = useForm({ defaultValues });
+  const methods = useForm({
+    resolver: yupResolver(taskFilterYupSchema),
+    defaultValues,
+  });
 
   const { reset } = methods;
 

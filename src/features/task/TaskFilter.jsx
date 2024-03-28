@@ -13,7 +13,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { TaskPageContext } from "../../pages/TaskPage";
-import { FDateField, FSelect } from "../../components/form";
+import { FDateField, FNumberField, FSelect } from "../../components/form";
 import dayjs from "dayjs";
 import { TasksSearch } from "./TasksSearch";
 import { useDispatch } from "react-redux";
@@ -37,6 +37,7 @@ function TaskFilter() {
   }));
 
   projectOptions.unshift({ value: "", label: "All" });
+
   const TASK_FILTERS = [
     {
       name: "taskStatus",
@@ -55,6 +56,18 @@ function TaskFilter() {
       label: "Project",
       fieldType: "select",
       options: projectOptions,
+    },
+
+    {
+      name: "effortGreaterThan",
+      label: "Effort Greater Than",
+      fieldType: "number",
+    },
+
+    {
+      name: "effortLowerThan",
+      label: "Effort Lower Than",
+      fieldType: "number",
     },
     { name: "startAfter", label: "Start After", fieldType: "date" },
     { name: "startBefore", label: "Start Before", fieldType: "date" },
@@ -130,6 +143,20 @@ function TaskFilter() {
                     </option>
                   ))}
                 </FSelect>
+              </MenuItem>
+            );
+          } else if (filter.fieldType === "number") {
+            return (
+              <MenuItem key={filter.name}>
+                <FNumberField
+                  name={filter.name}
+                  label={filter.label}
+                  inputColor="text.primary"
+                  value={filters[filter.name]}
+                  onChange={(e) =>
+                    handleFilterSelection(filter.name, e.target.value)
+                  }
+                />
               </MenuItem>
             );
           } else if (filter.fieldType === "date") {
@@ -266,6 +293,19 @@ function TaskFilter() {
                         </option>
                       ))}
                     </FSelect>
+                  );
+                } else if (filter.fieldType === "number") {
+                  return (
+                    <FNumberField
+                      key={filter.name}
+                      name={filter.name}
+                      label={filter.label}
+                      inputColor="text.secondary"
+                      value={filters[filter.name]}
+                      onChange={(e) =>
+                        handleFilterSelection(filter.name, e.target.value)
+                      }
+                    />
                   );
                 } else if (filter.fieldType === "date") {
                   return (

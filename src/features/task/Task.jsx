@@ -136,7 +136,9 @@ const Task = (props) => {
                   <Typography variant="span" fontWeight="bold">
                     Description: 
                   </Typography>
-                  {props.task.description}
+                  {props.task.description.length > 120
+                    ? props.task.description.slice(0, 120) + "..."
+                    : props.task.description}
                 </Typography>
                 {props.task.project && (
                   <Typography align="left" variant="body2">

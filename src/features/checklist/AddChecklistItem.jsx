@@ -1,38 +1,37 @@
-import { Box, Button } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-  createNewSubTaskOfSingleTask,
-  getSubTasksOfSingleTask,
-} from "./subTaskSlice";
+import { Box, Button } from "@mui/material";
 
-function AddSubTask({ taskId }) {
-  const [isAddingSubTask, setIsAddingSubTask] = useState(false);
-  const [subTaskText, setSubTaskText] = useState("");
+import { useDispatch } from "react-redux";
+import { createChecklistItemOnChecklist } from "./checklistSlice";
+
+function AddChecklistItem({ checklistId }) {
+  const [isAddingChecklistItem, setIsAddingChecklistItem] = useState(false);
+  const [checklistItemTitle, setChecklistItemTitle] = useState("");
 
   const dispatch = useDispatch();
 
-  const handleAddSubTask = (e) => {
+  const handleAddChecklistItem = (e) => {
     e.preventDefault();
-    if (subTaskText) {
-      dispatch(createNewSubTaskOfSingleTask({ taskId, subTaskText })).then(
-        () => {
-          setSubTaskText("");
-          dispatch(getSubTasksOfSingleTask({ taskId }));
-        }
-      );
-      setIsAddingSubTask(true);
+    if (checklistItemTitle) {
+      dispatch(
+        createChecklistItemOnChecklist({
+          checklistId,
+          itemTitle: checklistItemTitle,
+        })
+      ).then(() => {
+        setChecklistItemTitle("");
+      });
+      setIsAddingChecklistItem(true);
     } else {
-      setIsAddingSubTask(true);
+      setIsAddingChecklistItem(true);
     }
   };
-
   return (
     <div>
-      {isAddingSubTask ? (
+      {isAddingChecklistItem ? (
         <>
           <div
-            onClick={() => setIsAddingSubTask(false)}
+            onClick={() => setIsAddingChecklistItem(false)}
             style={{
               position: "absolute",
               left: 0,
@@ -42,7 +41,7 @@ function AddSubTask({ taskId }) {
               zIndex: 0,
             }}
           />
-          <form onSubmit={handleAddSubTask}>
+          <form onSubmit={handleAddChecklistItem}>
             <Box
               sx={{
                 display: "flex",
@@ -53,9 +52,9 @@ function AddSubTask({ taskId }) {
             >
               <input
                 type="text"
-                placeholder="Add Sub Task"
-                value={subTaskText}
-                onChange={(e) => setSubTaskText(e.target.value)}
+                placeholder="Add Item"
+                value={checklistItemTitle}
+                onChange={(e) => setChecklistItemTitle(e.target.value)}
                 style={{
                   lineHeight: "2",
                   fontSize: "14px",
@@ -81,7 +80,7 @@ function AddSubTask({ taskId }) {
                 <Button
                   type="button"
                   size="small"
-                  onClick={() => setIsAddingSubTask(false)}
+                  onClick={() => setIsAddingChecklistItem(false)}
                 >
                   Cancel
                 </Button>
@@ -95,10 +94,10 @@ function AddSubTask({ taskId }) {
             variant="contained"
             color="primary"
             size="small"
-            onClick={() => setIsAddingSubTask(true)}
+            onClick={() => setIsAddingChecklistItem(true)}
             sx={{ borderRadius: "4px" }}
           >
-            Add Sub Task
+            Add Item
           </Button>
         </Box>
       )}
@@ -106,4 +105,4 @@ function AddSubTask({ taskId }) {
   );
 }
 
-export default AddSubTask;
+export default AddChecklistItem;
