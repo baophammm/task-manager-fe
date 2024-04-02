@@ -116,6 +116,7 @@ function ProjectPage() {
         methods,
         isOpeningProjectFilter,
         setIsOpeningProjectFilter,
+        isDisplayingFeaturedProjects,
       }}
     >
       <Box

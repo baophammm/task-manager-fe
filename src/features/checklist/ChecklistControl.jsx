@@ -19,7 +19,7 @@ function ChecklistControl({ checklist }) {
     <Box>
       <Button
         onClick={handleDeleteChecklist}
-        variant="outlined"
+        variant="contained"
         color="error"
         size="small"
       >

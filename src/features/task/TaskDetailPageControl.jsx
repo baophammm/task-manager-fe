@@ -4,25 +4,49 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Stack,
   SvgIcon,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { styled } from "@mui/material/styles";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
 import ClearIcon from "@mui/icons-material/Clear";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
-import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { deleteSingleTask } from "./taskSlice";
+import { TaskDetailModalContext } from "./TaskDetailModal";
+import AddChecklistForm from "../checklist/AddChecklistForm";
 
-function TaskDetailPageControl({
-  from,
-  selectedTask,
-  disableUpdateTask,
-  setIsUpdatingTask,
-}) {
+const StyledButtonContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  width: "100%",
+  fontSize: "0.8rem",
+
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  gap: 1,
+}));
+
+function TaskDetailPageControl() {
+  const {
+    from,
+    disableUpdateTask,
+    setIsUpdatingTask,
+    handleOpenAddFileFormMenu,
+    AddFileFormMenu,
+
+    handleOpenAddTagFormMenu,
+    AddTagFormMenu,
+  } = useContext(TaskDetailModalContext);
   const params = useParams();
 
   const taskId = params.taskId;
@@ -39,247 +63,176 @@ function TaskDetailPageControl({
     }
   };
 
-  const [anchorElUpdateButtons, setAnchorElUpdateButtons] = useState(null);
-
-  const handleOpenUpdateButtonMenu = (event) => {
-    setAnchorElUpdateButtons(event.currentTarget);
+  // add checklist
+  const [anchorElAddChecklistFormMenu, setAnchorElAddChecklistMenu] =
+    useState(null);
+  const handleOpenAddChecklistFormMenu = (event) => {
+    if (event) {
+      setAnchorElAddChecklistMenu(event.currentTarget);
+    }
   };
 
-  const handleCloseUpdateButtonMenu = () => {
-    setAnchorElUpdateButtons(null);
+  const handleCloseAddChecklistFormMenu = () => {
+    setAnchorElAddChecklistMenu(null);
   };
 
-  const taskDetailUpdateButtonMenu = (
+  const AddChecklistFormMenu = (
     <Menu
-      id="menu-task-detail-update-buttons"
-      anchorEl={anchorElUpdateButtons}
+      sx={{ mt: "45px" }}
+      id="menu-addchecklistform"
+      anchorEl={anchorElAddChecklistFormMenu}
       anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
+        vertical: "top",
+        horizontal: "right",
       }}
       keepMounted
       transformOrigin={{
         vertical: "top",
-        horizontal: "left",
+        horizontal: "right",
       }}
-      open={Boolean(anchorElUpdateButtons)}
-      onClose={handleCloseUpdateButtonMenu}
-      sx={{
-        display: { xs: "block", xl: "none" },
-      }}
+      open={Boolean(anchorElAddChecklistFormMenu)}
+      onClose={handleCloseAddChecklistFormMenu}
     >
-      <MenuItem onClick={handleCloseUpdateButtonMenu}>
-        <Box width={1}>
-          <Button
-            fullWidth
-            startIcon={
-              <SvgIcon fontSize="small">
-                <UpgradeIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-            onClick={() => setIsUpdatingTask(true)}
-            disabled={disableUpdateTask}
-            style={{ justifyContent: "flex-start" }}
-          >
-            Edit
-          </Button>
-        </Box>
-      </MenuItem>
-
-      <MenuItem onClick={handleCloseUpdateButtonMenu}>
-        <Box width={1}>
-          <Button
-            fullWidth
-            startIcon={
-              <SvgIcon fontSize="small">
-                <ClearIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-            style={{ justifyContent: "flex-start" }}
-            sx={{
-              backgroundColor: "error.main",
-              "&:hover": { backgroundColor: "error.dark" },
-            }}
-            onClick={handleDeleteTask}
-            disabled={disableUpdateTask}
-          >
-            Delete
-          </Button>
-        </Box>
-      </MenuItem>
+      <Box>
+        <AddChecklistForm
+          taskId={taskId}
+          handleCloseAddChecklistFormMenu={handleCloseAddChecklistFormMenu}
+          sx={{ width: 300 }}
+        />
+      </Box>
     </Menu>
   );
 
-  const [anchorElBackButtons, setAnchorElBackButtons] = useState(null);
+  const CONTROL_BUTTONS = [
+    {
+      label: "Edit",
+      icon: <UpgradeIcon />,
+      action: () => setIsUpdatingTask(true),
+    },
+    {
+      label: "Tags",
+      icon: <LocalOfferIcon />,
+      action: handleOpenAddTagFormMenu,
+      menu: AddTagFormMenu,
+    },
+    {
+      label: "Checklists",
+      icon: <LibraryAddCheckIcon />,
+      action: handleOpenAddChecklistFormMenu,
+      menu: AddChecklistFormMenu,
+    },
+    {
+      label: "Attachments",
+      icon: <AttachFileIcon />,
+      action: handleOpenAddFileFormMenu,
+      menu: AddFileFormMenu,
+    },
+    { label: "Delete", icon: <ClearIcon />, action: handleDeleteTask },
+  ];
 
-  const handleOpenBackButtonMenu = (event) => {
-    setAnchorElBackButtons(event.currentTarget);
+  // Task Detail Page Control Button Menu
+  const [
+    anchorElTaskDetailPageControlButtonMenu,
+    setAnchorElTaskDetailPageControlButtonMenu,
+  ] = useState(null);
+
+  const handleOpenTaskDetailPageControlButtonMenu = (event) => {
+    setAnchorElTaskDetailPageControlButtonMenu(event.currentTarget);
+    console.log("CHECKING", anchorElTaskDetailPageControlButtonMenu);
   };
 
-  const handleCloseBackButtonMenu = () => {
-    setAnchorElBackButtons(null);
+  const handleCloseTaskDetailPageControlButtonMenu = () => {
+    setAnchorElTaskDetailPageControlButtonMenu(null);
   };
 
-  const backButtonMenu = (
+  const TaskDetailPageControlButtonMenu = (
     <Menu
-      id="menu-task-detail-back-buttons"
-      anchorEl={anchorElBackButtons}
+      sx={{ mt: "45px" }}
+      id="menu-taskdetailpagecontrolbutton"
+      anchorEl={anchorElTaskDetailPageControlButtonMenu}
       anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
+        vertical: "top",
+        horizontal: "right",
       }}
       keepMounted
       transformOrigin={{
         vertical: "top",
-        horizontal: "left",
+        horizontal: "right",
       }}
-      open={Boolean(anchorElBackButtons)}
-      onClose={handleCloseBackButtonMenu}
-      sx={{
-        display: { xs: "block", md: "none" },
-      }}
+      open={Boolean(anchorElTaskDetailPageControlButtonMenu)}
+      onClose={handleCloseTaskDetailPageControlButtonMenu}
     >
-      <MenuItem>
-        <Box width={1}>
-          <Link to={`/tasks`}>
-            <Button
-              fullWidth
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <ArrowBackIcon />
-                </SvgIcon>
-              }
+      {CONTROL_BUTTONS.map((button, index) => (
+        <MenuItem
+          key={index}
+          onClick={() => {
+            handleCloseTaskDetailPageControlButtonMenu();
+            button.action();
+          }}
+        >
+          <StyledButtonContainer>
+            <StyledButton
+              startIcon={<SvgIcon fontSize="small">{button.icon}</SvgIcon>}
               variant="contained"
+              color={button.label === "Delete" ? "error" : "primary"}
+              onClick={button.action}
+              sx={button.label === "Delete" ? { color: "error.main" } : {}}
             >
-              Tasks
-            </Button>
-          </Link>
-        </Box>
-      </MenuItem>
-
-      <MenuItem>
-        <Box width={1}>
-          <Link to={`/projects/${selectedTask?.project?._id}`}>
-            <Button
-              fullWidth
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <ArrowBackIcon />
-                </SvgIcon>
-              }
-              variant="contained"
-            >
-              {selectedTask?.project?.title}
-            </Button>
-          </Link>
-        </Box>
-      </MenuItem>
+              {button.label}
+            </StyledButton>
+            {button.menu && button.menu}
+          </StyledButtonContainer>
+        </MenuItem>
+      ))}
     </Menu>
   );
   return (
-    <Box
-      sx={{
-        width: 1,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <Stack
-        direction="row"
-        spacing={1}
+    <>
+      <Box
         sx={{
-          display: {
-            xs: "none",
-            md: "flex",
-          },
+          width: "136px",
+
+          display: { xs: "none", md: "flex" },
+          flexDirection: "column",
+          gap: 1,
         }}
-      ></Stack>
-
-      <Box sx={{ display: { xs: "flex", md: "none" } }}>
-        {selectedTask?.project ? (
-          <Box>
-            <IconButton
-              size="small"
-              aria-label="task detail back buttons"
-              aria-controls="menu-task-detail-back-buttons"
-              aria-haspopup="true"
-              onClick={handleOpenBackButtonMenu}
-            >
-              <ArrowBackIcon />
-            </IconButton>
-            {backButtonMenu}
-          </Box>
-        ) : (
-          <Link to={`/tasks`}>
-            <Button
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <ArrowBackIcon />
-                </SvgIcon>
-              }
-              variant="contained"
-            >
-              Tasks
-            </Button>
-          </Link>
-        )}
-      </Box>
-
-      <Stack
-        spacing={1}
-        direction="row"
-        sx={{ display: { xs: "none", md: "flex" } }}
       >
-        <Box>
-          <Button
-            startIcon={
-              <SvgIcon fontSize="small">
-                <UpgradeIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-            onClick={() => setIsUpdatingTask(true)}
-            disabled={disableUpdateTask}
-          >
-            Edit
-          </Button>
-        </Box>
-        <Box>
-          <Button
-            startIcon={
-              <SvgIcon fontSize="small">
-                <ClearIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-            sx={{
-              backgroundColor: "error.main",
-              "&:hover": { backgroundColor: "error.dark" },
-            }}
-            onClick={handleDeleteTask}
-            disabled={disableUpdateTask}
-          >
-            Delete
-          </Button>
-        </Box>
-      </Stack>
-      <Box sx={{ display: { xs: "flex", md: "none" } }}>
-        <IconButton
-          size="small"
-          aria-label="task detail update buttons"
-          aria-controls="menu-task-detail-update-buttons"
-          aria-haspopup="true"
-          onClick={handleOpenUpdateButtonMenu}
-        >
-          <MoreVertIcon />
-        </IconButton>
-        {taskDetailUpdateButtonMenu}
+        {CONTROL_BUTTONS.map((button, index) => (
+          <StyledButtonContainer key={index}>
+            <StyledButton
+              startIcon={<SvgIcon fontSize="small">{button.icon}</SvgIcon>}
+              variant="contained"
+              color={button.label === "Delete" ? "error" : "primary"}
+              onClick={
+                button.menu ? (event) => button.action(event) : button.action
+              }
+              disabled={disableUpdateTask}
+            >
+              {button.label}
+            </StyledButton>
+            {button.menu && button.menu}
+          </StyledButtonContainer>
+        ))}
       </Box>
-    </Box>
+      {!disableUpdateTask && (
+        <Box
+          sx={{
+            height: 1,
+            width: "30px",
+            display: { xs: "flex", md: "none" },
+            flexDirection: "column",
+            justifyContent: "flex-start",
+          }}
+        >
+          <IconButton onClick={handleOpenTaskDetailPageControlButtonMenu}>
+            <SvgIcon fontSize="large">
+              <MoreVertIcon sx={{ color: "primary.main" }} />
+            </SvgIcon>
+          </IconButton>
+          {TaskDetailPageControlButtonMenu}
+        </Box>
+      )}
+    </>
   );
 }
 

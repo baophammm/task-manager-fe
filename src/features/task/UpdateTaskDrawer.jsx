@@ -10,7 +10,7 @@ import {
   FormProvider,
 } from "../../components/form";
 
-import { updateSingleTask } from "./taskSlice";
+import { updateSingleTask } from "../task/taskSlice";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

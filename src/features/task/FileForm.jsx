@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form";
 import { Box, Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleTask, uploadFileToTask } from "./taskSlice";
+import { getSingleTask, uploadFileToTask } from "../task/taskSlice";
 
 const defaultValues = {
   file: "",
 };
 
-function FileForm({ taskId, setAddingFile, sx }) {
+function FileForm({ taskId, setAddingFile, handleCloseAddFileFormMenu, sx }) {
   const methods = useForm({
     defaultValues,
   });
@@ -32,7 +32,8 @@ function FileForm({ taskId, setAddingFile, sx }) {
       reset();
       dispatch(getSingleTask(taskId));
     });
-    setAddingFile(false);
+    // setAddingFile(false);
+    handleCloseAddFileFormMenu();
   };
 
   const handleDrop = useCallback(
@@ -54,7 +55,13 @@ function FileForm({ taskId, setAddingFile, sx }) {
   return (
     <Box sx={sx}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            px: 1,
+          }}
+        >
           <Box flexGrow={1}>
             <FUploadImage
               name="file"
@@ -68,7 +75,7 @@ function FileForm({ taskId, setAddingFile, sx }) {
               display: "flex",
               alignItems: "center",
               justifyContent: "flex-end",
-              flexGrow: 1,
+              // flexGrow: 1,
             }}
           >
             <LoadingButton

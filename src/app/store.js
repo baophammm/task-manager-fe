@@ -6,6 +6,7 @@ import commentReducer from "../features/comment/commentSlice";
 import userReducer from "../features/user/userSlice";
 import invitationReducer from "../features/invitation/invitationSlice";
 import notificationReducer from "../features/notification/notificationSlice";
+import tagReducer from "../features/tag/tagSlice";
 
 const rootReducer = {
   project: projectReducer,
@@ -15,6 +16,7 @@ const rootReducer = {
   user: userReducer,
   invitation: invitationReducer,
   notification: notificationReducer,
+  tag: tagReducer,
 };
 
 const store = configureStore({

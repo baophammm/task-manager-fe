@@ -1,8 +1,8 @@
-# Taskify - Task Management Application MERN Stack
+# Taskoodle - Task Management Application MERN Stack
 
 ## General Description
 
-Taskify is a task management web application that enhance collaboration and boost productivity, either personal tasks or overviewing complex projects with multiple members. Taskify provides tools for users to stay organized, focused and on track.
+Taskoodle is a task management web application that enhance collaboration and boost productivity, either personal tasks or overviewing complex projects with multiple members. Taskoodle provides tools for users to stay organized, focused and on track.
 
 To register, each user should provide their first name, last name, an email, a password to create an account. The email address should be unique and not link to any account in the system. User will then receive an email verification sent to their email. Confirming on the verification link will then activate user's account and allows login.
 

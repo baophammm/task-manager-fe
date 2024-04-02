@@ -13,6 +13,7 @@ import {
   Box,
   Card,
   CardContent,
+  Chip,
   Divider,
   Grid,
   Stack,
@@ -82,6 +83,7 @@ const Task = (props) => {
     }
   }
 
+  const taskTags = props.task.tags.map((tag) => tag);
   return (
     <Draggable draggableId={props.task._id} index={props.index}>
       {(provided) => (
@@ -132,6 +134,26 @@ const Task = (props) => {
                   </Typography>
                 </Box>
 
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    mb: 1,
+                    gap: 0.4,
+                  }}
+                >
+                  {taskTags.map((tag) => (
+                    <Chip
+                      sx={{
+                        height: "10px",
+                        width: "42px",
+                        backgroundColor: `tag.${tag.color}.${tag.colorShade}`,
+                      }}
+                    />
+                  ))}
+                </Box>
                 <Typography align="left" variant="body2">
                   <Typography variant="span" fontWeight="bold">
                     Description: 

@@ -29,34 +29,6 @@ function ChecklistDisplay({ taskId }) {
     shallowEqual
   );
 
-  // // console.log(checklistsByTask[taskId]);
-  // console.log(checklistIds);
-  // console.log("check checklistIds in display", checklistIds);
-  // if (!checklistIds) {
-  //   console.log("omg");
-  // }
-
-  // const checklists = checklistIds?.map(
-  //   (checklistId) => checklistsById[checklistId]
-  // );
-
-  // // console.log("CHECKING it works in display", checklists);
-  // let checklistItemsDictionaryByChecklist = {};
-
-  // checklistIds.forEach((checklistId) => {
-  //   if (checklistItemsByChecklist[checklistId]) {
-  //     // checklistItemsDictionaryByChecklist[checklistId] =
-  //     //   checklistItemsByChecklist[checklistId].map(
-  //     //     (checklistItemId) => checklistItemsById[checklistItemId]
-  //     //   );
-  //     console.log(checklistItemsByChecklist[checklistId]);
-  //   }
-  // });
-
-  // console.log(
-  //   "CHECKING DICTIONARY IN DISPLAY",
-  //   checklistItemsDictionaryByChecklist
-  // );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -68,23 +40,6 @@ function ChecklistDisplay({ taskId }) {
   let renderChecklists;
 
   if (checklistIds) {
-    // const checklists = checklistIds?.map(
-    //   (checklistId) => checklistsById[checklistId]
-    // );
-
-    // let checklistItemsDictionaryByChecklist = {};
-
-    // checklistIds.forEach((checklistId) => {
-    //   if (checklistItemsByChecklist[checklistId]) {
-    //     checklistItemsDictionaryByChecklist[checklistId] = {
-    //       checklistItems: checklistItemsByChecklist[checklistId].map(
-    //         (checklistItemId) => checklistItemsById[checklistItemId]
-    //       ),
-    //       totalChecklistItems: totalChecklistItemsbyChecklist[checklistId],
-    //     };
-    //   }
-    // });
-
     let checklists = {};
     checklistIds.forEach((checklistId) => {
       checklists[checklistId] = {

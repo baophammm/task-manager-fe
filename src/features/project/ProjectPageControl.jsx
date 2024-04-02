@@ -221,7 +221,6 @@ function ProjectPageControl({ selectedProject, location }) {
             </Button>
           </Link>
         </Box>
-        <ProjectDetailTaskFilter projectId={projectId} />
         <Box
           sx={{
             display: { xs: "none", md: "flex" },
@@ -273,9 +272,10 @@ function ProjectPageControl({ selectedProject, location }) {
             </Box>
           )}
         </Box>
+        <ProjectDetailTaskFilter projectId={projectId} />
       </Stack>
 
-      <Stack flexDirection="row">
+      <Stack flexDirection="row" sx={{ pr: 1 }}>
         <Box
           sx={{
             display: { xs: "none", md: "flex" },

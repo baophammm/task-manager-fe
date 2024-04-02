@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import SvgIcon from "@mui/material/SvgIcon";
@@ -9,8 +9,10 @@ import AddChecklistItem from "./AddChecklistItem";
 import ChecklistControl from "./ChecklistControl";
 import { useDispatch } from "react-redux";
 import { updateSingleChecklist } from "./checklistSlice";
+import { TaskDetailModalContext } from "../task/TaskDetailModal";
 
 function Checklist({ checklist }) {
+  const { disableUpdateTask } = useContext(TaskDetailModalContext);
   const [updatingChecklistTitle, setUpdatingChecklistTitle] = useState(false);
   const [checklistTitle, setChecklistTitle] = useState(
     checklist.checklistTitle
@@ -38,13 +40,9 @@ function Checklist({ checklist }) {
     <Box>
       <Box
         sx={{
-          width: 1,
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          alignItems: "center",
-          px: 1,
-          mt: 1,
         }}
       >
         <Box
@@ -55,7 +53,7 @@ function Checklist({ checklist }) {
             gap: 1,
           }}
         >
-          <SvgIcon fontSize="normal">
+          <SvgIcon fontSize="medium">
             <LibraryAddCheckIcon />
           </SvgIcon>
           {updatingChecklistTitle ? (
@@ -109,7 +107,9 @@ function Checklist({ checklist }) {
                       Save
                     </Button>
                     <IconButton
-                      onClick={() => setUpdatingChecklistTitle(false)}
+                      onClick={() => {
+                        setUpdatingChecklistTitle(false);
+                      }}
                     >
                       <SvgIcon fontSize="small">
                         <ClearIcon />
@@ -120,22 +120,30 @@ function Checklist({ checklist }) {
               </form>
             </>
           ) : (
-            <div onClick={() => setUpdatingChecklistTitle(true)}>
-              <Typography variant="h6">{checklist.checklistTitle}</Typography>
+            <div
+              onClick={() => {
+                if (disableUpdateTask) {
+                  return;
+                }
+                setUpdatingChecklistTitle(true);
+              }}
+            >
+              <Typography variant="h5">{checklist.checklistTitle}</Typography>
             </div>
           )}
         </Box>
-        <ChecklistControl checklist={checklist} />
+        {!disableUpdateTask && <ChecklistControl checklist={checklist} />}
+        {/* <ChecklistControl checklist={checklist} /> */}
       </Box>
       <Box
         sx={{
-          px: 4,
           display: "flex",
           flexDirection: "column",
         }}
       >
         <ChecklistItemsList checklist={checklist} />
-        <AddChecklistItem checklistId={checklist._id} />
+        {!disableUpdateTask && <AddChecklistItem checklistId={checklist._id} />}
+        {/* <AddChecklistItem checklistId={checklist._id} /> */}
       </Box>
     </Box>
   );

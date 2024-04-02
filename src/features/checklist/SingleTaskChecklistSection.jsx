@@ -1,61 +1,72 @@
-import { Box, Button, Stack, SvgIcon, Typography } from "@mui/material";
-import ChecklistIcon from "@mui/icons-material/Checklist";
-import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import React, { useContext, useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 
-import React, { useState } from "react";
+import { getChecklistsOfTask } from "./checklistSlice";
+import { useDispatch } from "react-redux";
+import { Box, Stack } from "@mui/material";
 
-import ChecklistDisplay from "./ChecklistDisplay";
-import AddChecklistForm from "./AddChecklistForm";
+import Checklist from "./Checklist";
+import LoadingScreen from "../../components/LoadingScreen";
+import { TaskDetailModalContext } from "../task/TaskDetailModal";
 
-function SingleTaskChecklistSection({ taskId, disableUpdateTask }) {
-  const [addingChecklist, setAddingChecklist] = useState(false);
+function SingleTaskChecklistSection() {
+  const { taskId } = useContext(TaskDetailModalContext);
 
-  return (
-    <Box sx={{ width: 1, gap: 1 }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 1,
-          }}
-        >
-          <SvgIcon fontSize="medium">
-            <ChecklistIcon />
-          </SvgIcon>
-          <Typography variant="h5">Checklist</Typography>
-        </Box>
-
-        {!disableUpdateTask && (
-          <Button
-            startIcon={
-              <SvgIcon fontSize="small">
-                <PlusIcon />
-              </SvgIcon>
-            }
-            variant="contained"
-            onClick={() => setAddingChecklist(true)}
-          >
-            Checklist
-          </Button>
-        )}
-      </Box>
-      <AddChecklistForm
-        taskId={taskId}
-        addingChecklist={addingChecklist}
-        setAddingChecklist={setAddingChecklist}
-      />
-      <ChecklistDisplay taskId={taskId} />
-    </Box>
+  const {
+    checklistIds,
+    checklistsById,
+    totalChecklists,
+    checklistItemsByChecklist,
+    totalChecklistItemsbyChecklist,
+    checklistItemsById,
+    isLoading,
+  } = useSelector(
+    (state) => ({
+      checklistIds: state.checklist.checklistsByTask[taskId],
+      checklistsById: state.checklist.checklistsById,
+      totalChecklists: state.checklist.totalChecklistsByTask[taskId],
+      checklistItemsByChecklist: state.checklist.checklistItemsByChecklist,
+      totalChecklistItemsbyChecklist:
+        state.checklist.totalChecklistItemsByChecklist,
+      checklistItemsById: state.checklist.checklistItemsById,
+      isLoading: state.checklist.isLoading,
+    }),
+    shallowEqual
   );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (taskId) {
+      dispatch(getChecklistsOfTask(taskId));
+    }
+  }, [taskId, dispatch]);
+
+  let renderChecklists;
+
+  if (checklistIds) {
+    let checklists = {};
+    checklistIds.forEach((checklistId) => {
+      checklists[checklistId] = {
+        ...checklistsById[checklistId],
+        checklistItems: checklistItemsByChecklist[checklistId].map(
+          (checklistItemId) => checklistItemsById[checklistItemId]
+        ),
+        totalChecklistItems: totalChecklistItemsbyChecklist[checklistId],
+      };
+    });
+
+    renderChecklists = (
+      <Stack spacing={1}>
+        {Object.keys(checklists).map((checklistId) => (
+          <Checklist key={checklistId} checklist={checklists[checklistId]} />
+        ))}
+      </Stack>
+    );
+  } else if (isLoading) {
+    renderChecklists = <LoadingScreen />;
+  }
+  return <Box>{totalChecklists > 0 && renderChecklists}</Box>;
 }
 
 export default SingleTaskChecklistSection;

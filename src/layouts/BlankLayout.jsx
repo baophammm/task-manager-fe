@@ -1,16 +1,32 @@
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Logo from "../components/Logo";
+
 import AlertMsg from "../components/AlertMsg";
+
+import LogoTextCompound from "../components/LogoTextCompound";
 
 function BlankLayout() {
   return (
-    <Stack minHeight="100vh" justifyContent="center" alignItems="center">
-      <Logo sx={{ width: 90, height: 90, mb: 5 }} />
+    <Box
+      sx={{
+        m: -1,
+        minHeight: "100dvh",
+        minWidth: "100dvw",
+
+        backgroundColor: "background.secondary",
+        color: "text.secondary",
+
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <LogoTextCompound sx={{ height: 80, pb: 1 }} />
       <AlertMsg />
       <Outlet />
-    </Stack>
+    </Box>
   );
 }
 

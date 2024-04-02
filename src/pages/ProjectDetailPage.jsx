@@ -111,7 +111,7 @@ function ProjectDetailPage() {
             height: 1,
           }}
         >
-          {error ? (
+          {error === "Project not found or unauthorized to view project" ? (
             <Box
               sx={{
                 height: 1,

@@ -66,7 +66,17 @@ function IncomingInvitations() {
 
             <Box sx={{ flexGrow: 1 }} />
             {isLoading ? (
-              <LoadingScreen />
+              <Box
+                sx={{
+                  width: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <LoadingScreen />
+              </Box>
             ) : (
               <Typography
                 variant="subtitle"
@@ -88,7 +98,18 @@ function IncomingInvitations() {
           </Stack>
         </Stack>
         {isLoading ? (
-          <LoadingScreen />
+          <Box
+            sx={{
+              height: 300,
+              width: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <LoadingScreen />
+          </Box>
         ) : (
           <Grid container spacing={3} my={1}>
             {projects.map((project) => (

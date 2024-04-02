@@ -70,11 +70,17 @@ function RegisterPage() {
   return (
     <Container maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3}>
+        <Stack spacing={3} alignItems="center">
           {!!errors.responseError && (
             <Alert severity="error">{errors.responseError.message}</Alert>
           )}
-          <Alert severity="info">
+          <Alert
+            severity="info"
+            sx={{
+              backgroundColor: "background.secondary",
+              color: "text.secondary",
+            }}
+          >
             Already have an account?{" "}
             <Link variant="subtitle2" component={RouterLink} to="/login">
               Sign in

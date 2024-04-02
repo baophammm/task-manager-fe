@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -19,7 +19,7 @@ import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import GradeIcon from "@mui/icons-material/Grade";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import {
@@ -27,6 +27,7 @@ import {
   removeProjectFromFavorite,
 } from "../user/userSlice";
 import { getProjects } from "./projectSlice";
+import { RouterContext } from "../../routes";
 
 const PROJECT_STATUS_ICONS = [
   { projectStatus: "Planning", icon: <PendingActionsIcon /> },
@@ -41,6 +42,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 }));
 
 function Project(props) {
+  const { isDisplayingFeaturedProjects } = useContext(RouterContext);
+
   const { user } = useAuth();
   const currentUserId = user._id;
   const projectId = props.project._id;
@@ -51,33 +54,32 @@ function Project(props) {
     (project) => project === projectId
   );
 
-  const defaultFavoriteProjectState = favoriteProjectList ? true : false;
-
-  const [isFavoriteProject, setIsFavoriteProject] = useState(
-    defaultFavoriteProjectState
-  );
+  const isFavorite = favoriteProjectList ? true : false;
 
   const dispatch = useDispatch();
 
   const handleAddFavoriteProject = () => {
-    if (isFavoriteProject) {
+    if (isFavorite) {
       dispatch(
         removeProjectFromFavorite({ userId: currentUserId, projectId })
       ).then(() => {
-        setIsFavoriteProject(false);
-        // reload projects after remove from favorite
         if (props.filters) {
           dispatch(getProjects({ page: 1, ...props.filters }));
         } else {
-          dispatch(getProjects({ page: 1 }));
+          if (isDisplayingFeaturedProjects) {
+            dispatch(getProjects({ page: 1, limit: 1000 }));
+          } else {
+            dispatch(getProjects({ page: 1 }));
+          }
         }
       });
     } else {
-      dispatch(addProjectToFavorite({ userId: currentUserId, projectId })).then(
-        () => {
-          setIsFavoriteProject(true);
-        }
-      );
+      dispatch(addProjectToFavorite({ userId: currentUserId, projectId }));
+      // .then(
+      //   () => {
+      //     setIsFavoriteProject(true);
+      //   }
+      // );
     }
   };
   return (
@@ -112,11 +114,11 @@ function Project(props) {
               aria-controls="menu-projectdetailcontrolbutton"
               aria-haspopup="true"
               onClick={(e) => {
-                e.stopPropagation();
+                // e.stopPropagation();
                 handleAddFavoriteProject();
               }}
             >
-              {isFavoriteProject ? (
+              {isFavorite ? (
                 <GradeIcon sx={{ color: "#f1c40f" }} />
               ) : (
                 <StarOutlineIcon />

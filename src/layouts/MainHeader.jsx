@@ -30,6 +30,9 @@ import { RouterContext } from "../routes";
 
 import NotificationContainer from "../features/notification/NotificationContainer";
 
+import TextLogo from "../components/TextLogo";
+import LogoTextCompound from "../components/LogoTextCompound";
+
 const pages = [
   {
     value: "project",
@@ -328,29 +331,23 @@ function MainHeader() {
               md={3}
               xl={2.5}
               sx={{
+                // border: "1px solid red",
+                pb: 1,
                 display: "flex",
+
                 flexDirection: "row",
-                alignItems: "center",
+                justifyContent: "center",
+                alignItems: "flex-end",
               }}
             >
-              <Logo sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-              <Typography
-                variant="h6"
-                noWrap
-                component="a"
-                href="/"
+              <LogoTextCompound
                 sx={{
-                  mr: 2,
+                  height: 40,
+                  mr: 1,
+                  pb: 1,
                   display: { xs: "none", md: "flex" },
-                  fontFamily: "monospace",
-                  fontWeight: 700,
-                  letterSpacing: ".3rem",
-                  color: "inherit",
-                  textDecoration: "none",
                 }}
-              >
-                TASKIFY
-              </Typography>
+              />
             </Grid>
             <Grid item md={9} xl={9.5}>
               <Box
@@ -503,26 +500,9 @@ function MainHeader() {
             </Box>
           </Box>
 
-          <Logo sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "text.secondary",
-              textDecoration: "none",
-            }}
-          >
-            TASKIFY
-          </Typography>
+          <LogoTextCompound
+            sx={{ height: 40, mr: 1, display: { xs: "flex", md: "none" } }}
+          />
           <NotificationContainer sx={{ display: { xs: "flex", md: "none" } }} />
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <Tooltip title="Open settings">

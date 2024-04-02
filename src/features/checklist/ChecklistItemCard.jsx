@@ -56,7 +56,7 @@ function ChecklistItemCard({ checklistItem }) {
         }}
       >
         <Checkbox checked={checklistItem.isChecked} sx={{ color: "gray" }} />
-        <Typography>{checklistItem.itemTitle}</Typography>
+        <Typography variant="body2">{checklistItem.itemTitle}</Typography>
       </Box>
       <Box>
         <IconButton

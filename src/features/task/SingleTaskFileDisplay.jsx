@@ -50,16 +50,16 @@ function SingleTaskFileDisplay({ selectedTask, disableUpdateTask }) {
             <Typography variant="h5">Files</Typography>
           </Box>
           <Button
-            startIcon={
-              <SvgIcon fontSize="small">
-                <PlusIcon />
-              </SvgIcon>
-            }
+            // startIcon={
+            //   <SvgIcon fontSize="small">
+            //     <PlusIcon />
+            //   </SvgIcon>
+            // }
             variant="contained"
             disabled={disableUpdateTask}
             onClick={() => setAddingFile(true)}
           >
-            File
+            Add
           </Button>
         </Stack>
         {selectedTask?.files.length ? (

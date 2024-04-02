@@ -27,7 +27,7 @@ function AddChecklistItem({ checklistId }) {
     }
   };
   return (
-    <div>
+    <Box sx={{ px: 1 }}>
       {isAddingChecklistItem ? (
         <>
           <div
@@ -101,7 +101,7 @@ function AddChecklistItem({ checklistId }) {
           </Button>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }
 

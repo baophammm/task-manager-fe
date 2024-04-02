@@ -3,6 +3,7 @@ import apiService from "../../app/apiService";
 import { toast } from "react-toastify";
 import { TASK_PER_PAGE } from "../../app/config";
 import { cloudinaryUpload } from "../../utils/cloudinary";
+import { useSelector } from "react-redux";
 const initialState = {
   isLoading: false,
   error: null,
@@ -69,6 +70,7 @@ const slice = createSlice({
 
       const { taskId, newTask } = action.payload;
       state.tasksById[taskId] = newTask;
+      state.selectedTask = newTask;
     },
     deleteFileOfTaskSuccess(state, action) {
       state.isLoading = false;
@@ -76,6 +78,23 @@ const slice = createSlice({
 
       const { taskId, newTask } = action.payload;
       state.tasksById[taskId] = newTask;
+      state.selectedTask = newTask;
+    },
+    addTagToTaskSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+
+      const { taskId, newTask } = action.payload;
+      state.tasksById[taskId] = newTask;
+      state.selectedTask = newTask;
+    },
+    removeTagFromTaskSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+
+      const { taskId, newTask } = action.payload;
+      state.tasksById[taskId] = newTask;
+      state.selectedTask = newTask;
     },
   },
 });
@@ -92,7 +111,6 @@ export const createTask =
     projectId,
     startAt,
     dueAt,
-    files,
   }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -122,6 +140,7 @@ export const getTasks =
     taskStatus,
     assigneeId,
     projectId,
+    tag,
     effortGreaterThan,
     effortLowerThan,
     startBefore,
@@ -139,6 +158,7 @@ export const getTasks =
       if (taskStatus) params.taskStatus = taskStatus;
       if (assigneeId) params.assigneeId = assigneeId;
       if (projectId) params.projectId = projectId;
+      if (tag) params.tag = tag;
       if (effortGreaterThan) params.effortGreaterThan = effortGreaterThan;
       if (effortLowerThan) params.effortLowerThan = effortLowerThan;
       if (startAfter) params.startAfter = startAfter;
@@ -227,9 +247,13 @@ export const uploadFileToTask =
         // upload file to cloudinary (or other middleware that handles files)
         const fileUrl = await cloudinaryUpload(file);
 
-        //Get file list
+        //Get file list - api way
         const responseGetTask = await apiService.get(`/tasks/${taskId}`);
         const taskFileList = responseGetTask.data.files;
+
+        // useSelector way
+        // const { selectedTask } = useSelector((state) => state.task);
+        // let taskFileList = selectedTask.files;
 
         //add to file list
         taskFileList.unshift(fileUrl);
@@ -277,6 +301,76 @@ export const deleteFileOfTask =
       );
 
       toast.success("Delete File successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const addTagToTask =
+  ({ taskId, tagId }) =>
+  async (dispatch, getState) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // Get tag list of task
+      const responseGetTask = await apiService.get(`/tasks/${taskId}`);
+      let taskTagList = responseGetTask.data.tags.map((tag) => tag._id);
+
+      // const taskState = getState().task;
+      // const selectedTask = taskState.selectedTask;
+      // let taskTagList = selectedTask.tags.map((tag) => tag._id);
+
+      // Add tag to tag list
+      taskTagList.push(tagId);
+
+      // Replace tag list
+      const response = await apiService.put(`/tasks/${taskId}`, {
+        tags: taskTagList,
+      });
+
+      dispatch(
+        slice.actions.addTagToTaskSuccess({
+          taskId,
+          newTask: response.data,
+        })
+      );
+      toast.success("Tag added to task successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const removeTagFromTask =
+  ({ taskId, tagId }) =>
+  async (dispatch, getState) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // Get tag list of task
+      // const responseGetTask = await apiService.get(`/tasks/${taskId}`);
+      // let taskTagList = responseGetTask.data.tags.map((tag) => tag._id);
+
+      const taskState = getState().task;
+      const selectedTask = taskState.selectedTask;
+      let taskTagList = selectedTask.tags.map((tag) => tag._id);
+      // Remove tag from tag list
+      const index = taskTagList.indexOf(tagId);
+      if (index > -1) {
+        taskTagList.splice(index, 1);
+      }
+
+      // Replace tag list
+      const response = await apiService.put(`/tasks/${taskId}`, {
+        tags: taskTagList,
+      });
+
+      dispatch(
+        slice.actions.removeTagFromTaskSuccess({
+          taskId,
+          newTask: response.data,
+        })
+      );
+      toast.success("Tag removed from task successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

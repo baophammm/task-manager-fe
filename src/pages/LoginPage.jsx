@@ -66,11 +66,17 @@ function LoginPage() {
   return (
     <Container maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3}>
+        <Stack spacing={3} alignItems="center">
           {!!errors.responseError && (
             <Alert severity="error">{errors.responseError.message}</Alert>
           )}
-          <Alert severity="info">
+          <Alert
+            severity="info"
+            sx={{
+              backgroundColor: "background.secondary",
+              color: "text.secondary",
+            }}
+          >
             Don't have an account?{" "}
             <Link variant="subtitle2" component={RouterLink} to="/register">
               Get started
@@ -104,9 +110,9 @@ function LoginPage() {
           sx={{ my: 2 }}
         >
           <FCheckbox name="remember" label="Remember me" />
-          <Link component={RouterLink} variant="subtitle2" to="/">
+          {/* <Link component={RouterLink} variant="subtitle2" to="/">
             Forgot password?
-          </Link>
+          </Link> */}
         </Stack>
 
         <LoadingButton

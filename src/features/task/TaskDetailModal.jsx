@@ -1,26 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   CssBaseline,
   Box,
   Typography,
   Container,
-  Stack,
-  ImageList,
   Button,
+  Menu,
+  IconButton,
+  SvgIcon,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import ClearIcon from "@mui/icons-material/Clear";
+import { shallowEqual, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";
 import { getSingleTask } from "./taskSlice";
 import LoadingScreen from "../../components/LoadingScreen";
 import TaskDetailPageControl from "./TaskDetailPageControl";
-import SingleTaskGeneralInfo from "./SingleTaskGeneralInfo";
-import SingleTaskFileDisplay from "./SingleTaskFileDisplay";
+import TaskDetailDisplay from "./TaskDetailDisplay";
 import UpdateTaskDrawer from "./UpdateTaskDrawer";
-import SingleTaskCommentSection from "../comment/SingleTaskCommentSection";
-import SingleTaskChecklistSection from "../checklist/SingleTaskChecklistSection";
+import FileForm from "./FileForm";
+import TagForm from "../tag/TagForm";
+
+export const TaskDetailModalContext = createContext();
 
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   background: theme.palette.action.disabled,
@@ -45,10 +48,11 @@ const ModalBox = styled(Box)(({ theme }) => ({
   boxShadow: theme.shadows,
   borderRadius: theme.shape.borderRadius,
 
-  minHeight: "80vh",
-  width: "80%",
+  height: "95dvh",
+  width: "95%",
   maxWidth: "800px",
-  padding: 12,
+
+  padding: "4px 2px",
 
   display: "flex",
   flexDirection: "column",
@@ -72,13 +76,21 @@ function TaskDetailModal() {
 
   const { selectedTask, isLoading, error } = useSelector((state) => state.task);
 
-  //states
+  // states
   const [isUpdatingTask, setIsUpdatingTask] = useState(false);
+  const [isAddingFile, setIsAddingFile] = useState(false);
 
+  // anchorEl states
+  const [anchorElAddFileFormMenu, setAnchorElAddFileFormMenu] = useState(null);
+  const [anchorElAddTagFormMenu, setAnchorElAddTagFormMenu] = useState(null);
+
+  // dispatches
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleTask(taskId));
+    if (taskId) {
+      dispatch(getSingleTask(taskId));
+    }
   }, [dispatch, taskId]);
 
   let disableUpdateTask = false;
@@ -91,94 +103,255 @@ function TaskDetailModal() {
         : true;
   }
 
-  return (
-    <ModalWrapperBox
-      ref={modalRef}
-      onClick={() => navigate(from)} // return to previous location
-    >
-      <ModalBox onClick={(e) => e.stopPropagation()}>
-        <Container
-          component="main"
-          sx={{
-            width: 1,
-            display: "flex",
-            flexDirection: "column",
-            flexWrap: "wrap",
-          }}
-        >
-          <CssBaseline />
-          {error ? (
-            <Box
-              sx={{
-                height: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 2,
-              }}
-            >
-              <Typography variant="h3">404 Page not found!</Typography>
-              <Typography variant="body1" color="error">
-                {error}
-              </Typography>
+  // Menus
+  // Add File Form Menu
+  const handleOpenAddFileFormMenu = (event) => {
+    if (event) {
+      setAnchorElAddFileFormMenu(event.currentTarget);
+    }
+  };
 
-              <Button variant="contained" onClick={() => navigate(from)}>
-                GO BACK
-              </Button>
-            </Box>
-          ) : isLoading ? (
-            <LoadingScreen />
-          ) : (
-            selectedTask && (
-              <>
-                <Stack spacing={2}>
-                  <TaskDetailPageControl
-                    from={from}
-                    selectedTask={selectedTask}
-                    disableUpdateTask={disableUpdateTask}
-                    setIsUpdatingTask={setIsUpdatingTask}
-                  />
-                  <ImageList
-                    cols={1}
+  const handleCloseAddFileFormMenu = () => {
+    setAnchorElAddFileFormMenu(null);
+  };
+
+  const AddFileFormMenu = (
+    <Menu
+      sx={{ mt: "45px" }}
+      id="menu-addfileform"
+      anchorEl={anchorElAddFileFormMenu}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={Boolean(anchorElAddFileFormMenu)}
+      onClose={handleCloseAddFileFormMenu}
+    >
+      <Box>
+        <FileForm
+          taskId={taskId}
+          handleCloseAddFileFormMenu={handleCloseAddFileFormMenu}
+          sx={{ width: 400 }}
+        />
+      </Box>
+    </Menu>
+  );
+
+  // Add Tag Form Menu
+  const [menuPosition, setMenuPosition] = useState(null);
+  const [isCreatingNewTag, setIsCreatingNewTag] = useState(false);
+  const [tagSearchText, setTagSearchText] = useState("");
+  const [newTagError, setNewTagError] = useState("");
+
+  const handleOpenAddTagFormMenu = (event) => {
+    if (event) {
+      // setAnchorElAddTagFormMenu(event.currentTarget);
+      const rect = event.currentTarget.getBoundingClientRect();
+      setMenuPosition({ top: rect.top, left: rect.right });
+    }
+  };
+
+  const handleCloseAddTagFormMenu = () => {
+    // setAnchorElAddTagFormMenu(null);
+    setMenuPosition(null);
+    setIsCreatingNewTag(false);
+    setTagSearchText("");
+    setNewTagError("");
+  };
+
+  const AddTagFormMenu = (
+    <Menu
+      sx={{ mt: "45px" }}
+      id="menu-addtagform"
+      // anchorEl={anchorElAddTagFormMenu}
+      anchorReference="anchorPosition"
+      anchorPosition={menuPosition}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={Boolean(menuPosition)}
+      onClose={handleCloseAddTagFormMenu}
+    >
+      <Box>
+        <TagForm
+          task={selectedTask}
+          isCreatingNewTag={isCreatingNewTag}
+          setIsCreatingNewTag={setIsCreatingNewTag}
+          tagSearchText={tagSearchText}
+          setTagSearchText={setTagSearchText}
+          newTagError={newTagError}
+          setNewTagError={setNewTagError}
+          sx={{ width: "300px" }}
+        />
+      </Box>
+    </Menu>
+  );
+  return (
+    <TaskDetailModalContext.Provider
+      value={{
+        from,
+        taskId,
+        selectedTask,
+        isLoading,
+        error,
+        isUpdatingTask,
+        setIsUpdatingTask,
+        disableUpdateTask,
+        isAddingFile,
+        setIsAddingFile,
+
+        anchorElAddFileFormMenu,
+        setAnchorElAddFileFormMenu,
+        handleOpenAddFileFormMenu,
+        handleCloseAddFileFormMenu,
+        AddFileFormMenu,
+
+        anchorElAddTagFormMenu,
+        setAnchorElAddTagFormMenu,
+        menuPosition,
+        setMenuPosition,
+        handleOpenAddTagFormMenu,
+        handleCloseAddTagFormMenu,
+        AddTagFormMenu,
+      }}
+    >
+      <ModalWrapperBox
+        ref={modalRef}
+        onClick={() => navigate(from)} // return to previous location
+      >
+        <ModalBox onClick={(e) => e.stopPropagation()}>
+          <Container
+            component="main"
+            sx={{
+              height: 1,
+              width: 1,
+              p: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <CssBaseline />
+            {error === "Task not found or unauthorized to view task" ? (
+              <Box
+                sx={{
+                  height: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 2,
+                }}
+              >
+                <Typography variant="h3">404 Page not found!</Typography>
+                <Typography variant="body1" color="error">
+                  {error}
+                </Typography>
+
+                <Button variant="contained" onClick={() => navigate(from)}>
+                  GO BACK
+                </Button>
+              </Box>
+            ) : isLoading ? (
+              <Box
+                sx={{
+                  width: 1,
+                  height: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <LoadingScreen />
+              </Box>
+            ) : (
+              selectedTask && (
+                <Box sx={{ width: 1 }}>
+                  <Box
                     sx={{
-                      maxHeight: "calc(100vh - 140px)",
                       display: "flex",
                       flexDirection: "column",
+                      gap: 1,
                     }}
                   >
                     <Box>
-                      <Typography variant="h4">
-                        {selectedTask?.title}
-                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "flex-start",
+                        }}
+                      >
+                        <Typography variant="h4">
+                          {selectedTask?.title}
+                        </Typography>
+                        <IconButton onClick={() => navigate(from)}>
+                          <SvgIcon fontSize="large">
+                            <ClearIcon />
+                          </SvgIcon>
+                        </IconButton>
+                      </Box>
+                      {selectedTask?.project && (
+                        <Typography>
+                          In project:{" "}
+                          <Typography
+                            variant="span"
+                            fontWeight="bold"
+                            onClick={() =>
+                              navigate(`/projects/${selectedTask?.project._id}`)
+                            }
+                            sx={{
+                              "&:hover": {
+                                cursor: "pointer",
+                                textDecoration: "underline",
+                              },
+                            }}
+                          >
+                            {selectedTask?.project.title}
+                          </Typography>
+                        </Typography>
+                      )}
                     </Box>
 
-                    <SingleTaskGeneralInfo selectedTask={selectedTask} />
+                    <Box
+                      sx={{
+                        width: 1,
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 1,
+                      }}
+                    >
+                      <TaskDetailDisplay sx={{ flexGrow: 1 }} />
+                      <TaskDetailPageControl />
+                    </Box>
+                  </Box>
 
-                    <SingleTaskFileDisplay
-                      selectedTask={selectedTask}
-                      disableUpdateTask={disableUpdateTask}
-                    />
-                    <SingleTaskChecklistSection
-                      taskId={taskId}
-                      disableUpdateTask={disableUpdateTask}
-                    />
-                    <SingleTaskCommentSection taskId={taskId} />
-                  </ImageList>
-                </Stack>
-
-                <UpdateTaskDrawer
-                  task={selectedTask}
-                  isLoading={isLoading}
-                  isUpdatingTask={isUpdatingTask}
-                  setIsUpdatingTask={setIsUpdatingTask}
-                />
-              </>
-            )
-          )}
-        </Container>
-      </ModalBox>
-    </ModalWrapperBox>
+                  <UpdateTaskDrawer
+                    task={selectedTask}
+                    isLoading={isLoading}
+                    isUpdatingTask={isUpdatingTask}
+                    setIsUpdatingTask={setIsUpdatingTask}
+                  />
+                </Box>
+              )
+            )}
+          </Container>
+        </ModalBox>
+      </ModalWrapperBox>
+    </TaskDetailModalContext.Provider>
   );
 }
 
