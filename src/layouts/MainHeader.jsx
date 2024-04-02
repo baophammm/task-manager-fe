@@ -16,8 +16,6 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
 import { styled } from "@mui/material/styles";
 
-import Logo from "../components/Logo";
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import UserProfilePicture from "../features/user/UserProfilePicture";

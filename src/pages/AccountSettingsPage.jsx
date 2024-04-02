@@ -53,8 +53,8 @@ function AccountSettingsPage() {
   );
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth="xl">
-        <Typography variant="h4">Account Settings</Typography>
+      <Container maxWidth="xl" sx={{ p: 2, height: 1 }}>
+        <Typography variant="h5">Account Settings</Typography>
         <Card
           sx={{
             minHeight: "100%",
