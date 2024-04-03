@@ -67,9 +67,9 @@ function TaskByStatusDraggable({ tasks, filters }) {
     <DragDropContext onDragEnd={onDragEnd}>
       <ImageList
         sx={{
-          p: 1,
+          // p: 1,
           height: {
-            xs: "calc(100vh - 170px)",
+            xs: "calc(100vh - 160px)",
             md: "calc(100vh - 170px)",
           },
 

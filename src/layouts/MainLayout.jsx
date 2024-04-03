@@ -9,7 +9,12 @@ function MainLayout() {
   return (
     <>
       <CssBaseline />
-      <Stack sx={{ minHeight: "100vh", minWidth: "100vw" }}>
+      <Stack
+        sx={{
+          height: "100dvh",
+          width: "100dvw",
+        }}
+      >
         <MainHeader />
         <AlertMsg />
 

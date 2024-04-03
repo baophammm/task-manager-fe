@@ -1,22 +1,28 @@
-import { Link, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import React from "react";
 
 function MainFooter() {
   return (
-    <Typography
-      variant="body2"
+    <Box
       backgroundColor="background.secondary"
-      color="text.secondary"
-      align="center"
-      p={1}
+      sx={{
+        height: "40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 100,
+      }}
     >
-      {"Copyright ©"}
-      <Link color="inherit" href="#">
-        BaoPhammm
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
+      <Typography variant="body2" color="text.secondary">
+        {"Copyright ©"}
+        <Link color="inherit" href="#">
+          BaoPhammm
+        </Link>{" "}
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+    </Box>
   );
 }
 

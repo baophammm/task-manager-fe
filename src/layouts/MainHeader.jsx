@@ -307,7 +307,12 @@ function MainHeader() {
 
   return (
     <AppBar position="static">
-      <StyledContainer maxWidth={"100dvw"} sx={{ p: { xs: 0, md: -3 } }}>
+      <StyledContainer
+        maxWidth={"100dvw"}
+        sx={{
+          p: { xs: 0, md: -3 },
+        }}
+      >
         <Toolbar
           disableGutters
           sx={{
