@@ -1,5 +1,6 @@
 import { useFormContext, Controller } from "react-hook-form";
 import dayjs from "dayjs";
+import FormHelperText from "@mui/material/FormHelperText";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -23,12 +24,14 @@ function FDateField({
     formState: { errors },
   } = useFormContext();
 
+  const error = errors[name];
+
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={date ? dayjs(date, "YYYY-MM-DD") : null}
-      render={({ field, fieldState: { error } }) => {
+      render={({ field }) => {
         return (
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer
@@ -46,7 +49,7 @@ function FDateField({
               >
                 <DatePicker
                   {...field}
-                  error={!!error}
+                  error={!!error} // Set error prop to true if error is not undefined
                   helperText={error?.message}
                   format="DD/MM/YY"
                   value={field.value ? dayjs(field.value) : null}
@@ -64,8 +67,15 @@ function FDateField({
                     label: { color: labelColor || "inherit" },
                     input: { color: inputColor || "inherit" },
                     span: { color: spanColor || "red" },
+                    borderRadius: "12px",
+                    border: error ? "3px solid red" : "3px solid transparent",
                   }}
                 />
+                {error && (
+                  <FormHelperText error sx={{ px: 2 }}>
+                    {error.message}
+                  </FormHelperText>
+                )}
               </div>
             </DemoContainer>
           </LocalizationProvider>

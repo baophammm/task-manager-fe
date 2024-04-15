@@ -14,6 +14,7 @@ import ProjectPageControl from "../features/project/ProjectPageControl";
 
 import TaskByStatusDraggable from "../features/task/TaskByStatusDraggable";
 import UpdateProjectDrawer from "../features/project/UpdateProjectDrawer";
+import ProjectDetailDisplay from "../features/project/ProjectDetailDisplay";
 
 export const ProjectDetailPageContext = createContext();
 
@@ -30,6 +31,8 @@ function ProjectDetailPage() {
 
   const location = useLocation();
 
+  const [isDisplayingProjectCharts, setIsDisplayingProjectCharts] =
+    useState(true);
   const [isOpeningProjectInfo, setIsOpeningProjectInfo] = useState(true);
   const [isUpdatingProject, setIsUpdatingProject] = useState(false);
 
@@ -85,14 +88,19 @@ function ProjectDetailPage() {
       value={{
         isOpeningProjectInfo,
         setIsOpeningProjectInfo,
+        isDisplayingProjectCharts,
+        setIsDisplayingProjectCharts,
         isUpdatingProject,
         setIsUpdatingProject,
         selectedProject,
         isLoadingProject,
+        isLoadingTask,
+        tasks,
         filters,
         setFilters,
         handleFilterSelection,
         location,
+        methods,
       }}
     >
       <Box
@@ -140,7 +148,7 @@ function ProjectDetailPage() {
             <>
               <Grid
                 container
-                spacing={2}
+                spacing={0}
                 alignItems="flex-start"
                 sx={{
                   height: 1,
@@ -161,7 +169,7 @@ function ProjectDetailPage() {
                     backgroundColor: "background.secondary",
                     color: "text.secondary",
                     height: 1,
-                    pr: 2,
+                    px: 2,
                   }}
                 >
                   <ProjectInformation
@@ -179,22 +187,7 @@ function ProjectDetailPage() {
                     height: 1,
                   }}
                 >
-                  <Stack spacing={1} alignItems="center" sx={{ height: 1 }}>
-                    <Box sx={{ width: 1 }}>
-                      <FormProvider methods={methods}>
-                        <ProjectPageControl
-                          selectedProject={selectedProject}
-                          location={location}
-                        />
-                      </FormProvider>
-                    </Box>
-
-                    {isLoadingTask ? (
-                      <LoadingScreen />
-                    ) : (
-                      <TaskByStatusDraggable tasks={tasks} filters={filters} />
-                    )}
-                  </Stack>
+                  <ProjectDetailDisplay />
                 </Grid>
               </Grid>
 

@@ -13,6 +13,7 @@ function ProjectsDisplayController() {
         width: 1,
         display: "flex",
         flexDirection: "column",
+        px: 2,
       }}
     >
       <Box

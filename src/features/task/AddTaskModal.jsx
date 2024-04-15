@@ -61,6 +61,17 @@ const taskYupSchema = Yup.object().shape({
   effort: Yup.number("Effort Estimation must be number").required(
     "Effort Estimation is required"
   ),
+  startAt: Yup.string()
+    .matches(
+      /^\d{4}-\d{2}-\d{2}$/,
+      "Start date must be in the format YYYY-MM-DD"
+    )
+    .required("Start date is required"),
+  dueAt: Yup.string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, "Due date must be in the format YYYY-MM-DD")
+    .required("Due date is required"),
+  // startAt: Yup.string().required("Start date is required"),
+  // dueAt: Yup.string().required("Due date is required"),
 });
 
 function AddTaskModal() {
@@ -115,11 +126,11 @@ function AddTaskModal() {
   const defaultValues = {
     title: "",
     description: "",
-    effort: 0,
+    effort: null,
     taskStatus: "Backlog",
     projectId: null,
-    startAt: "",
-    dueAt: "",
+    startAt: null,
+    dueAt: null,
   };
 
   const methods = useForm({
@@ -140,6 +151,7 @@ function AddTaskModal() {
   }, [dispatch]);
 
   const onSubmit = async (data) => {
+    console.log("CHECKING", data);
     dispatch(createTask(data)).then(() => {
       dispatch(getTasks({ assigneeId: currentUserId }));
       reset();

@@ -22,6 +22,18 @@ import { getProjects, getSingleProject } from "../project/projectSlice";
 
 const taskYupSchema = Yup.object().shape({
   title: Yup.string().required("Task title is required"),
+  effort: Yup.number("Effort Estimation must be number").required(
+    "Effort Estimation is required"
+  ),
+  startAt: Yup.string()
+    .matches(
+      /^\d{4}-\d{2}-\d{2}$/,
+      "Start date must be in the format YYYY-MM-DD"
+    )
+    .required("Start date is required"),
+  dueAt: Yup.string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, "Due date must be in the format YYYY-MM-DD")
+    .required("Due date is required"),
 });
 
 export default function UpdateTaskDrawer({
@@ -89,12 +101,12 @@ export default function UpdateTaskDrawer({
   const defaultValues = {
     title: task?.title || "",
     description: task?.description || "",
-    effort: task?.effort || 0,
+    effort: task?.effort || null,
     taskStatus: task?.taskStatus || "Backlog",
     assigneeId: task?.assignee?._id || null,
     projectId: task?.project?._id || null,
-    startAt: task?.startAt ? dayjs(task?.startAt).format("YYYY-MM-DD") : "",
-    dueAt: task?.dueAt ? dayjs(task?.dueAt).format("YYYY-MM-DD") : "",
+    startAt: task?.startAt ? dayjs(task?.startAt).format("YYYY-MM-DD") : null,
+    dueAt: task?.dueAt ? dayjs(task?.dueAt).format("YYYY-MM-DD") : null,
     files: task?.files || [],
   };
 

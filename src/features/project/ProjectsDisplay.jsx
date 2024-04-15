@@ -11,12 +11,10 @@ function ProjectsDisplay() {
 
   return (
     <Stack
-      spacing={1}
+      spacing={0}
       alignItems="center"
       sx={{
-        width: { xs: "100dvw", md: 1 },
-        ml: { xs: 1, sm: -1 },
-        mt: -1,
+        width: 1,
       }}
     >
       <ProjectsHeader />

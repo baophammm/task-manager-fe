@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   IconButton,
   Menu,
   MenuItem,
@@ -11,6 +12,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import LogoutIcon from "@mui/icons-material/Logout";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ViewKanbanIcon from "@mui/icons-material/ViewKanban";
+import InsertChartIcon from "@mui/icons-material/InsertChart";
 
 import React, { useContext, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -26,7 +30,11 @@ import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
 import { LoadingButton } from "@mui/lab";
 
 function ProjectPageControl({ selectedProject, location }) {
-  const { isLoadingProject } = useContext(ProjectDetailPageContext);
+  const {
+    isLoadingProject,
+    isDisplayingProjectCharts,
+    setIsDisplayingProjectCharts,
+  } = useContext(ProjectDetailPageContext);
 
   const { user } = useAuth();
   const currentUserId = user._id;
@@ -78,6 +86,51 @@ function ProjectPageControl({ selectedProject, location }) {
   const handleCloseProjectPageControlButtonMenu = () => {
     setAnchorElProjectPageControlButtonMenu(null);
   };
+
+  const ProjectDisplayTabList = (
+    <ButtonGroup
+      variant="outlined"
+      color="warning"
+      aria-label="project display tabs"
+      sx={{
+        border: "2px solid",
+        borderColor: "warning.main",
+      }}
+    >
+      <Button
+        title="Kanban View"
+        color="warning"
+        onClick={() => setIsDisplayingProjectCharts(false)}
+        sx={{
+          borderRight: "2px solid",
+          width: { sx: "40px", md: "80px" },
+          backgroundColor: isDisplayingProjectCharts
+            ? "transparent"
+            : "warning.light",
+        }}
+      >
+        <SvgIcon fontSize="medium">
+          <ViewKanbanIcon />
+        </SvgIcon>
+      </Button>
+      <Button
+        title="Chart View"
+        color="warning"
+        onClick={() => setIsDisplayingProjectCharts(true)}
+        sx={{
+          borderLeft: "2px solid",
+          width: { sx: "40px", md: "80px" },
+          backgroundColor: isDisplayingProjectCharts
+            ? "warning.light"
+            : "transparent",
+        }}
+      >
+        <SvgIcon fontSize="medium">
+          <InsertChartIcon />
+        </SvgIcon>
+      </Button>
+    </ButtonGroup>
+  );
 
   const projectPageControlButtonMenu = (
     <Menu
@@ -273,6 +326,8 @@ function ProjectPageControl({ selectedProject, location }) {
           )}
         </Box>
         <ProjectDetailTaskFilter projectId={projectId} />
+
+        {ProjectDisplayTabList}
       </Stack>
 
       <Stack flexDirection="row" sx={{ pr: 1 }}>
@@ -333,9 +388,9 @@ function ProjectPageControl({ selectedProject, location }) {
             display: {
               xs: "flex",
               md: "none",
-              justifyContent: "center",
-              alignItems: "center",
             },
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <IconButton

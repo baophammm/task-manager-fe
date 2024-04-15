@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FDateField,
+  FNumberField,
   FSelect,
   FTextField,
   FormProvider,
@@ -55,6 +56,15 @@ const ModalBox = styled(Box)(({ theme }) => ({
 const taskYupSchema = Yup.object().shape({
   title: Yup.string().required("Task title is required"),
   description: Yup.string().required("Task description is required"),
+  startAt: Yup.string()
+    .matches(
+      /^\d{4}-\d{2}-\d{2}$/,
+      "Start date must be in the format YYYY-MM-DD"
+    )
+    .required("Start date is required"),
+  dueAt: Yup.string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, "Due date must be in the format YYYY-MM-DD")
+    .required("Due date is required"),
 });
 
 function AddProjectTaskModal() {
@@ -86,6 +96,7 @@ function AddProjectTaskModal() {
   const TASK_FIELDS = [
     { name: "title", label: "Task title", fieldType: "text" },
     { name: "description", label: "Task description", fieldType: "text" },
+    { name: "effort", label: "Effort Estimation (hours)", fieldType: "number" },
     {
       name: "taskStatus",
       label: "Task Status",
@@ -110,11 +121,12 @@ function AddProjectTaskModal() {
   const defaultValues = {
     title: "",
     description: "",
+    effort: null,
     taskStatus: "Backlog",
     assigneeId: "",
     projectId: projectId,
-    startAt: "",
-    dueAt: "",
+    startAt: null,
+    dueAt: null,
     files: [""],
   };
 
@@ -167,6 +179,14 @@ function AddProjectTaskModal() {
                 if (field.fieldType === "text") {
                   return (
                     <FTextField
+                      key={field.name}
+                      name={field.name}
+                      placeholder={field.label}
+                    />
+                  );
+                } else if (field.fieldType === "number") {
+                  return (
+                    <FNumberField
                       key={field.name}
                       name={field.name}
                       placeholder={field.label}

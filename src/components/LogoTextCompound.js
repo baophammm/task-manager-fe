@@ -36,10 +36,8 @@ function LogoTextCompound({ disabledLink = false, sx }) {
       />
     </Box>
   );
-  if (disabledLink) {
-    return <>{logoTextCompound}</>;
-  }
-  return <RouterLink to="/">{logoTextCompound}</RouterLink>;
+
+  return <>{logoTextCompound}</>;
 }
 
 export default LogoTextCompound;

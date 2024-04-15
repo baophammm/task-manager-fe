@@ -9,14 +9,14 @@ function LogoSvg() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="178" cy="192" r="165.5" stroke="#2684FC" stroke-width="25" />
+      <circle cx="178" cy="192" r="165.5" stroke="#2684FC" strokeWidth="25" />
       <line
         x1="80.9621"
         y1="101.16"
         x2="187.768"
         y2="196.671"
         stroke="#2684FC"
-        stroke-width="25"
+        strokeWidth="25"
       />
       <line
         x1="169.72"
@@ -24,7 +24,7 @@ function LogoSvg() {
         x2="340.057"
         y2="8.85211"
         stroke="#2684FC"
-        stroke-width="25"
+        strokeWidth="25"
       />
     </svg>
   );

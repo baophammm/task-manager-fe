@@ -120,7 +120,11 @@ function LoginPage() {
           size="large"
           type="submit"
           variant="contained"
+          loadingPosition="center"
           loading={isSubmitting}
+          sx={{
+            mt: 2,
+          }}
         >
           Login
         </LoadingButton>

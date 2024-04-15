@@ -22,7 +22,7 @@ function ProjectsHeader() {
       justifyContent="space-between"
       alignItems="center"
       spacing={2}
-      sx={{ width: 1, px: 1 }}
+      sx={{ width: 1, p: 1 }}
     >
       <Typography variant="h5">
         {isDisplayingFeaturedProjects

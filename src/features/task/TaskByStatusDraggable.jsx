@@ -16,8 +16,8 @@ const TASKS_BY_STATUSES = [
   {
     name: "InProgress",
     label: "In Progress",
-    backgroundColor: "primary.main",
-    color: "primary.contrastText",
+    backgroundColor: "warning.main",
+    color: "warning.contrastText",
   },
   {
     name: "Completed",

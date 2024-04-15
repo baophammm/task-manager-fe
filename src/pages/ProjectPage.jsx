@@ -135,10 +135,10 @@ function ProjectPage() {
           <Grid
             container
             alignItems="flex-start"
-            spacing={2}
+            spacing={0}
             sx={{
               margin: 0,
-              ml: { xs: -3, md: -3 },
+              ml: { xs: 0, sm: -3 },
               height: "100%",
               width: "100dvw",
               display: "flex",
@@ -155,7 +155,7 @@ function ProjectPage() {
 
                 height: 1,
                 width: 1,
-                pr: 2,
+                px: 2,
 
                 display: { xs: "none", md: "flex" },
                 flexDirection: "column",
@@ -181,7 +181,7 @@ function ProjectPage() {
               xl={isOpeningProjectFilter ? 9.5 : 11.5}
               sx={{
                 height: 1,
-                width: { xs: 1, md: 1 },
+                width: 1,
               }}
             >
               <ProjectsDisplay />

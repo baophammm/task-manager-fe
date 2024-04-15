@@ -14,6 +14,7 @@ function ProjectListWithPagination() {
       sx={{
         width: 1,
         m: 0,
+        px: 2,
         height: {
           xs: "calc(100vh - 230px)",
           sm: "calc(100vh-200px)",

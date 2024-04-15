@@ -49,6 +49,39 @@ export function createComponents(config) {
         },
       },
     },
+    MuiLoadingButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "4px",
+          textTransform: "none",
+        },
+        loading: {
+          backgroundColor: "red",
+        },
+        loadingIndicator: {
+          color: "white",
+        },
+
+        sizeSmall: {
+          padding: "6px 16px",
+        },
+        sizeMedium: {
+          padding: "8px 20px",
+        },
+        sizeLarge: {
+          padding: "11px 24px",
+        },
+        textSizeSmall: {
+          padding: "7px 12px",
+        },
+        textSizeMedium: {
+          padding: "9px 16px",
+        },
+        textSizeLarge: {
+          padding: "12px 16px",
+        },
+      },
+    },
     MuiCard: {
       styleOverrides: {
         root: {

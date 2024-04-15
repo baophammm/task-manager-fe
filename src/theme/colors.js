@@ -69,7 +69,7 @@ export const info = withAlphas({
 
 export const warning = withAlphas({
   lightest: "#FFFAEB",
-  light: "#FEF0C7",
+  light: "#FFDAB9",
   main: "#F79009",
   dark: "#B54708",
   darkest: "#7A2E0E",

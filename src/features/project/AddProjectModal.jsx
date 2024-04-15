@@ -57,6 +57,15 @@ const ModalBox = styled(Box)(({ theme }) => ({
 const projectYupSchema = Yup.object().shape({
   title: Yup.string().required("Project title is required"),
   description: Yup.string().required("Project description is required"),
+  startAt: Yup.string()
+    .matches(
+      /^\d{4}-\d{2}-\d{2}$/,
+      "Start date must be in the format YYYY-MM-DD"
+    )
+    .required("Start date is required"),
+  dueAt: Yup.string()
+    .matches(/^\d{4}-\d{2}-\d{2}$/, "Due date must be in the format YYYY-MM-DD")
+    .required("Due date is required"),
 });
 
 const PROJECT_FIELDS = [

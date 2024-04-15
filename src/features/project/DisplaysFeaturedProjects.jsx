@@ -1,4 +1,4 @@
-import { Container, ImageList, Typography } from "@mui/material";
+import { Box, ImageList, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { ProjectPageContext } from "../../pages/ProjectPage";
 import useAuth from "../../hooks/useAuth";
@@ -24,9 +24,9 @@ function DisplaysFeaturedProjects() {
     (project) => project.projectStatus === "Planning"
   );
   return (
-    <Container
-      maxWidth={"100%"}
+    <Box
       sx={{
+        width: 1,
         height: 1,
       }}
     >
@@ -36,11 +36,11 @@ function DisplaysFeaturedProjects() {
         <ImageList
           cols={1}
           sx={{
-            // border: "1px solid orange",
-            width: 1,
+            width: "100%",
             m: 0,
+            px: 2,
             height: {
-              xs: "calc(100vh - 170px)",
+              xs: "calc(100vh - 164px)",
               sm: "calc(100vh - 160px)",
               md: "calc(100vh - 168px)",
             },
@@ -69,7 +69,7 @@ function DisplaysFeaturedProjects() {
       ) : (
         <Typography variant="h5">No Project Found</Typography>
       )}
-    </Container>
+    </Box>
   );
 }
 

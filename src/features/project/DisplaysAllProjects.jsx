@@ -1,19 +1,19 @@
 import React from "react";
 import ProjectsDisplayController from "./ProjectsDisplayController";
-import { Container } from "@mui/material";
+import { Box } from "@mui/material";
 import ProjectListWithPagination from "./ProjectListWithPagination";
 
 function DisplaysAllProjects() {
   return (
-    <Container
-      maxWidth={"100%"}
+    <Box
       sx={{
+        width: 1,
         height: 1,
       }}
     >
       <ProjectsDisplayController />
       <ProjectListWithPagination />
-    </Container>
+    </Box>
   );
 }
 
