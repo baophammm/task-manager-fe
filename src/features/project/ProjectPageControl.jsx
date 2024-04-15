@@ -104,6 +104,7 @@ function ProjectPageControl({ selectedProject, location }) {
         sx={{
           borderRight: "2px solid",
           width: { sx: "40px", md: "80px" },
+          p: 0,
           backgroundColor: isDisplayingProjectCharts
             ? "transparent"
             : "warning.light",
@@ -120,6 +121,7 @@ function ProjectPageControl({ selectedProject, location }) {
         sx={{
           borderLeft: "2px solid",
           width: { sx: "40px", md: "80px" },
+          p: 0,
           backgroundColor: isDisplayingProjectCharts
             ? "warning.light"
             : "transparent",
