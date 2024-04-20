@@ -12,19 +12,11 @@ function TaskColumn(props) {
   return (
     <Box
       sx={{
-        // border: "2px solid blue",
         color: props.backgroundColor,
-        // height: {
-        //   xs: "calc(100vh - 154px)",
-        //   md: "calc(100vh - 180px)",
-        // },
-
-        // maxHeight: 1,
         height: 1,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // flex: 1,
       }}
     >
       <Typography
@@ -48,8 +40,6 @@ function TaskColumn(props) {
                 xs: "calc(100vh - 206px)",
                 md: "calc(100vh - 220px)",
               },
-              // height: "100%",
-              // maxHeight: 1,
               display: "flex",
               flexDirection: "column",
             }}

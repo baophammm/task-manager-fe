@@ -499,6 +499,9 @@ function BurndownChart({ project, tasks }) {
           border: "1.5px solid",
           p: 0,
           height: "30px !important",
+          backgroundColor: scaleTimeOption === "day" ? "primary.main" : "",
+          color: scaleTimeOption === "day" ? "primary.contrastText" : "",
+          borderColor: scaleTimeOption === "day" ? "primary.dark" : "",
         }}
       >
         Day
@@ -511,6 +514,9 @@ function BurndownChart({ project, tasks }) {
           border: "1.5px solid",
           p: 0,
           height: "30px !important",
+          backgroundColor: scaleTimeOption === "week" ? "primary.main" : "",
+          color: scaleTimeOption === "week" ? "primary.contrastText" : "",
+          borderColor: scaleTimeOption === "week" ? "primary.dark" : "",
         }}
       >
         Week
@@ -523,6 +529,9 @@ function BurndownChart({ project, tasks }) {
           border: "1.5px solid",
           p: 0,
           height: "30px !important",
+          backgroundColor: scaleTimeOption === "month" ? "primary.main" : "",
+          color: scaleTimeOption === "month" ? "primary.contrastText" : "",
+          borderColor: scaleTimeOption === "month" ? "primary.dark" : "",
         }}
       >
         Month

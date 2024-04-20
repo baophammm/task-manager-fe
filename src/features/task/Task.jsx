@@ -146,6 +146,7 @@ const Task = (props) => {
                 >
                   {taskTags.map((tag) => (
                     <Chip
+                      key={tag._id}
                       sx={{
                         height: "10px",
                         width: "42px",

@@ -107,7 +107,6 @@ function AddProjectMemberModal() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            flexWrap: "wrap",
           }}
         >
           <CssBaseline />

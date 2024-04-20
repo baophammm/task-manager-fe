@@ -29,7 +29,6 @@ function CommentList({ taskId }) {
 
   const dispatch = useDispatch();
 
-  // TODO ERROR render after task is deleted
   useEffect(() => {
     if (taskId) {
       dispatch(getCommentsOfTask({ taskId }));
