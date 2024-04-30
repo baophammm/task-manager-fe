@@ -12,7 +12,7 @@ function TaskColumn(props) {
   return (
     <Box
       sx={{
-        color: props.backgroundColor,
+        color: props.column.backgroundColor,
         height: 1,
         display: "flex",
         flexDirection: "column",

@@ -28,6 +28,7 @@ function DisplaysFeaturedProjects() {
       sx={{
         width: 1,
         height: 1,
+        px: 1,
       }}
     >
       {starredProjects.length ||

@@ -140,6 +140,37 @@ function AuthProvider({ children }) {
     callback();
   };
 
+  const loginWithGoogle = async (
+    {
+      email,
+      firstName,
+      lastName,
+      profilePictureUrl,
+      isGoogleVerified,
+      googleId,
+    },
+    callback
+  ) => {
+    const response = await apiService.post("/auth/login/google", {
+      email,
+      firstName,
+      lastName,
+      profilePictureUrl,
+      isGoogleVerified,
+      googleId,
+    });
+
+    const { user, accessToken } = response.data;
+
+    setSession(accessToken);
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: { user },
+    });
+
+    callback();
+  };
+
   const register = async (
     { firstName, lastName, email, password },
     callback
@@ -179,8 +210,18 @@ function AuthProvider({ children }) {
     });
     callback();
   };
+
   return (
-    <AuthContext.Provider value={{ ...state, login, register, verify, logout }}>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        login,
+        loginWithGoogle,
+        register,
+        verify,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

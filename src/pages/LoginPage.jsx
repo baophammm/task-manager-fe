@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FCheckbox, FormProvider, FTextField } from "../components/form";
 import { useForm } from "react-hook-form";
@@ -15,10 +15,12 @@ import {
   Link,
   InputAdornment,
   IconButton,
+  Box,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
+import GoogleLogin from "../components/GoogleLogin";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -50,8 +52,9 @@ function LoginPage() {
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
 
+  const from = location.state?.from?.pathname || "/projects";
+
   const onSubmit = async (data) => {
-    const from = location.state?.from?.pathname || "/projects";
     let { email, password } = data;
 
     try {
@@ -63,6 +66,7 @@ function LoginPage() {
       setError("responseError", error);
     }
   };
+
   return (
     <Container maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -110,24 +114,34 @@ function LoginPage() {
           sx={{ my: 2 }}
         >
           <FCheckbox name="remember" label="Remember me" />
+
           {/* <Link component={RouterLink} variant="subtitle2" to="/">
             Forgot password?
           </Link> */}
         </Stack>
 
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-          loadingPosition="center"
-          loading={isSubmitting}
+        <Box
           sx={{
-            mt: 2,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 2,
           }}
         >
-          Login
-        </LoadingButton>
+          <LoadingButton
+            fullWidth
+            size="medium"
+            type="submit"
+            variant="contained"
+            loadingPosition="center"
+            loading={isSubmitting}
+          >
+            Login
+          </LoadingButton>
+
+          <GoogleLogin from={from} />
+        </Box>
       </FormProvider>
     </Container>
   );
