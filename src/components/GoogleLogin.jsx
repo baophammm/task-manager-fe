@@ -4,19 +4,20 @@ import { jwtDecode } from "jwt-decode";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import LoadingScreen from "./LoadingScreen";
 
 function GoogleLogin({ from }) {
   const auth = useAuth();
 
   const navigate = useNavigate();
-
-  // TODO - update this useState to redux login later
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleCallbackResponse(response) {
-    // console.log("Encoded JWT ID Token" + response.credential);
-    var userObject = jwtDecode(response.credential);
-    // console.log(userObject);
+    setIsLoading(true);
+    console.log("Encoded JWT ID Token" + response.credential);
+    const userObject = jwtDecode(response.credential);
+    console.log(userObject);
     let {
       email,
       given_name: firstName,
@@ -45,7 +46,8 @@ function GoogleLogin({ from }) {
       navigate("/login", { replace: true });
     }
 
-    // document.getElementById("signInDiv").hidden = true;
+    // document.getElementById("signInDiv").style.hidden = true;
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -67,19 +69,40 @@ function GoogleLogin({ from }) {
         height: 50,
       });
 
-      // google.accounts.id.prompt(); // TODO error here
+      // TODO error here - Google 3rd party cookies deprecated
+      // google.accounts.id.prompt();
     };
     document.body.appendChild(script);
   }, []);
 
   return (
     <Box
-      id="signInDiv"
       sx={{
-        width: 1,
-        alignItems: "stretch",
+        borderRadius: "4px",
+        backgroundColor: "background.paper",
+        width: "460px",
+        height: "40px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
-    ></Box>
+    >
+      {isLoading ? (
+        <Box
+          sx={{
+            width: 1,
+            height: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <LoadingScreen />
+        </Box>
+      ) : (
+        <div id="signInDiv"></div>
+      )}
+    </Box>
   );
 }
 
