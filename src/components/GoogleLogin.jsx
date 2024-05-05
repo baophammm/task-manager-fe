@@ -15,9 +15,7 @@ function GoogleLogin({ from }) {
 
   async function handleCallbackResponse(response) {
     setIsLoading(true);
-    console.log("Encoded JWT ID Token" + response.credential);
     const userObject = jwtDecode(response.credential);
-    console.log(userObject);
     let {
       email,
       given_name: firstName,
