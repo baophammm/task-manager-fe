@@ -151,7 +151,6 @@ function AddTaskModal() {
   }, [dispatch]);
 
   const onSubmit = async (data) => {
-    console.log("CHECKING", data);
     dispatch(createTask(data)).then(() => {
       dispatch(getTasks({ assigneeId: currentUserId }));
       reset();

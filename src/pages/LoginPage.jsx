@@ -21,6 +21,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
 import GoogleLogin from "../components/GoogleLogin";
+import ForgotPasswordResetModal from "../features/user/ForgotPasswordResetModal";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -62,30 +63,48 @@ function LoginPage() {
         navigate(from, { replace: true });
       });
     } catch (error) {
-      reset();
       setError("responseError", error);
     }
   };
+
+  const [isSendingPasswordResetRequest, setIsSendingPasswordResetRequest] =
+    useState(false);
 
   return (
     <Container maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="center">
-          {!!errors.responseError && (
-            <Alert severity="error">{errors.responseError.message}</Alert>
-          )}
-          <Alert
-            severity="info"
+          <Box
             sx={{
-              backgroundColor: "background.secondary",
-              color: "text.secondary",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            Don't have an account?{" "}
-            <Link variant="subtitle2" component={RouterLink} to="/register">
-              Get started
-            </Link>
-          </Alert>
+            {!!errors.responseError && (
+              <Alert
+                severity="error"
+                sx={{
+                  backgroundColor: "background.secondary",
+                  color: "text.secondary",
+                }}
+              >
+                {errors.responseError.message}
+              </Alert>
+            )}
+            <Alert
+              severity="info"
+              sx={{
+                backgroundColor: "background.secondary",
+                color: "text.secondary",
+              }}
+            >
+              Don't have an account?{" "}
+              <Link variant="subtitle2" component={RouterLink} to="/register">
+                Get started
+              </Link>
+            </Alert>
+          </Box>
 
           <FTextField name="email" label="Email address" />
 
@@ -115,9 +134,13 @@ function LoginPage() {
         >
           <FCheckbox name="remember" label="Remember me" />
 
-          {/* <Link component={RouterLink} variant="subtitle2" to="/">
+          <Link
+            component={RouterLink}
+            variant="subtitle2"
+            onClick={() => setIsSendingPasswordResetRequest(true)}
+          >
             Forgot password?
-          </Link> */}
+          </Link>
         </Stack>
 
         <Box
@@ -143,6 +166,11 @@ function LoginPage() {
           <GoogleLogin from={from} />
         </Box>
       </FormProvider>
+      {isSendingPasswordResetRequest && (
+        <ForgotPasswordResetModal
+          setIsSendingPasswordResetRequest={setIsSendingPasswordResetRequest}
+        />
+      )}
     </Container>
   );
 }

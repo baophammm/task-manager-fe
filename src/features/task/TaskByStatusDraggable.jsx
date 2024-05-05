@@ -171,7 +171,6 @@ function TaskByStatusDraggable({ tasks, filters }) {
           width: 1,
           m: 0,
           gridAutoFlow: "column",
-          // TODO - make width to be responsive to the screen size
 
           gridTemplateColumns: {
             xs: `repeat(auto-fill,minmax(320px,1fr)) !important`,

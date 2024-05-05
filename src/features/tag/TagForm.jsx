@@ -17,10 +17,6 @@ function TagForm({
   setNewTagError,
   sx,
 }) {
-  // const [isCreatingNewTag, setIsCreatingNewTag] = useState(false);
-  // const [tagSearchText, setTagSearchText] = useState("");
-
-  // TODO - WHAT IF NO PROJECT?
   const projectId = task.project ? task.project._id : null;
 
   const { tagsById, tagsByProject, isloading, selectedTag } = useSelector(

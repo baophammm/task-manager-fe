@@ -12,6 +12,7 @@ import {
   Link,
   InputAdornment,
   IconButton,
+  Box,
 } from "@mui/material";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -71,21 +72,37 @@ function RegisterPage() {
     <Container maxWidth="xs">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={3} alignItems="center">
-          {!!errors.responseError && (
-            <Alert severity="error">{errors.responseError.message}</Alert>
-          )}
-          <Alert
-            severity="info"
+          <Box
             sx={{
-              backgroundColor: "background.secondary",
-              color: "text.secondary",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            Already have an account?{" "}
-            <Link variant="subtitle2" component={RouterLink} to="/login">
-              Sign in
-            </Link>
-          </Alert>
+            {!!errors.responseError && (
+              <Alert
+                severity="error"
+                sx={{
+                  backgroundColor: "background.secondary",
+                  color: "text.secondary",
+                }}
+              >
+                {errors.responseError.message}
+              </Alert>
+            )}
+            <Alert
+              severity="info"
+              sx={{
+                backgroundColor: "background.secondary",
+                color: "text.secondary",
+              }}
+            >
+              Already have an account?{" "}
+              <Link variant="subtitle2" component={RouterLink} to="/login">
+                Sign in
+              </Link>
+            </Alert>
+          </Box>
 
           <FTextField name="firstName" label="First name" />
           <FTextField name="lastName" label="Last name" />
@@ -133,7 +150,6 @@ function RegisterPage() {
 
           <LoadingButton
             fullWidth
-            size="large"
             type="submit"
             variant="contained"
             loading={isSubmitting}

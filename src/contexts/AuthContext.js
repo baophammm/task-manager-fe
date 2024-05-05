@@ -203,12 +203,45 @@ function AuthProvider({ children }) {
     callback();
   };
 
+  const updateUserPassword = async (
+    { userId, currentPassword, newPassword },
+    callback
+  ) => {
+    const response = await apiService.put(`/users/${userId}/password`, {
+      currentPassword,
+      newPassword,
+    });
+
+    callback();
+    setSession(null);
+  };
+
   const logout = (callback) => {
     setSession(null);
     dispatch({
       type: LOGOUT,
     });
     callback();
+  };
+
+  const requestPasswordReset = async ({ email }, callback) => {
+    await apiService.post("/verifications/requestPasswordReset", { email });
+    callback();
+    setSession(null);
+  };
+
+  const resetUserPassword = async (
+    { verificationCode, resetPasswordToken, newPassword },
+    callback
+  ) => {
+    await apiService.post(`users/resetPassword`, {
+      verificationCode,
+      resetPasswordToken,
+      newPassword,
+    });
+
+    callback();
+    setSession(null);
   };
 
   return (
@@ -219,7 +252,10 @@ function AuthProvider({ children }) {
         loginWithGoogle,
         register,
         verify,
+        updateUserPassword,
         logout,
+        requestPasswordReset,
+        resetUserPassword,
       }}
     >
       {children}

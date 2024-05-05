@@ -11,7 +11,7 @@ import {
   SvgIcon,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { shallowEqual, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useDispatch } from "react-redux";

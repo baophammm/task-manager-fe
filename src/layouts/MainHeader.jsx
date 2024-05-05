@@ -101,10 +101,6 @@ function MainHeader() {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleOpenNotificationListMenu = (event) => {
-    setAnchorElNotificationList(event.currentTarget);
-  };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
@@ -114,10 +110,6 @@ function MainHeader() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-  };
-
-  const handleCloseNotificationListMenu = () => {
-    setAnchorElNotificationList(null);
   };
 
   const handleLogout = async () => {
@@ -324,7 +316,6 @@ function MainHeader() {
             container
             sx={{
               height: 1,
-              // width: "100vw",
               width: 1,
               display: { xs: "none", md: "flex" },
             }}
@@ -334,7 +325,6 @@ function MainHeader() {
               md={3}
               xl={2.5}
               sx={{
-                // border: "1px solid red",
                 pb: 1,
                 display: "flex",
 
@@ -469,7 +459,6 @@ function MainHeader() {
 
           <Box
             sx={{
-              flexGrow: 1,
               display: { xs: "flex", md: "none" },
             }}
           >
@@ -504,7 +493,13 @@ function MainHeader() {
           </Box>
 
           <LogoTextCompound
-            sx={{ height: 40, mr: 1, display: { xs: "flex", md: "none" } }}
+            sx={{
+              flexGrow: 1,
+              height: 40,
+              mr: 1,
+              display: { xs: "flex", md: "none" },
+              justifyContent: "center",
+            }}
           />
           <NotificationContainer sx={{ display: { xs: "flex", md: "none" } }} />
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>

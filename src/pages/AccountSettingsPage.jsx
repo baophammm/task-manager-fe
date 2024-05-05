@@ -1,6 +1,18 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
-import { Box, Card, Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  Container,
+  Grid,
+  Tabs,
+  Tab,
+  Typography,
+  ButtonGroup,
+  Button,
+  SvgIcon,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { FormProvider, FTextField, FUploadAvatar } from "../components/form";
 import { LoadingButton } from "@mui/lab";
 import { fData } from "../utils/numberFormat";
@@ -9,129 +21,100 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { updateUserProfile } from "../features/user/userSlice";
 import LoadingScreen from "../components/LoadingScreen";
+import AccountSettings from "../features/user/AccountSettings";
+import PasswordSettings from "../features/user/PasswordSettings";
+
+const TabsWrapperStyle = styled("div")(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+
+  backgroundColor: "#fff",
+  [theme.breakpoints.up("sm")]: {
+    justifyContent: "center",
+  },
+  [theme.breakpoints.up("md")]: {
+    justifyContent: "flex-end",
+    paddingRight: theme.spacing(3),
+  },
+}));
 
 function AccountSettingsPage() {
   const { user } = useAuth();
-  const isLoading = useSelector((state) => state.user.isLoading);
 
-  const defaultValues = {
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    profilePictureUrl: user?.profilePictureUrl || "",
-  };
+  const [currectAccountTab, setCurrectAccountTab] = useState("account");
 
-  const methods = useForm({
-    defaultValues,
-  });
-
-  const {
-    setValue,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
-
-  const dispatch = useDispatch();
-
-  const onSubmit = (data) => {
-    dispatch(updateUserProfile({ userId: user._id, ...data }));
-  };
-
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-
-      if (file) {
-        setValue(
-          "profilePictureUrl",
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
-      }
+  const ACCOUNT_TABS = [
+    {
+      value: "account",
+      label: "Account",
+      component: <AccountSettings user={user} />,
     },
-    [setValue]
-  );
-  return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Container maxWidth="xl" sx={{ p: 2, height: 1 }}>
-        <Typography variant="h5">Account Settings</Typography>
-        <Card
+    {
+      value: "password",
+      label: "Password",
+      component: <PasswordSettings user={user} />,
+    },
+  ];
+
+  const AccountSettingTabListBtnGroup = (
+    <ButtonGroup
+      variant="contained"
+      color="primary"
+      aria-label="account setting tabs"
+      sx={{
+        width: "100%",
+        border: "1px solid",
+        borderColor: "primary.main",
+        p: 0.5,
+        gap: 0.5,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+      }}
+    >
+      {ACCOUNT_TABS.map((tab) => (
+        <Button
+          key={tab.value}
+          title={tab.label}
+          color="primary"
+          onClick={() => setCurrectAccountTab(tab.value)}
           sx={{
-            minHeight: "100%",
-            p: "16px",
-            mt: "20px",
+            flexGrow: 1,
+            backgroundColor:
+              currectAccountTab === tab.value ? "primary.dark" : "primary.main",
           }}
         >
-          {isLoading ? (
-            <LoadingScreen />
-          ) : (
-            <Grid container spacing={2} display="flex" flexDirection="column">
-              <Grid item xs={12}>
-                <Card sx={{ py: 10, px: 3, textAlign: "center" }}>
-                  <FUploadAvatar
-                    name="profilePictureUrl"
-                    accept="image/*"
-                    maxSize={3145728}
-                    onDrop={handleDrop}
-                    helperText={
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          mt: 2,
-                          mx: "auto",
-                          display: "block",
-                          textAlign: "center",
-                          color: "text.primary",
-                        }}
-                      >
-                        Allowed *.jpeg, *.jpg, *.png, *.gif
-                        <br /> max size of {fData(3145728)}
-                      </Typography>
-                    }
-                  />
-                  <Typography>Profile Update here</Typography>
-                </Card>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Card sx={{ p: 3 }}>
-                  <Box
-                    sx={{
-                      mb: "16px",
-                      display: "grid",
-                      rowGap: 3,
-                      columnGap: 2,
-                      gridTemplateColumns: {
-                        xs: "repeat(1, 1fr)",
-                        sm: "repeat(2, 1fr)",
-                      },
-                    }}
-                  >
-                    <FTextField name="firstName" label="First Name" />
-                    <FTextField name="lastName" label="Last Name" />
-                  </Box>
-                  <Box
-                    sx={{
-                      // width: 1,
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                  >
-                    <LoadingButton
-                      type="submit"
-                      variant="contained"
-                      loading={isSubmitting || isLoading}
-                    >
-                      Save Changes
-                    </LoadingButton>
-                  </Box>
-                </Card>
-              </Grid>
-            </Grid>
-          )}
-        </Card>
-      </Container>
-    </FormProvider>
+          {tab.label}
+        </Button>
+      ))}
+    </ButtonGroup>
+  );
+  return (
+    <Container
+      maxWidth="xl"
+      sx={{
+        p: 2,
+        height: 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: "600px",
+          height: 1,
+        }}
+      >
+        {AccountSettingTabListBtnGroup}
+        {ACCOUNT_TABS.map((tab) => {
+          const isMatched = tab.value === currectAccountTab;
+          return isMatched && <Box key={tab.value}>{tab.component}</Box>;
+        })}
+      </Box>
+    </Container>
   );
 }
 

@@ -18,6 +18,7 @@ import AddProjectMemberModal from "../features/project/AddProjectMemberModal";
 import ProjectMembersModal from "../features/user/ProjectMembersModal";
 import TaskDetailModal from "../features/task/TaskDetailModal";
 import VerificationPage from "../pages/VerificationPage";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 export const RouterContext = createContext();
 function Router() {
@@ -63,6 +64,7 @@ function Router() {
               path="/verifications/:verificationCode"
               element={<VerificationPage />}
             />
+            <Route path="/resetPassword" element={<ResetPasswordPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

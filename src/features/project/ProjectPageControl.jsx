@@ -12,7 +12,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import ClearIcon from "@mui/icons-material/Clear";
 import LogoutIcon from "@mui/icons-material/Logout";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import ViewKanbanIcon from "@mui/icons-material/ViewKanban";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 
