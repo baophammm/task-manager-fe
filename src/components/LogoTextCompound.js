@@ -1,8 +1,5 @@
-import { Link as RouterLink } from "react-router-dom";
 import { Box } from "@mui/material";
 import React from "react";
-import LogoSvg from "../LogoSvg";
-import TextLogoSvg from "../TextLogoSvg";
 import Logo from "./Logo";
 import TextLogo from "./TextLogo";
 

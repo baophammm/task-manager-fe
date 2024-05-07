@@ -115,7 +115,7 @@ function TaskFilter() {
       <Box>
         <Typography textAlign="center">Search</Typography>
         <MenuItem>
-          <TasksSearch inputColor="text.primary" />
+          <TasksSearch />
         </MenuItem>
       </Box>
       <Box>
@@ -151,7 +151,6 @@ function TaskFilter() {
                 <FNumberField
                   name={filter.name}
                   label={filter.label}
-                  inputColor="text.primary"
                   value={filters[filter.name]}
                   onChange={(e) =>
                     handleFilterSelection(filter.name, e.target.value)
@@ -165,7 +164,6 @@ function TaskFilter() {
                 <FDateField
                   name={filter.name}
                   label={filter.label}
-                  inputColor="text.primary"
                   value={
                     filters[filter.name] ? dayjs(filters[filter.name]) : null
                   }
@@ -235,8 +233,11 @@ function TaskFilter() {
             alignItems: "center",
           }}
         >
-          <IconButton onClick={() => setIsOpeningTaskFilter(false)}>
-            <ArrowBackIosNewIcon style={{ color: "white" }} />
+          <IconButton
+            color="inherit"
+            onClick={() => setIsOpeningTaskFilter(false)}
+          >
+            <ArrowBackIosNewIcon />
           </IconButton>
         </Box>
         <ImageList
@@ -259,7 +260,7 @@ function TaskFilter() {
             <Typography variant="h6" sx={{ mb: 1 }}>
               Task Search
             </Typography>
-            <TasksSearch inputColor="text.secondary" />
+            <TasksSearch />
           </Box>
           <Box
             sx={{
@@ -278,7 +279,6 @@ function TaskFilter() {
                       name={filter.name}
                       label={filter.label}
                       value={filters[filter.name]}
-                      labelColor="white"
                       onChange={(e) => {
                         if (e.target.value !== "All") {
                           handleFilterSelection(filter.name, e.target.value);
@@ -300,7 +300,6 @@ function TaskFilter() {
                       key={filter.name}
                       name={filter.name}
                       label={filter.label}
-                      inputColor="text.secondary"
                       value={filters[filter.name]}
                       onChange={(e) =>
                         handleFilterSelection(filter.name, e.target.value)
@@ -313,7 +312,6 @@ function TaskFilter() {
                       key={filter.name}
                       name={filter.name}
                       label={filter.label}
-                      inputColor="text.secondary"
                       value={
                         filters[filter.name]
                           ? dayjs(filters[filter.name])
@@ -398,10 +396,11 @@ function TaskFilter() {
           >
             <IconButton
               size="small"
+              color="inherit"
               sx={{ mb: 1 }}
               onClick={() => setIsOpeningTaskFilter(true)}
             >
-              <ArrowForwardIosIcon style={{ color: "white" }} />
+              <ArrowForwardIosIcon />
             </IconButton>
           </Box>
         )}

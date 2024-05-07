@@ -74,7 +74,6 @@ function ProjectInformation({ location }) {
   const projectInfoCard = (
     <Box
       sx={{
-        color: "primary.contrastText",
         height: 1,
         width: 1,
         m: 0,
@@ -94,8 +93,11 @@ function ProjectInformation({ location }) {
             alignItems: "center",
           }}
         >
-          <IconButton onClick={() => setIsOpeningProjectInfo(false)}>
-            <ArrowBackIosNewIcon style={{ color: "white" }} />
+          <IconButton
+            color="inherit"
+            onClick={() => setIsOpeningProjectInfo(false)}
+          >
+            <ArrowBackIosNewIcon />
           </IconButton>
         </Box>
         <Box
@@ -227,10 +229,11 @@ function ProjectInformation({ location }) {
       >
         <IconButton
           size="small"
+          color="inherit"
           sx={{ mb: 1 }}
           onClick={() => setIsOpeningProjectInfo(true)}
         >
-          <ArrowForwardIosIcon style={{ color: "white" }} />
+          <ArrowForwardIosIcon />
         </IconButton>
       </Box>
     );

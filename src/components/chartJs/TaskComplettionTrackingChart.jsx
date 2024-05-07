@@ -10,7 +10,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { Box, Typography } from "@mui/material";
-import { delay } from "lodash";
 
 ChartJS.register(
   CategoryScale,
@@ -153,24 +152,28 @@ function TaskComplettionTrackingChart({ tasks }) {
         data: ongoingTaskPercantageByMemberData,
         backgroundColor: "rgb(255, 205, 86)",
         borderWidth: 1,
+        borderColor: "white",
       },
       {
         label: "Early",
         data: earlyTaskPercantageByMemberData,
         backgroundColor: "rgb(75, 192, 192)",
         borderWidth: 1,
+        borderColor: "white",
       },
       {
         label: "On Time",
         data: ontimeTaskPercantageByMemberData,
         backgroundColor: "rgb(53, 162, 235)",
         borderWidth: 1,
+        borderColor: "white",
       },
       {
         label: "Delayed",
         data: delayedTaskPercantageByMemberData,
         backgroundColor: "rgb(255, 99, 132)",
         borderWidth: 1,
+        borderColor: "white",
       },
     ],
   };
@@ -178,7 +181,8 @@ function TaskComplettionTrackingChart({ tasks }) {
   return (
     <Box
       sx={{
-        border: "2px solid black",
+        border: "2px solid",
+        borderColor: "background.secondary",
         borderRadius: "4px",
         display: "flex",
         flexDirection: "column",

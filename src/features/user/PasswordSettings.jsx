@@ -3,13 +3,12 @@ import { FormProvider, FTextField } from "../../components/form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { Alert, InputAdornment, IconButton, Box, Card } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Alert, InputAdornment, IconButton, Box } from "@mui/material";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
-import { useDispatch } from "react-redux";
 
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
@@ -96,29 +95,58 @@ function PasswordSettings({ user }) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Box
         sx={{
-          minHeight: "100%",
-          p: "10px",
+          height: "100%",
+          minHeight: "500px",
         }}
       >
-        <Card
+        <Box
           sx={{
-            py: 6,
+            border: "4px solid",
+            borderColor: "action.focus",
+            borderRadius: "4px",
+
+            py: 4,
             px: 2,
             textAlign: "center",
           }}
         >
-          {!!errors.responseError && (
-            <Alert severity="error">{errors.responseError.message}</Alert>
-          )}
           <Box
             sx={{
-              minHeight: "100%",
+              height: "100%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               gap: 2,
             }}
           >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {!!errors.responseError && (
+                <Alert
+                  severity="error"
+                  sx={{
+                    backgroundColor: "background.default",
+                    color: "text.primary",
+                  }}
+                >
+                  {errors.responseError.message}
+                </Alert>
+              )}
+              <Alert
+                severity="info"
+                sx={{
+                  backgroundColor: "background.default",
+                  color: "text.primary",
+                }}
+              >
+                Change your password here. After saving, you'll be logged out.
+              </Alert>
+            </Box>
             {PASSWORD_FIELDS.map((field) => (
               <FTextField
                 key={field.name}
@@ -161,7 +189,7 @@ function PasswordSettings({ user }) {
               Save
             </LoadingButton>
           </Box>
-        </Card>
+        </Box>
       </Box>
     </FormProvider>
   );

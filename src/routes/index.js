@@ -19,6 +19,7 @@ import ProjectMembersModal from "../features/user/ProjectMembersModal";
 import TaskDetailModal from "../features/task/TaskDetailModal";
 import VerificationPage from "../pages/VerificationPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+import HomePage from "../pages/HomePage";
 
 export const RouterContext = createContext();
 function Router() {
@@ -45,15 +46,13 @@ function Router() {
               </AuthRequire>
             }
           >
-            <Route index element={<Navigate to="/projects" />} />
-
+            <Route index element={<HomePage />} />
             <Route path="/projects" element={<ProjectPage />} />
             <Route
               path="/projects/:projectId"
               element={<ProjectDetailPage />}
             />
             <Route path="/tasks" element={<TaskPage />} />
-
             <Route path="/invitations" element={<InvitationPage />} />
             <Route path="/settings" element={<AccountSettingsPage />} />
           </Route>

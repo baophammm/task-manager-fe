@@ -197,12 +197,7 @@ function Project(props) {
                   )[0].icon
                 }
               </SvgIcon>
-              <Typography
-                color="text.primary"
-                display="inline"
-                variant="caption"
-                textAlign="center"
-              >
+              <Typography display="inline" variant="caption" textAlign="center">
                 {props.project.projectStatus}
               </Typography>
             </Stack>

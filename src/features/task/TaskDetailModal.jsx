@@ -44,7 +44,6 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 
 const ModalBox = styled(Box)(({ theme }) => ({
   background: theme.palette.background.paper,
-  color: theme.palette.text.primary,
   boxShadow: theme.shadows,
   borderRadius: theme.shape.borderRadius,
 
@@ -157,7 +156,6 @@ function TaskDetailModal() {
   };
 
   const handleCloseAddTagFormMenu = () => {
-    // setAnchorElAddTagFormMenu(null);
     setMenuPosition(null);
     setIsCreatingNewTag(false);
     setTagSearchText("");
@@ -168,7 +166,6 @@ function TaskDetailModal() {
     <Menu
       sx={{ mt: "45px" }}
       id="menu-addtagform"
-      // anchorEl={anchorElAddTagFormMenu}
       anchorReference="anchorPosition"
       anchorPosition={menuPosition}
       anchorOrigin={{

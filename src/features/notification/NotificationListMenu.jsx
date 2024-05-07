@@ -188,7 +188,6 @@ function NotificationListMenu() {
             </Box>
           </Stack>
         </Stack>
-        <Divider />
 
         <Box
           sx={{

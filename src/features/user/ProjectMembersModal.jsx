@@ -37,7 +37,6 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 
 const ModalBox = styled(Box)(({ theme }) => ({
   background: theme.palette.background.paper,
-  color: theme.palette.text.primary,
   boxShadow: theme.shadows,
   borderRadius: 24,
 
@@ -124,10 +123,7 @@ function ProjectMembersModal() {
           {isLoading ? (
             <LoadingScreen />
           ) : (
-            <Typography
-              variant="subtitle"
-              sx={{ width: 1, color: "text.primary" }}
-            >
+            <Typography variant="subtitle" sx={{ width: 1 }}>
               {totalUsers > 1
                 ? `${totalUsers} members found`
                 : totalUsers === 1

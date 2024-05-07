@@ -32,10 +32,7 @@ function SentInvitations() {
 
             <Box sx={{ flexGrow: 1 }} />
 
-            <Typography
-              variant="subtitle"
-              sx={{ color: "text.secondary", ml: 1 }}
-            >
+            <Typography variant="subtitle" sx={{ ml: 1 }}>
               10 Invitations found
               {/* {totalUsers > 1
                 ? `${totalUsers} requests founds`

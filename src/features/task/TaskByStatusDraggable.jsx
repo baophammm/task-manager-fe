@@ -116,7 +116,7 @@ function TaskByStatusDraggable({ tasks, filters }) {
         taskIds: newTaskIds,
       };
 
-      console.log("CHECKING", newColumn);
+      // console.log("CHECKING", newColumn);
       const newState = {
         ...state,
         columns: {

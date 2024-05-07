@@ -45,7 +45,7 @@ export const primary = withAlphas({
   light: "#CDE0F7",
   main: "#2684FC",
   dark: "#1860D9",
-  darkest: "#0F4DB2",
+  darkest: "#0c2461",
   contrastText: "#FFFFFF",
 });
 
@@ -69,7 +69,7 @@ export const info = withAlphas({
 
 export const warning = withAlphas({
   lightest: "#FFFAEB",
-  light: "#FFDAB9",
+  light: "#FFAF38",
   main: "#F79009",
   dark: "#B54708",
   darkest: "#7A2E0E",

@@ -4,7 +4,6 @@ import React from "react";
 function MainFooter() {
   return (
     <Box
-      backgroundColor="background.secondary"
       sx={{
         height: "40px",
         display: "flex",
@@ -14,7 +13,7 @@ function MainFooter() {
         zIndex: 100,
       }}
     >
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2">
         {"Copyright ©"}
         <Link color="inherit" href="#">
           BaoPhammm

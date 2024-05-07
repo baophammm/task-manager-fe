@@ -10,14 +10,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useContext } from "react";
 import { ProjectPageContext } from "../../pages/ProjectPage";
 
-export const ProjectsSearch = ({ inputColor }) => {
-  const color =
-    inputColor === "text.primary"
-      ? "#4D5761"
-      : inputColor === "text.secondary"
-      ? "#F3F4F6"
-      : inputColor;
-
+export const ProjectsSearch = () => {
   const { filters, handleFilterSelection, isLoading } =
     useContext(ProjectPageContext);
 
@@ -36,9 +29,6 @@ export const ProjectsSearch = ({ inputColor }) => {
           </InputAdornment>
         }
         size="small"
-        inputProps={{
-          style: { color: color || "inherit" },
-        }}
       />
     </Box>
   );

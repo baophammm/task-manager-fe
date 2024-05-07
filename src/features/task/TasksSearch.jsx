@@ -4,14 +4,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useContext } from "react";
 import { TaskPageContext } from "../../pages/TaskPage";
 
-export const TasksSearch = ({ inputColor }) => {
-  const color =
-    inputColor === "text.primary"
-      ? "#4D5761"
-      : inputColor === "text.secondary"
-      ? "#F3F4F6"
-      : inputColor;
-
+export const TasksSearch = () => {
   const { filters, handleFilterSelection, isLoading } =
     useContext(TaskPageContext);
   return (
@@ -29,9 +22,6 @@ export const TasksSearch = ({ inputColor }) => {
           </InputAdornment>
         }
         size="small"
-        inputProps={{
-          style: { color: color || "inherit" },
-        }}
       />
     </Box>
   );

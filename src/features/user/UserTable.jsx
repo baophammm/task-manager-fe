@@ -2,9 +2,7 @@ import React from "react";
 
 import useAuth from "../../hooks/useAuth";
 import {
-  Avatar,
   Box,
-  Link,
   Table,
   TableBody,
   TableCell,
@@ -67,10 +65,9 @@ function UserTable({ users, projectId }) {
               return (
                 <TableRow key={user._id} hover>
                   <TableCell
+                    align="left"
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      cursor: "pointer",
+                      display: "table-cell",
                     }}
                   >
                     {`${user.firstName} ${user.lastName}`}

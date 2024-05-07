@@ -14,6 +14,9 @@ import MenuItem from "@mui/material/MenuItem";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+
 import { styled } from "@mui/material/styles";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -27,41 +30,44 @@ import { useContext } from "react";
 import { RouterContext } from "../routes";
 
 import NotificationContainer from "../features/notification/NotificationContainer";
-
-import TextLogo from "../components/TextLogo";
 import LogoTextCompound from "../components/LogoTextCompound";
+import { AppContext } from "../App";
 
 const pages = [
   {
     value: "project",
-    title: "Home",
+    title: "Projects",
     icon: <ListAltIcon />,
     link: "/projects",
   },
   {
     value: "task",
-    title: "My Tasks",
+    title: "Tasks",
     icon: <AssignmentTurnedInIcon />,
     link: "/tasks",
   },
   {
     value: "invitation",
-    title: "My Invitations",
+    title: "Invitations",
     icon: <MoveToInboxIcon />,
     link: "/invitations",
   },
 ];
 
 const StyledContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: theme.palette.background.secondary,
+  backgroundColor: theme.palette.background.default,
 }));
 
 function MainHeader() {
+  const { mode, setMode } = useContext(AppContext);
   const { isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects } =
     useContext(RouterContext);
 
+  const toggleMode = () => {
+    setMode((prevMode) => (prevMode === "dark" ? "light" : "dark"));
+  };
+
   const auth = useAuth();
-  const userId = auth.user._id;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -297,6 +303,29 @@ function MainHeader() {
     </Menu>
   );
 
+  const TopRightIcons = (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: { xs: 0, md: 1 },
+      }}
+    >
+      <IconButton onClick={toggleMode} color="inherit">
+        {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
+      <NotificationContainer />
+      <Box>
+        <Tooltip title="Open settings">
+          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <UserProfilePicture targetUser={auth.user} />
+          </IconButton>
+        </Tooltip>
+        {AccountMenu}
+      </Box>
+    </Box>
+  );
   return (
     <AppBar position="static">
       <StyledContainer
@@ -363,6 +392,7 @@ function MainHeader() {
                       display: "flex",
                       flexDirection: "row",
                       mr: 1,
+                      gap: 1,
                     }}
                   >
                     {pages.map((page) => (
@@ -380,11 +410,11 @@ function MainHeader() {
                             sx={{
                               backgroundColor:
                                 currentNavPage === page.value
-                                  ? "background.default"
+                                  ? "background.secondary"
                                   : "transparent",
                               color:
                                 currentNavPage === page.value
-                                  ? "text.primary"
+                                  ? "text.secondary"
                                   : "inherit",
                               my: 2,
                               display: "block",
@@ -442,17 +472,6 @@ function MainHeader() {
                     </div>
                   </Box>
                 </Box>
-
-                <NotificationContainer />
-                <Box sx={{ flexGrow: 0 }}>
-                  <Tooltip title="Open settings">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                      <UserProfilePicture targetUser={auth.user} />
-                    </IconButton>
-                  </Tooltip>
-
-                  {AccountMenu}
-                </Box>
               </Box>
             </Grid>
           </Grid>
@@ -501,6 +520,10 @@ function MainHeader() {
               justifyContent: "center",
             }}
           />
+
+          {/* <IconButton onClick={toggleMode} color="inherit">
+            {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
           <NotificationContainer sx={{ display: { xs: "flex", md: "none" } }} />
           <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
             <Tooltip title="Open settings">
@@ -509,7 +532,8 @@ function MainHeader() {
               </IconButton>
             </Tooltip>
             {AccountMenu}
-          </Box>
+          </Box> */}
+          {TopRightIcons}
         </Toolbar>
       </StyledContainer>
     </AppBar>

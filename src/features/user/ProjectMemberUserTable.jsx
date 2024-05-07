@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
 import {
   Box,
   Table,
@@ -68,10 +67,9 @@ function ProjectMemberUserTable({ users, projectId }) {
               return (
                 <TableRow key={user._id} hover>
                   <TableCell
+                    align="left"
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      cursor: "pointer",
+                      display: "table-cell",
                     }}
                   >
                     {`${user.firstName} ${user.lastName}`}

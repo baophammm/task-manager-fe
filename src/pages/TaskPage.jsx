@@ -143,9 +143,6 @@ function TaskPage() {
               md={isOpeningTaskFilter ? 3 : 0.5}
               xl={isOpeningTaskFilter ? 2.5 : 0.5}
               sx={{
-                backgroundColor: "background.secondary",
-                color: "text.secondary",
-
                 height: 1,
                 width: 1,
                 pr: 2,

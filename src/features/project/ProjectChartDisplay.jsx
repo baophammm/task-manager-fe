@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import { Box, Typography, Card, ImageList } from "@mui/material";
+import { Box, ImageList } from "@mui/material";
 
 import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
 import BurndownChart from "../../components/chartJs/BurndownChart";
 import TaskByStatusDoughnutChart from "../../components/chartJs/TaskByStatusDoughnutChart";
-import TaskByMemberBarChart from "../../components/chartJs/TaskByMemberBarChart";
 import EffortHoursByMemberChart from "../../components/chartJs/EffortHoursByMemberChart";
 import TaskComplettionTrackingChart from "../../components/chartJs/TaskComplettionTrackingChart";
 

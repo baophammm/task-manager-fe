@@ -38,7 +38,6 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 
 const ModalBox = styled(Box)(({ theme }) => ({
   background: theme.palette.background.paper,
-  color: theme.palette.text.primary,
   boxShadow: theme.shadows,
   borderRadius: 24,
 

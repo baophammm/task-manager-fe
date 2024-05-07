@@ -78,7 +78,7 @@ function ProjectFilter() {
       <Box>
         <Typography textAlign="center">Search</Typography>
         <MenuItem>
-          <ProjectsSearch inputColor="text.primary" />
+          <ProjectsSearch />
         </MenuItem>
       </Box>
       <Box>
@@ -113,7 +113,6 @@ function ProjectFilter() {
                 <FDateField
                   name={filter.name}
                   label={filter.label}
-                  inputColor="text.primary"
                   value={
                     filters[filter.name] ? dayjs(filters[filter.name]) : null
                   }
@@ -184,8 +183,11 @@ function ProjectFilter() {
             alignItems: "center",
           }}
         >
-          <IconButton onClick={() => setIsOpeningProjectFilter(false)}>
-            <ArrowBackIosNewIcon style={{ color: "white" }} />
+          <IconButton
+            color="inherit"
+            onClick={() => setIsOpeningProjectFilter(false)}
+          >
+            <ArrowBackIosNewIcon />
           </IconButton>
         </Box>
         <ImageList
@@ -208,7 +210,7 @@ function ProjectFilter() {
             <Typography variant="h6" sx={{ mb: 1 }}>
               Project Search
             </Typography>
-            <ProjectsSearch inputColor="text.secondary" />
+            <ProjectsSearch />
           </Box>
           <Box
             sx={{
@@ -232,7 +234,6 @@ function ProjectFilter() {
                       name={filter.name}
                       label={filter.label}
                       value={filters[filter.name]}
-                      labelColor="white"
                       onChange={(e) => {
                         if (e.target.value !== "All") {
                           handleFilterSelection(filter.name, e.target.value);
@@ -254,7 +255,6 @@ function ProjectFilter() {
                       key={filter.name}
                       name={filter.name}
                       label={filter.label}
-                      inputColor="text.secondary"
                       value={
                         filters[filter.name]
                           ? dayjs(filters[filter.name])
@@ -340,10 +340,11 @@ function ProjectFilter() {
           >
             <IconButton
               size="small"
+              color="inherit"
               sx={{ mb: 1 }}
               onClick={() => setIsOpeningProjectFilter(true)}
             >
-              <ArrowForwardIosIcon style={{ color: "white" }} />
+              <ArrowForwardIosIcon />
             </IconButton>
           </Box>
         )}

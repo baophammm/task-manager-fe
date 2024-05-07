@@ -101,12 +101,16 @@ function ProjectPageControl({ selectedProject, location }) {
         color="warning"
         onClick={() => setIsDisplayingProjectCharts(false)}
         sx={{
-          borderRight: "2px solid",
+          borderRadius: "2px",
           width: { sx: "40px", md: "80px" },
           p: 0,
           backgroundColor: isDisplayingProjectCharts
             ? "transparent"
             : "warning.light",
+
+          color: isDisplayingProjectCharts
+            ? "warning.dark"
+            : "warning.contrastText",
         }}
       >
         <SvgIcon fontSize="medium">
@@ -118,12 +122,15 @@ function ProjectPageControl({ selectedProject, location }) {
         color="warning"
         onClick={() => setIsDisplayingProjectCharts(true)}
         sx={{
-          borderLeft: "2px solid",
+          borderRadius: "2px",
           width: { sx: "40px", md: "80px" },
           p: 0,
           backgroundColor: isDisplayingProjectCharts
             ? "warning.light"
             : "transparent",
+          color: isDisplayingProjectCharts
+            ? "warning.contrastText"
+            : "warning.dark",
         }}
       >
         <SvgIcon fontSize="medium">

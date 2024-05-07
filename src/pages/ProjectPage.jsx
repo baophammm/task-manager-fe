@@ -150,9 +150,6 @@ function ProjectPage() {
               md={isOpeningProjectFilter ? 3 : 0.5}
               xl={isOpeningProjectFilter ? 2.5 : 0.5}
               sx={{
-                backgroundColor: "background.secondary",
-                color: "text.secondary",
-
                 height: 1,
                 width: 1,
                 px: 2,

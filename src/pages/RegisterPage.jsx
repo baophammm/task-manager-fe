@@ -83,8 +83,8 @@ function RegisterPage() {
               <Alert
                 severity="error"
                 sx={{
-                  backgroundColor: "background.secondary",
-                  color: "text.secondary",
+                  backgroundColor: "background.default",
+                  color: "text.primary",
                 }}
               >
                 {errors.responseError.message}
@@ -93,8 +93,8 @@ function RegisterPage() {
             <Alert
               severity="info"
               sx={{
-                backgroundColor: "background.secondary",
-                color: "text.secondary",
+                backgroundColor: "background.default",
+                color: "text.primary",
               }}
             >
               Already have an account?{" "}

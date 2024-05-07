@@ -60,7 +60,13 @@ function NotificationContainer({ sx }) {
         handleCloseNotificationListMenu,
       }}
     >
-      <Box sx={{ ...sx, flexGrow: 0, mr: { xs: 1, sm: 2 } }}>
+      <Box
+        sx={{
+          ...sx,
+          flexGrow: 0,
+          // mr: { xs: 1, sm: 2 },
+        }}
+      >
         <Tooltip
           title={`You have ${totalUnreadNotifications} unread ${
             totalUnreadNotifications > 1 ? "notifications" : "notification"
@@ -68,6 +74,7 @@ function NotificationContainer({ sx }) {
         >
           <IconButton
             onClick={handleOpenNotificationListMenu}
+            color="inherit"
             sx={{
               p: 0.8,
             }}

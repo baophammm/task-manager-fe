@@ -26,7 +26,6 @@ import { toast } from "react-toastify";
 const ModalWrapperBox = styled(Box)(({ theme }) => ({
   background: theme.palette.action.disabled,
 
-  // border: "2px solid white",
   position: "absolute",
   top: -2,
   left: -2,
@@ -41,9 +40,9 @@ const ModalWrapperBox = styled(Box)(({ theme }) => ({
 }));
 
 const ModalBox = styled(Box)(({ theme }) => ({
-  background: theme.palette.background.secondary,
-  border: "1px solid white",
-  color: theme.palette.text.secondary,
+  background: theme.palette.background.default,
+  border: "2px solid",
+
   boxShadow: theme.shadows,
   borderRadius: theme.shape.borderRadius,
 
@@ -151,11 +150,6 @@ function ForgotPasswordResetModal({ setIsSendingPasswordResetRequest }) {
               error={!!error}
               helperText={error}
               onChange={(e) => setEmail(e.target.value)}
-              InputProps={{
-                style: {
-                  color: "white",
-                },
-              }}
             />
           </Box>
 

@@ -169,7 +169,7 @@ function Notification({ notification }) {
   return (
     <Box
       sx={{
-        backgroundColor: "neutral.200",
+        backgroundColor: "background.default",
         width: 1,
         height: "100px",
         borderRadius: "4px",
@@ -275,8 +275,6 @@ function Notification({ notification }) {
           </Tooltip>
         </Box>
       </Box>
-
-      <Divider />
     </Box>
   );
 }

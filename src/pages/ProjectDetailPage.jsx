@@ -2,17 +2,13 @@ import React, { createContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { getSingleProject } from "../features/project/projectSlice";
-import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import LoadingScreen from "../components/LoadingScreen";
 import { getTasks } from "../features/task/taskSlice";
 import { useForm } from "react-hook-form";
-import { FormProvider } from "../components/form";
 
 import ProjectInformation from "../features/project/ProjectInformation";
-import ProjectPageControl from "../features/project/ProjectPageControl";
 
-import TaskByStatusDraggable from "../features/task/TaskByStatusDraggable";
 import UpdateProjectDrawer from "../features/project/UpdateProjectDrawer";
 import ProjectDetailDisplay from "../features/project/ProjectDetailDisplay";
 
@@ -166,8 +162,6 @@ function ProjectDetailPage() {
                   justifyContent="center"
                   alignItems="flex-start"
                   sx={{
-                    backgroundColor: "background.secondary",
-                    color: "text.secondary",
                     height: 1,
                     px: 2,
                   }}

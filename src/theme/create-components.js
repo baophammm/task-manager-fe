@@ -1,4 +1,5 @@
 import {
+  alpha,
   createTheme,
   filledInputClasses,
   inputLabelClasses,
@@ -55,11 +56,9 @@ export function createComponents(config) {
           borderRadius: "4px",
           textTransform: "none",
         },
-        loading: {
-          backgroundColor: "red",
-        },
+
         loadingIndicator: {
-          color: "white",
+          color: palette.text.primary,
         },
 
         sizeSmall: {
@@ -85,10 +84,13 @@ export function createComponents(config) {
     MuiCard: {
       styleOverrides: {
         root: {
+          backgroundColor: palette.background.paper,
           borderRadius: 4,
           [`&.${paperClasses.elevation1}`]: {
-            boxShadow:
-              "0px 5px 22px rgba(0, 0, 0, 0.04), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.03)",
+            boxShadow: `0px 5px 22px ${alpha(
+              palette.background.secondary,
+              0.1
+            )}, 0px 0px 0px 0.5px ${alpha(palette.background.secondary, 0.08)}`,
           },
         },
       },
@@ -175,7 +177,7 @@ export function createComponents(config) {
           fontWeight: 500,
           lineHeight: "24px",
           "&::placeholder": {
-            color: palette.text.secondary,
+            color: palette.text.primary,
           },
         },
       },
@@ -184,11 +186,11 @@ export function createComponents(config) {
       styleOverrides: {
         root: {
           backgroundColor: "transparent",
-          borderRadius: 8,
+          borderRadius: 4,
           borderStyle: "solid",
           borderWidth: 1,
           overflow: "hidden",
-          borderColor: palette.neutral[200],
+          borderColor: palette.background.secondary,
           transition: muiTheme.transitions.create([
             "border-color",
             "box-shadow",

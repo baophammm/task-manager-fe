@@ -1,41 +1,31 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
-import {
-  Box,
-  Card,
-  Container,
-  Grid,
-  Tabs,
-  Tab,
-  Typography,
-  ButtonGroup,
-  Button,
-  SvgIcon,
-} from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { FormProvider, FTextField, FUploadAvatar } from "../components/form";
-import { LoadingButton } from "@mui/lab";
-import { fData } from "../utils/numberFormat";
 import useAuth from "../hooks/useAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { updateUserProfile } from "../features/user/userSlice";
-import LoadingScreen from "../components/LoadingScreen";
 import AccountSettings from "../features/user/AccountSettings";
 import PasswordSettings from "../features/user/PasswordSettings";
 
-const TabsWrapperStyle = styled("div")(({ theme }) => ({
+const TabWrapperStyle = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: theme.shape.borderRadius,
   width: "100%",
   display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  padding: "5px",
+  gap: "5px",
+  marginBottom: "20px",
+}));
 
-  backgroundColor: "#fff",
-  [theme.breakpoints.up("sm")]: {
-    justifyContent: "center",
-  },
-  [theme.breakpoints.up("md")]: {
-    justifyContent: "flex-end",
-    paddingRight: theme.spacing(3),
-  },
+const TabButtonStyle = styled(Box)(({ theme }) => ({
+  borderRadius: theme.components.MuiButton.styleOverrides.root.borderRadius,
+  flexGrow: 1,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: theme.spacing(1),
+  cursor: "pointer",
 }));
 
 function AccountSettingsPage() {
@@ -57,37 +47,30 @@ function AccountSettingsPage() {
   ];
 
   const AccountSettingTabListBtnGroup = (
-    <ButtonGroup
-      variant="contained"
-      color="primary"
-      aria-label="account setting tabs"
-      sx={{
-        width: "100%",
-        border: "1px solid",
-        borderColor: "primary.main",
-        p: 0.5,
-        gap: 0.5,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-      }}
-    >
-      {ACCOUNT_TABS.map((tab) => (
-        <Button
-          key={tab.value}
-          title={tab.label}
-          color="primary"
-          onClick={() => setCurrectAccountTab(tab.value)}
-          sx={{
-            flexGrow: 1,
-            backgroundColor:
-              currectAccountTab === tab.value ? "primary.dark" : "primary.main",
-          }}
-        >
-          {tab.label}
-        </Button>
-      ))}
-    </ButtonGroup>
+    <TabWrapperStyle>
+      <TabButtonStyle
+        onClick={() => setCurrectAccountTab("account")}
+        sx={{
+          backgroundColor:
+            currectAccountTab === "account"
+              ? "action.focus"
+              : "background.paper",
+        }}
+      >
+        <Typography>Account</Typography>
+      </TabButtonStyle>
+      <TabButtonStyle
+        onClick={() => setCurrectAccountTab("password")}
+        sx={{
+          backgroundColor:
+            currectAccountTab === "password"
+              ? "action.focus"
+              : "background.paper",
+        }}
+      >
+        <Typography>Password</Typography>
+      </TabButtonStyle>
+    </TabWrapperStyle>
   );
   return (
     <Container
@@ -104,7 +87,7 @@ function AccountSettingsPage() {
       <Box
         sx={{
           width: "100%",
-          maxWidth: "600px",
+          maxWidth: "400px",
           height: 1,
         }}
       >

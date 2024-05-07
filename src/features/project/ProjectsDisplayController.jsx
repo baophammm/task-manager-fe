@@ -43,7 +43,7 @@ function ProjectsDisplayController() {
             width: { xs: "50%", md: "auto" },
           }}
         >
-          <Typography variant="subtitle" sx={{ color: "text.primary" }}>
+          <Typography variant="subtitle">
             {totalProjects > 1
               ? `${totalProjects} projects found`
               : totalProjects === 1

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 import {
   Chart as ChartJS,
@@ -11,11 +11,9 @@ import {
   Tooltip,
   LineController,
   BarController,
-  Interaction,
-  layouts,
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
-import { Bar, Chart, Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   LinearScale,
@@ -78,10 +76,12 @@ function EffortHoursByMemberChart({ project, tasks }) {
       effortHoursByMemberData.push(memberEffortHours);
 
       // background color
-      // generate random dark colors for back ground color, not repetitive
-      const randomColor = `rgba(${Math.floor(Math.random() * 100)},${Math.floor(
-        Math.random() * 100
-      )},${Math.floor(Math.random() * 100)}`;
+      const randomColor = `rgba(${Math.floor(
+        Math.random() * 155 + 100
+      )},${Math.floor(Math.random() * 155 + 100)},${Math.floor(
+        Math.random() * 155 + 100
+      )}`;
+
       backgroundColor.push(randomColor + ",0.2)");
 
       // border color
@@ -105,7 +105,8 @@ function EffortHoursByMemberChart({ project, tasks }) {
   return (
     <Box
       sx={{
-        border: "2px solid black",
+        border: "2px solid",
+        borderColor: "background.secondary",
         borderRadius: "4px",
         display: "flex",
         flexDirection: "column",

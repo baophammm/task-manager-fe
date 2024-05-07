@@ -3,7 +3,6 @@ import { Box, Typography } from "@mui/material";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { useTheme } from "@mui/material";
-import { bool } from "prop-types";
 
 const TASKS_BY_STATUSES = [
   {
@@ -105,7 +104,7 @@ function TaskByStatusDoughnutChart({ tasks }) {
         label: "Tasks per Status",
         data: taskCountByStatus,
         backgroundColor: backgroundColors,
-        borderColor: "black",
+        borderColor: "white",
         borderWidth: 1,
       },
     ],
@@ -121,7 +120,8 @@ function TaskByStatusDoughnutChart({ tasks }) {
   return (
     <Box
       sx={{
-        border: "2px solid black",
+        border: "2px solid",
+        borderColor: "background.secondary",
         borderRadius: "4px",
         display: "flex",
         flexDirection: "column",

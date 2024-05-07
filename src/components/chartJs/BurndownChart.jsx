@@ -18,7 +18,6 @@ import {
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
-import { min } from "lodash";
 
 ChartJS.register(
   LinearScale,
@@ -643,7 +642,8 @@ function BurndownChart({ project, tasks }) {
     <Box
       sx={{
         position: "relative",
-        border: "2px solid black",
+        border: "2px solid",
+        borderColor: "background.secondary",
         width: 1,
         borderRadius: "4px",
         display: "flex",

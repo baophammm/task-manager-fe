@@ -53,7 +53,7 @@ function LoginPage() {
   const location = useLocation();
   const [showPassword, setShowPassword] = useState(false);
 
-  const from = location.state?.from?.pathname || "/projects";
+  const from = location.state?.from?.pathname || "/";
 
   const onSubmit = async (data) => {
     let { email, password } = data;
@@ -85,8 +85,8 @@ function LoginPage() {
               <Alert
                 severity="error"
                 sx={{
-                  backgroundColor: "background.secondary",
-                  color: "text.secondary",
+                  backgroundColor: "background.default",
+                  color: "text.primary",
                 }}
               >
                 {errors.responseError.message}
@@ -95,8 +95,8 @@ function LoginPage() {
             <Alert
               severity="info"
               sx={{
-                backgroundColor: "background.secondary",
-                color: "text.secondary",
+                backgroundColor: "background.default",
+                color: "text.primary",
               }}
             >
               Don't have an account?{" "}

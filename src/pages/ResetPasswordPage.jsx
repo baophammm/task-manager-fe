@@ -104,8 +104,8 @@ function ResetPasswordPage() {
           <Alert
             severity="info"
             sx={{
-              backgroundColor: "background.secondary",
-              color: "text.secondary",
+              backgroundColor: "background.default",
+              color: "text.primary",
             }}
           >
             Reset your password here. After resetting your password, you will be
