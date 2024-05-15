@@ -14,10 +14,7 @@ function MainFooter() {
       }}
     >
       <Typography variant="body2">
-        {"Copyright ©"}
-        <Link color="inherit" href="#">
-          BaoPhammm
-        </Link>{" "}
+        {"Created by Bao Pham "}
         {new Date().getFullYear()}
         {"."}
       </Typography>

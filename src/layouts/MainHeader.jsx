@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import MoveToInboxIcon from "@mui/icons-material/MoveToInbox";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 import { styled } from "@mui/material/styles";
@@ -60,8 +60,7 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 
 function MainHeader() {
   const { mode, setMode } = useContext(AppContext);
-  const { isDisplayingFeaturedProjects, setIsDisplayingFeaturedProjects } =
-    useContext(RouterContext);
+  const { setIsDisplayingFeaturedProjects } = useContext(RouterContext);
 
   const toggleMode = () => {
     setMode((prevMode) => (prevMode === "dark" ? "light" : "dark"));
@@ -92,8 +91,6 @@ function MainHeader() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElAddNew, setAnchorElAddNew] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [anchorElNotificationList, setAnchorElNotificationList] =
-    useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -312,8 +309,14 @@ function MainHeader() {
         gap: { xs: 0, md: 1 },
       }}
     >
-      <IconButton onClick={toggleMode} color="inherit">
-        {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+      <IconButton
+        onClick={toggleMode}
+        color="inherit"
+        sx={{
+          transition: "color 0.3s ease-in-out",
+        }}
+      >
+        {mode === "dark" ? <Brightness7Icon /> : <DarkModeIcon />}
       </IconButton>
       <NotificationContainer />
       <Box>
@@ -521,18 +524,6 @@ function MainHeader() {
             }}
           />
 
-          {/* <IconButton onClick={toggleMode} color="inherit">
-            {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-          <NotificationContainer sx={{ display: { xs: "flex", md: "none" } }} />
-          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <UserProfilePicture targetUser={auth.user} />
-              </IconButton>
-            </Tooltip>
-            {AccountMenu}
-          </Box> */}
           {TopRightIcons}
         </Toolbar>
       </StyledContainer>

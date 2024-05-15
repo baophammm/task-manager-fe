@@ -5,10 +5,11 @@ import DisplaysFeaturedProjects from "./DisplaysFeaturedProjects";
 import DisplaysAllProjects from "./DisplaysAllProjects";
 import LoadingScreen from "../../components/LoadingScreen";
 import { RouterContext } from "../../routes";
+import { ProjectPageContext } from "../../pages/ProjectPage";
 
 function ProjectsDisplay() {
-  const { isLoading, isDisplayingFeaturedProjects } = useContext(RouterContext);
-
+  const { isDisplayingFeaturedProjects } = useContext(RouterContext);
+  const { isLoading } = useContext(ProjectPageContext);
   return (
     <Stack
       spacing={0}
