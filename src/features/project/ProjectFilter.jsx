@@ -9,8 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 import React, { useContext, useState } from "react";
 import { FDateField, FSelect } from "../../components/form";
@@ -187,7 +187,7 @@ function ProjectFilter() {
             color="inherit"
             onClick={() => setIsOpeningProjectFilter(false)}
           >
-            <ArrowBackIosNewIcon />
+            <KeyboardDoubleArrowLeftIcon fontSize="large" />
           </IconButton>
         </Box>
         <ImageList
@@ -344,7 +344,7 @@ function ProjectFilter() {
               sx={{ mb: 1 }}
               onClick={() => setIsOpeningProjectFilter(true)}
             >
-              <ArrowForwardIosIcon />
+              <KeyboardDoubleArrowRightIcon fontSize="large" />
             </IconButton>
           </Box>
         )}

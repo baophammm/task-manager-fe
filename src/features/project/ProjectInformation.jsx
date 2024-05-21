@@ -8,12 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import GradeIcon from "@mui/icons-material/Grade";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProjectMemberIconStack from "../user/ProjectMemberIconStack";
 import { fDate } from "../../utils/formatTime";
@@ -24,6 +24,7 @@ import {
   addProjectToFavorite,
   removeProjectFromFavorite,
 } from "../user/userSlice";
+import BurndownChart from "../../components/chartJs/BurndownChart";
 
 function ProjectInformation({ location }) {
   const { user } = useAuth();
@@ -36,6 +37,9 @@ function ProjectInformation({ location }) {
     isOpeningProjectInfo,
     setIsOpeningProjectInfo,
     setIsUpdatingProject,
+    isDisplayingProjectCharts,
+    setIsDisplayingProjectCharts,
+    tasks,
   } = useContext(ProjectDetailPageContext);
 
   const projectOwnerId = selectedProject?.projectOwner._id;
@@ -71,7 +75,9 @@ function ProjectInformation({ location }) {
     }
   };
 
-  const projectInfoCard = (
+  const chartKey = `${selectedProject?.id}-${tasks?.length}`;
+
+  const ProjectInfoSection = (
     <Box
       sx={{
         height: 1,
@@ -97,7 +103,7 @@ function ProjectInformation({ location }) {
             color="inherit"
             onClick={() => setIsOpeningProjectInfo(false)}
           >
-            <ArrowBackIosNewIcon />
+            <KeyboardDoubleArrowLeftIcon fontSize="large" />
           </IconButton>
         </Box>
         <Box
@@ -209,6 +215,26 @@ function ProjectInformation({ location }) {
           >
             Update Project
           </Button>
+          <Box
+            onClick={() => setIsDisplayingProjectCharts(true)}
+            sx={{
+              height: "400px",
+              display: isDisplayingProjectCharts ? "none" : "flex",
+              gap: "4px",
+              "&:hover": {
+                backgroundColor: "background.paper",
+                cursor: "pointer",
+              },
+            }}
+          >
+            {selectedProject && tasks && (
+              <BurndownChart
+                key={chartKey}
+                project={selectedProject}
+                tasks={tasks}
+              />
+            )}
+          </Box>
         </ImageList>
       </Stack>
     </Box>
@@ -216,7 +242,7 @@ function ProjectInformation({ location }) {
 
   const result = () =>
     isOpeningProjectInfo ? (
-      projectInfoCard
+      ProjectInfoSection
     ) : (
       <Box
         sx={{
@@ -233,7 +259,7 @@ function ProjectInformation({ location }) {
           sx={{ mb: 1 }}
           onClick={() => setIsOpeningProjectInfo(true)}
         >
-          <ArrowForwardIosIcon />
+          <KeyboardDoubleArrowRightIcon fontSize="large" />
         </IconButton>
       </Box>
     );

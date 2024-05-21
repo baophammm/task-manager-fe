@@ -140,8 +140,8 @@ function TaskPage() {
           >
             <StyledTaskFilterGrid
               item
-              md={isOpeningTaskFilter ? 3 : 0.5}
-              xl={isOpeningTaskFilter ? 2.5 : 0.5}
+              md={isOpeningTaskFilter ? 5 : 0.5}
+              xl={isOpeningTaskFilter ? 4 : 0.5}
               sx={{
                 height: 1,
                 width: 1,
@@ -162,8 +162,8 @@ function TaskPage() {
             <Grid
               item
               xs={12}
-              md={isOpeningTaskFilter ? 9 : 11.5}
-              xl={isOpeningTaskFilter ? 9.5 : 11.5}
+              md={isOpeningTaskFilter ? 7 : 11.5}
+              xl={isOpeningTaskFilter ? 8 : 11.5}
               sx={{ height: 1, width: 1 }}
             >
               <Stack

@@ -28,7 +28,7 @@ function ProjectDetailPage() {
   const location = useLocation();
 
   const [isDisplayingProjectCharts, setIsDisplayingProjectCharts] =
-    useState(true);
+    useState(false);
   const [isOpeningProjectInfo, setIsOpeningProjectInfo] = useState(true);
   const [isUpdatingProject, setIsUpdatingProject] = useState(false);
 
@@ -156,9 +156,9 @@ function ProjectDetailPage() {
               >
                 <StyledProjectInformationGrid
                   item
-                  xs={isOpeningProjectInfo ? 6 : 1.5}
-                  md={isOpeningProjectInfo ? 3 : 0.5}
-                  xl={isOpeningProjectInfo ? 2.5 : 0.5}
+                  xs={isOpeningProjectInfo ? 7 : 1.5}
+                  md={isOpeningProjectInfo ? 5 : 0.5}
+                  xl={isOpeningProjectInfo ? 4 : 0.5}
                   justifyContent="center"
                   alignItems="flex-start"
                   sx={{
@@ -173,9 +173,9 @@ function ProjectDetailPage() {
                 </StyledProjectInformationGrid>
                 <Grid
                   item
-                  xs={isOpeningProjectInfo ? 6 : 10.5}
-                  md={isOpeningProjectInfo ? 9 : 11.5}
-                  xl={isOpeningProjectInfo ? 9.5 : 11.5}
+                  xs={isOpeningProjectInfo ? 5 : 10.5}
+                  md={isOpeningProjectInfo ? 7 : 11.5}
+                  xl={isOpeningProjectInfo ? 8 : 11.5}
                   sx={{
                     backgroundColor: "background.default",
                     height: 1,

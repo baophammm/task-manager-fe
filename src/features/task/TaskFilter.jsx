@@ -9,8 +9,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { TaskPageContext } from "../../pages/TaskPage";
 import { FDateField, FNumberField, FSelect } from "../../components/form";
@@ -237,7 +238,7 @@ function TaskFilter() {
             color="inherit"
             onClick={() => setIsOpeningTaskFilter(false)}
           >
-            <ArrowBackIosNewIcon />
+            <KeyboardDoubleArrowLeftIcon fontSize="large" />
           </IconButton>
         </Box>
         <ImageList
@@ -400,7 +401,7 @@ function TaskFilter() {
               sx={{ mb: 1 }}
               onClick={() => setIsOpeningTaskFilter(true)}
             >
-              <ArrowForwardIosIcon />
+              <KeyboardDoubleArrowRightIcon fontSize="large" />
             </IconButton>
           </Box>
         )}

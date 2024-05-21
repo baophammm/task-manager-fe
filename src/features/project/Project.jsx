@@ -176,11 +176,8 @@ function Project(props) {
           justifyContent="space-between"
           spacing={0}
           sx={{
-            // border: "1px solid red",
             width: 1,
-            m: 0,
-            p: 0,
-            // px: 2,
+            mt: 1,
           }}
         >
           <Grid item xs={6}>

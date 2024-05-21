@@ -7,7 +7,9 @@ import {
   MenuItem,
   Stack,
   SvgIcon,
+  Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import ClearIcon from "@mui/icons-material/Clear";
@@ -27,6 +29,28 @@ import { deleteSingleProject, leaveProject } from "./projectSlice";
 import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
 
 import { LoadingButton } from "@mui/lab";
+
+const TabWrapperStyle = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: theme.shape.borderRadius,
+  width: "100%",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  gap: "4px",
+  padding: "2px",
+}));
+
+const TabButtonStyle = styled(Box)(({ theme }) => ({
+  borderRadius: theme.components.MuiButton.styleOverrides.root.borderRadius,
+  flexGrow: 1,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: theme.spacing(1),
+  cursor: "pointer",
+  gap: "4px",
+}));
 
 function ProjectPageControl({ selectedProject, location }) {
   const {
@@ -87,58 +111,91 @@ function ProjectPageControl({ selectedProject, location }) {
   };
 
   const ProjectDisplayTabList = (
-    <ButtonGroup
-      variant="outlined"
-      color="warning"
-      aria-label="project display tabs"
-      sx={{
-        border: "2px solid",
-        borderColor: "warning.main",
-      }}
-    >
-      <Button
-        title="Kanban View"
-        color="warning"
+    <TabWrapperStyle>
+      <TabButtonStyle
         onClick={() => setIsDisplayingProjectCharts(false)}
         sx={{
-          borderRadius: "2px",
-          width: { sx: "40px", md: "80px" },
-          p: 0,
+          transition: "background-color 0.3s ease-in-out",
           backgroundColor: isDisplayingProjectCharts
-            ? "transparent"
-            : "warning.light",
-
-          color: isDisplayingProjectCharts
-            ? "warning.dark"
-            : "warning.contrastText",
+            ? "background.paper"
+            : "action.focus",
         }}
       >
-        <SvgIcon fontSize="medium">
+        <SvgIcon>
           <ViewKanbanIcon />
         </SvgIcon>
-      </Button>
-      <Button
-        title="Chart View"
-        color="warning"
+        <Typography>Kanban</Typography>
+      </TabButtonStyle>
+      <TabButtonStyle
         onClick={() => setIsDisplayingProjectCharts(true)}
         sx={{
-          borderRadius: "2px",
-          width: { sx: "40px", md: "80px" },
-          p: 0,
+          transition: "background-color 0.3s ease-in-out",
           backgroundColor: isDisplayingProjectCharts
-            ? "warning.light"
-            : "transparent",
-          color: isDisplayingProjectCharts
-            ? "warning.contrastText"
-            : "warning.dark",
+            ? "action.focus"
+            : "background.paper",
         }}
       >
-        <SvgIcon fontSize="medium">
+        <SvgIcon>
           <InsertChartIcon />
         </SvgIcon>
-      </Button>
-    </ButtonGroup>
+        <Typography>Dashboard</Typography>
+      </TabButtonStyle>
+    </TabWrapperStyle>
   );
+
+  // const ProjectDisplayTabList = (
+  //   <ButtonGroup
+  //     variant="outlined"
+  //     color="warning"
+  //     aria-label="project display tabs"
+  //     sx={{
+  //       border: "2px solid",
+  //       borderColor: "warning.main",
+  //     }}
+  //   >
+  //     <Button
+  //       title="Kanban View"
+  //       color="warning"
+  //       onClick={() => setIsDisplayingProjectCharts(false)}
+  //       sx={{
+  //         borderRadius: "2px",
+  //         width: { sx: "40px", md: "80px" },
+  //         p: 0,
+  //         backgroundColor: isDisplayingProjectCharts
+  //           ? "transparent"
+  //           : "warning.light",
+
+  //         color: isDisplayingProjectCharts
+  //           ? "warning.dark"
+  //           : "warning.contrastText",
+  //       }}
+  //     >
+  //       <SvgIcon fontSize="medium">
+  //         <ViewKanbanIcon />
+  //       </SvgIcon>
+  //     </Button>
+  //     <Button
+  //       title="Chart View"
+  //       color="warning"
+  //       onClick={() => setIsDisplayingProjectCharts(true)}
+  //       sx={{
+  //         borderRadius: "2px",
+  //         width: { sx: "40px", md: "80px" },
+  //         p: 0,
+  //         backgroundColor: isDisplayingProjectCharts
+  //           ? "warning.light"
+  //           : "transparent",
+  //         color: isDisplayingProjectCharts
+  //           ? "warning.contrastText"
+  //           : "warning.dark",
+  //       }}
+  //     >
+  //       <SvgIcon fontSize="medium">
+  //         <InsertChartIcon />
+  //       </SvgIcon>
+  //     </Button>
+  //   </ButtonGroup>
+  // );
 
   const projectPageControlButtonMenu = (
     <Menu
@@ -267,21 +324,25 @@ function ProjectPageControl({ selectedProject, location }) {
       }}
     >
       <Stack direction="row" spacing={1}>
-        <Box>
+        {/* <Box>
           <Link to={`/projects`}>
             <Button
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <ArrowBackIcon />
-                </SvgIcon>
-              }
               variant="contained"
-              sx={{ p: 1 }}
+              size="small"
+              sx={{
+                height: 1,
+                aspectRatio: "1 / 1",
+                minWidth: 0,
+                p: 1,
+                mr: 0.7,
+              }}
             >
-              Projects
+              <SvgIcon fontSize="small">
+                <ArrowBackIcon />
+              </SvgIcon>
             </Button>
           </Link>
-        </Box>
+        </Box> */}
         <Box
           sx={{
             display: { xs: "none", md: "flex" },

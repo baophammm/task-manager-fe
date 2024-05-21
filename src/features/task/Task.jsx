@@ -24,29 +24,6 @@ import { styled } from "@mui/material/styles";
 import { Link, useLocation } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
 
-const TASK_STATUS_ICONS = [
-  {
-    taskStatus: "Backlog",
-    icon: <QueueIcon />,
-    color: "info.main",
-  },
-  {
-    taskStatus: "InProgress",
-    icon: <PlayCircleIcon />,
-    color: "primary.main",
-  },
-  {
-    taskStatus: "Completed",
-    icon: <CheckCircleIcon />,
-    color: "success.main",
-  },
-  {
-    taskStatus: "Archived",
-    icon: <InventoryIcon />,
-    color: "error.dark",
-  },
-];
-
 const StyledContainer = styled(Box)(({ theme }) => ({
   padding: "8px",
   marginBottom: "8px",
@@ -220,8 +197,7 @@ const Task = (props) => {
                 spacing={0}
                 sx={{
                   width: 1,
-                  m: 0,
-                  p: 0,
+                  mt: 1,
                 }}
               >
                 <Grid item xs={taskOverdue ? 8 : 12}>

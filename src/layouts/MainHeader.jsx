@@ -316,7 +316,23 @@ function MainHeader() {
           transition: "color 0.3s ease-in-out",
         }}
       >
-        {mode === "dark" ? <Brightness7Icon /> : <DarkModeIcon />}
+        {mode === "dark" ? (
+          <Brightness7Icon
+            sx={{
+              "&:hover": {
+                color: "#f1c40f",
+              },
+            }}
+          />
+        ) : (
+          <DarkModeIcon
+            sx={{
+              "&:hover": {
+                color: "#f1c40f",
+              },
+            }}
+          />
+        )}
       </IconButton>
       <NotificationContainer />
       <Box>
@@ -341,7 +357,7 @@ function MainHeader() {
           disableGutters
           sx={{
             width: "100dvw",
-            px: 1,
+            // px: 1,
           }}
         >
           <Grid
@@ -354,8 +370,8 @@ function MainHeader() {
           >
             <Grid
               item
-              md={3}
-              xl={2.5}
+              md={5}
+              xl={4}
               sx={{
                 pb: 1,
                 display: "flex",
@@ -374,9 +390,10 @@ function MainHeader() {
                 }}
               />
             </Grid>
-            <Grid item md={9} xl={9.5}>
+            <Grid item md={7} xl={8}>
               <Box
                 sx={{
+                  px: 1,
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -386,7 +403,7 @@ function MainHeader() {
                 <Box
                   sx={{
                     flexGrow: 1,
-                    display: { xs: "none", md: "flex" },
+                    display: "flex",
                     alignItems: "center",
                   }}
                 >
@@ -475,56 +492,66 @@ function MainHeader() {
                     </div>
                   </Box>
                 </Box>
+                {TopRightIcons}
               </Box>
             </Grid>
           </Grid>
 
           <Box
             sx={{
+              width: 1,
               display: { xs: "flex", md: "none" },
+              justifyContent: "space-between",
             }}
           >
-            <Box>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-nav"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              {NavPagesMenu}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Box>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-nav"
+                  aria-haspopup="true"
+                  onClick={handleOpenNavMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+                {NavPagesMenu}
+              </Box>
+              <Box>
+                <IconButton
+                  size="large"
+                  aria-label="add new buttons"
+                  aria-controls="menu-addnew"
+                  aria-haspopup="true"
+                  onClick={handleOpenAddNewMenu}
+                  color="inherit"
+                >
+                  <SvgIcon>
+                    <PlusIcon />
+                  </SvgIcon>
+                </IconButton>
+                {AddNewMenu}
+              </Box>
             </Box>
-            <Box>
-              <IconButton
-                size="large"
-                aria-label="add new buttons"
-                aria-controls="menu-addnew"
-                aria-haspopup="true"
-                onClick={handleOpenAddNewMenu}
-                color="inherit"
-              >
-                <SvgIcon>
-                  <PlusIcon />
-                </SvgIcon>
-              </IconButton>
-              {AddNewMenu}
-            </Box>
+            <LogoTextCompound
+              sx={{
+                flexGrow: 1,
+                height: 40,
+                mr: 1,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            />
+
+            {TopRightIcons}
           </Box>
-
-          <LogoTextCompound
-            sx={{
-              flexGrow: 1,
-              height: 40,
-              mr: 1,
-              display: { xs: "flex", md: "none" },
-              justifyContent: "center",
-            }}
-          />
-
-          {TopRightIcons}
         </Toolbar>
       </StyledContainer>
     </AppBar>

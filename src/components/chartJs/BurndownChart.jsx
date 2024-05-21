@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Box, Typography, Button, Menu, MenuItem } from "@mui/material";
 import {
   Chart as ChartJS,
@@ -18,6 +18,7 @@ import {
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
+import { ProjectDetailPageContext } from "../../pages/ProjectDetailPage";
 
 ChartJS.register(
   LinearScale,
@@ -130,6 +131,8 @@ const handleLastLabel = (dataArray, labels, labelDate, dataPoint) => {
 };
 
 function BurndownChart({ project, tasks }) {
+  const { isDisplayingProjectCharts } = useContext(ProjectDetailPageContext);
+
   const [pointSize, setPointSize] = useState(2);
   let startAt, dueAt, totalEffort;
   if (project) {
@@ -367,7 +370,7 @@ function BurndownChart({ project, tasks }) {
     () => calculateEffortDataSets(labels, tasks, currentDate),
     [tasks, labels, currentDate]
   );
-  const [scaleTimeOption, setScaleTimeOption] = useState("day");
+  const [scaleTimeOption, setScaleTimeOption] = useState("week");
   const [idealData, setIdealData] = useState(idealDayData);
   const [actualData, setActualData] = useState(actualDayData);
 
@@ -407,12 +410,6 @@ function BurndownChart({ project, tasks }) {
               setPointSize(newPointSize);
             }
           },
-          // limits: {
-          //   x: {
-          //     min: getFormattedDate(beginningDate),
-          //     max: getFormattedDate(endingDate),
-          //   },
-          // },
         },
       },
     },
@@ -429,7 +426,6 @@ function BurndownChart({ project, tasks }) {
           text: "Effort (hrs)",
         },
         beginAtZero: true,
-        // max: Math.ceil(totalEffort / 5) * 5,
       },
     },
     layout: {
@@ -450,18 +446,16 @@ function BurndownChart({ project, tasks }) {
         backgroundColor: "rgb(75, 192, 192)",
         borderColor: "rgb(75, 192, 192)",
         borderWidth: 2,
-        // data: idealEffortData,
         data: idealData,
-        pointRadius: pointSize,
+        pointRadius: isDisplayingProjectCharts ? pointSize : 0,
       },
       {
         label: "Actual (hrs)",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
         borderWidth: 2,
-        // data: actualEffortData,
         data: actualData,
-        pointRadius: pointSize,
+        pointRadius: isDisplayingProjectCharts ? pointSize : 0,
       },
     ],
   };
@@ -538,20 +532,78 @@ function BurndownChart({ project, tasks }) {
     </Box>
   );
 
-  const [
-    anchorElTimeframeOptionSelectionMenu,
-    setAnchorElTimeframeOptionSelectionMenu,
-  ] = useState(null);
+  const [menuPosition, setMenuPosition] = useState(null);
 
   const handleOpenTimeframeOptionSelectionMenu = (event) => {
-    setAnchorElTimeframeOptionSelectionMenu(event.currentTarget);
+    if (event) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      setMenuPosition({ top: rect.top, left: rect.right });
+    }
   };
 
   const handleCloseTimeframeOptionSelectionMenu = () => {
-    setAnchorElTimeframeOptionSelectionMenu(null);
+    setMenuPosition(null);
   };
 
-  const timeframeOptionSelectionMenu = (
+  const TimeframeOptionSelectionMenu = (
+    <Menu
+      id="menu-timeframeoption"
+      anchorReference="anchorPosition"
+      anchorPosition={menuPosition}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left",
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+      open={Boolean(menuPosition)}
+      onClose={handleCloseTimeframeOptionSelectionMenu}
+      sx={{
+        mt: "35px",
+        ml: "-30px",
+        display: { xs: "block" },
+      }}
+    >
+      <MenuItem
+        onClick={() => {
+          handleTimeFrame("day");
+          handleCloseTimeframeOptionSelectionMenu();
+        }}
+        sx={{
+          fontSize: "0.8rem",
+        }}
+      >
+        Day
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleTimeFrame("week");
+          handleCloseTimeframeOptionSelectionMenu();
+        }}
+        sx={{
+          fontSize: "0.8rem",
+        }}
+      >
+        Week
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleTimeFrame("month");
+          handleCloseTimeframeOptionSelectionMenu();
+        }}
+        sx={{
+          fontSize: "0.8rem",
+        }}
+      >
+        Month
+      </MenuItem>
+    </Menu>
+  );
+
+  const timeframeOptionSelection = (
     <Box
       sx={{
         width: "30px",
@@ -583,61 +635,10 @@ function BurndownChart({ project, tasks }) {
           ? "W"
           : "M"}
       </Button>
-      <Menu
-        id="menu-projectpagecontrolbutton"
-        anchorEl={anchorElTimeframeOptionSelectionMenu}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        open={Boolean(anchorElTimeframeOptionSelectionMenu)}
-        onClose={handleCloseTimeframeOptionSelectionMenu}
-        sx={{
-          mt: "10px",
-          display: { xs: "block", md: "none" },
-        }}
-      >
-        <MenuItem
-          onClick={() => {
-            handleTimeFrame("day");
-            handleCloseTimeframeOptionSelectionMenu();
-          }}
-          sx={{
-            fontSize: "0.8rem",
-          }}
-        >
-          Day
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleTimeFrame("week");
-            handleCloseTimeframeOptionSelectionMenu();
-          }}
-          sx={{
-            fontSize: "0.8rem",
-          }}
-        >
-          Week
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleTimeFrame("month");
-            handleCloseTimeframeOptionSelectionMenu();
-          }}
-          sx={{
-            fontSize: "0.8rem",
-          }}
-        >
-          Month
-        </MenuItem>
-      </Menu>
+      {TimeframeOptionSelectionMenu}
     </Box>
   );
+
   return (
     <Box
       sx={{
@@ -650,11 +651,15 @@ function BurndownChart({ project, tasks }) {
         flexDirection: "column",
         alignItems: "center",
         gap: 2,
-        height: "500px",
+        height: 1,
       }}
     >
-      {timeframeOptionSelectionButtons}
-      {timeframeOptionSelectionMenu}
+      {isDisplayingProjectCharts && (
+        <>
+          {timeframeOptionSelectionButtons}
+          {timeframeOptionSelection}
+        </>
+      )}
 
       <Typography
         variant="h5"
@@ -662,7 +667,7 @@ function BurndownChart({ project, tasks }) {
           px: "36px",
         }}
       >
-        Burndown Chart
+        {isDisplayingProjectCharts ? "Burndown Chart" : "Progress"}
       </Typography>
       <Line options={options} data={data} />
     </Box>

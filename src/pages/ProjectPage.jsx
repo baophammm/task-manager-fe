@@ -147,8 +147,8 @@ function ProjectPage() {
             <StyledProjectFilterGrid
               item
               xs={0}
-              md={isOpeningProjectFilter ? 3 : 0.5}
-              xl={isOpeningProjectFilter ? 2.5 : 0.5}
+              md={isOpeningProjectFilter ? 5 : 0.5}
+              xl={isOpeningProjectFilter ? 4 : 0.5}
               sx={{
                 height: 1,
                 width: 1,
@@ -174,8 +174,8 @@ function ProjectPage() {
             <Grid
               item
               xs={12}
-              md={isOpeningProjectFilter ? 9 : 11.5}
-              xl={isOpeningProjectFilter ? 9.5 : 11.5}
+              md={isOpeningProjectFilter ? 7 : 11.5}
+              xl={isOpeningProjectFilter ? 8 : 11.5}
               sx={{
                 height: 1,
                 width: 1,
